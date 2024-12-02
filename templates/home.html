@@ -1,36 +1,22 @@
-{% extends 'base.html' %}
-{% block title %} Home {% endblock %}
-
-{% block header %}
-<link rel="stylesheet" href="/static/css/pages/home.css">
-{% endblock %}
-
-{% block content %}
-
-{% if flash %}
-<div class='noti-banner noti-banner-warning'>
+{% extends 'base.html' %} {% block title %} Home {% endblock %} {% block header
+%}
+<link rel="stylesheet" href="/static/css/pages/home.css" />
+{% endblock %} {% block content %} {% if flash %}
+<div class="noti-banner noti-banner-warning">
   <div class="container">
     <div class="noti-column">
-      <div class='noti-col noti-col-icon'></div>
-      <div class='noti-col noti-col-label'>
-        <div class='noti-bannertype'>
-          {% if status=='error' %}
-          Warning
-          {% elif status=='success' %}
-          Notice
+      <div class="noti-col noti-col-icon"></div>
+      <div class="noti-col noti-col-label">
+        <div class="noti-bannertype">
+          {% if status=='error' %} Warning {% elif status=='success' %} Notice
           {% endif %}
         </div>
-        <div class='noti-bannertext'>
-          {% if status=='error' %}
-          Uh oh! Be careful!
-          {% elif status=='success' %}
-          Hey! Listen!
-          {% endif %}
+        <div class="noti-bannertext">
+          {% if status=='error' %} Uh oh! Be careful! {% elif status=='success'
+          %} Hey! Listen! {% endif %}
         </div>
       </div>
-      <div class='noti-banner-text'>
-        {{ flash }}
-      </div>
+      <div class="noti-banner-text">{{ flash }}</div>
     </div>
   </div>
 </div>
@@ -39,13 +25,18 @@
 <div class="hero splash p-less is-fullheight-with-navbar" id="home-hero">
   <div class="container flex">
     <div class="columns flex-vcenter">
-      <div class="column flex-vcenter flex-lcenter is-size-2-desktop is-size-1-fullhd" id="title">
-        <h1 class="title is-spaced is-size-2-desktop is-size-1-fullhd">{{ appName() }}</h1>
+      <div
+        class="column flex-vcenter flex-lcenter is-size-2-desktop is-size-1-fullhd"
+        id="title"
+      >
+        <h1 class="title is-spaced is-size-2-desktop is-size-1-fullhd">
+          {{ appName() }}
+        </h1>
         <h2 class="subtitle">
           We are an osu! private server built from the ground up with many
-          unique features not seen elsewhere - for more information, check
-          out <a href="http://github.com/cmyui/gulag">gulag</a>
-          and <a href="https://github.com/Varkaria/guweb">guweb</a>
+          unique features not seen elsewhere - for more information, check out
+          <a href="http://github.com/cmyui/gulag">gulag</a> and
+          <a href="https://github.com/Varkaria/guweb">guweb</a>
           on GitHub - we're fully open source!
         </h2>
         {% if not session.authenticated %}
@@ -53,9 +44,7 @@
           <a class="button is-primary" href="/register">
             <strong>Sign up</strong>
           </a>
-          <a class="button is-light" href="/login">
-            Log in
-          </a>
+          <a class="button is-light" href="/login"> Log in </a>
         </div>
         {% endif %}
       </div>
@@ -77,9 +66,10 @@
           </div>
           <div class="column is-10">
             <h4 class="title is-spaced is-4">PP for Relax and Autopilot</h4>
-            <p class="subtitle is-6">Our server has unique pp formula for relax and autopilot.
-              Good at waving your cursor or just smashing your keyboard? Join {{ appName() }} and get a fair reward for
-              your skills!
+            <p class="subtitle is-6">
+              Our server has unique pp formula for relax and autopilot. Good at
+              waving your cursor or just smashing your keyboard? Join {{
+              appName() }} and get a fair reward for your skills!
             </p>
           </div>
         </div>
@@ -91,11 +81,12 @@
           </div>
           <div class="column is-10">
             <h4 class="title is-spaced is-4">Free osu!direct</h4>
-            <p class="subtitle is-6">You won't have to pay for osu!supporter to have a convenient gameplay experience in
-              the
-              client - osu!direct is available for everyone! Keep in mind supporting us still grants a huge set of cool
-              perks but
-              absence of it doesn't affect your game sessions!</p>
+            <p class="subtitle is-6">
+              You won't have to pay for osu!supporter to have a convenient
+              gameplay experience in the client - osu!direct is available for
+              everyone! Keep in mind supporting us still grants a huge set of
+              cool perks but absence of it doesn't affect your game sessions!
+            </p>
           </div>
         </div>
       </div>
@@ -106,8 +97,11 @@
           </div>
           <div class="column is-10">
             <h4 class="title is-spaced is-4">Flexible library</h4>
-            <p class="subtitle is-6">We're written on top of cmyui's multipurpose library allowing for a fully
-              asynchronous environment, both improving performance and the user's experience in the long term!</p>
+            <p class="subtitle is-6">
+              We're written on top of cmyui's multipurpose library allowing for
+              a fully asynchronous environment, both improving performance and
+              the user's experience in the long term!
+            </p>
           </div>
         </div>
       </div>
@@ -120,14 +114,17 @@
   <div class="hero-body">
     <div class="container has-text-centered">
       <h1 class="title is-spaced">What are you waiting for?</h1>
-      <h2 class="subtitle">Join {{ appName() }}! It's risk-free! You won't get your account banned on official servers
-        if
-        you play here with us! And don't worry, as you can always switch between the official servers and us at any time!</h2>
-      <div class="buttons is-centered"><a class="control button is-primary" href="/register">Sign up for free</a><a
-          class="control button is-light" href="/login">Login</a></div>
+      <h2 class="subtitle">
+        Join {{ appName() }}! It's risk-free! You won't get your account banned
+        on official servers if you play here with us! And don't worry, as you
+        can always switch between the official servers and us at any time!
+      </h2>
+      <div class="buttons is-centered">
+        <a class="control button is-primary" href="/register"
+          >Sign up for free</a
+        ><a class="control button is-light" href="/login">Login</a>
+      </div>
     </div>
   </div>
 </section>
-{% endif %}
-
-{% endblock %}
+{% endif %} {% endblock %}
