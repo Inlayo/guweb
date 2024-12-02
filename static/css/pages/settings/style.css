@@ -275,9 +275,11 @@ label.user-avatar:before {
   content: "";
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(180deg,
-      rgba(0, 0, 0, 0),
-      rgba(0, 0, 0, 0.65));
+  background-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.65)
+  );
   opacity: 0.1;
   transition: 350ms opacity;
   border-bottom-left-radius: 4px;
@@ -301,11 +303,13 @@ label.user-avatar:hover:before {
   font-style: italic;
   cursor: pointer;
   height: 50%;
-  background: linear-gradient(to bottom,
-      rgba(0, 0, 0, 0) 1%,
-      rgba(0, 0, 0, 0.47) 61%,
-      rgba(0, 0, 0, 0.65) 84%,
-      rgba(0, 0, 0, 0.65) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 1%,
+    rgba(0, 0, 0, 0.47) 61%,
+    rgba(0, 0, 0, 0.65) 84%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
 }
@@ -452,7 +456,7 @@ input::placeholder {
   border: 2px #f6a solid;
 }
 
-.bootstrap-select>.dropdown-toggle {
+.bootstrap-select > .dropdown-toggle {
   padding-right: 14px !important;
 }
 
@@ -531,7 +535,7 @@ input::placeholder {
   min-height: 384px;
 }
 
-.single-right-block.right-block-center:last-of-type>.right-block-content {
+.single-right-block.right-block-center:last-of-type > .right-block-content {
   margin-bottom: auto;
   margin-top: auto;
   min-height: 280px;
@@ -644,7 +648,6 @@ input::placeholder {
 }
 
 @media (max-width: 576px) {
-
   .left-header,
   .main-block,
   .right,
@@ -691,7 +694,7 @@ input::placeholder {
     min-width: 0;
   }
 
-  .single-right-block.right-block-center:last-of-type>.right-block-content {
+  .single-right-block.right-block-center:last-of-type > .right-block-content {
     min-height: auto;
   }
 }
@@ -713,16 +716,16 @@ label.checkbox {
   cursor: pointer;
 }
 
-.device-input:checked+label:hover:after,
+.device-input:checked + label:hover:after,
 .pretty.p-default.p-round:hover label.checkbox:after {
   color: #fff !important;
 }
 
-.device-input:checked+label:hover {
+.device-input:checked + label:hover {
   background-color: #f6a;
 }
 
-.device-input:checked+label {
+.device-input:checked + label {
   border-color: #f6a;
 }
 
@@ -732,7 +735,7 @@ label.checkbox {
   }
 }
 
-.device-input:checked+label:after {
+.device-input:checked + label:after {
   content: "\f00c";
   font-family: Font Awesome\5 Pro;
   font-weight: 700;
@@ -750,7 +753,7 @@ label.checkbox:hover {
   border-color: #f6a;
 }
 
-input:checked+label.checkbox:hover {
+input:checked + label.checkbox:hover {
   background-color: #f6a;
   border-color: transparent;
 }
@@ -853,7 +856,7 @@ i.loadspin {
   cursor: pointer;
 }
 
-.single-right-block .right-block-content>span {
+.single-right-block .right-block-content > span {
   font-size: 13px;
   padding-bottom: 8px;
 }
@@ -869,7 +872,7 @@ i.loadspin {
   border-radius: 0.4em;
 }
 
-.single-right-block.right-block-center:last-of-type>.right-block-content {
+.single-right-block.right-block-center:last-of-type > .right-block-content {
   min-height: auto;
 }
 
@@ -927,7 +930,7 @@ button.disabled.settings-btn {
 .btn-group.bootstrap-select.show .btn,
 .btn.dropdown-toggle:focus,
 .default-input:focus,
-.device-input:checked+label,
+.device-input:checked + label,
 .pretty.p-default.p-round:hover label.checkbox,
 label.checkbox:hover {
   border-color: hsl(var(--main), 100%, 70%);
@@ -939,13 +942,13 @@ label.checkbox:hover {
   border-bottom-color: hsl(var(--main), 100%, 70%);
 }
 
-.pretty.p-default.p-round:hover input:checked+label.checkbox,
-input:checked+label.checkbox:hover {
+.pretty.p-default.p-round:hover input:checked + label.checkbox,
+input:checked + label.checkbox:hover {
   background-color: hsl(var(--main), 100%, 70%);
   border-color: hsl(var(--main), 100%, 70%);
 }
 
-.device-input:checked+label:after {
+.device-input:checked + label:after {
   color: hsl(var(--main), 100%, 70%);
 }
 
@@ -960,8 +963,6 @@ input:checked+label.checkbox:hover {
 .input.is-static {
   color: #fff;
 }
-
-
 
 @media screen and (max-width: 1255px) {
   .main-block {
@@ -1031,7 +1032,7 @@ input:checked+label.checkbox:hover {
 
 .button .icon:last-child:not(:first-child) {
   margin-left: 5.25em;
-  margin-right: calc(-.5em - 1px);
+  margin-right: calc(-0.5em - 1px);
 }
 
 .setting-block-content {

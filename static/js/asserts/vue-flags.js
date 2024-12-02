@@ -251,4 +251,5 @@ window.flags = {
 	'QA' : 'Qatar',
 	'MZ' : 'Mozambique',
 	'XX' : 'Unknown',
+	'24' : 'Inlayo',
 }

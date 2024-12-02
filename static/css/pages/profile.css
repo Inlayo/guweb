@@ -160,7 +160,9 @@ td {
   display: block;
   margin-top: 8px;
 }
-.grade-block .media-content { overflow-x: unset !important; }
+.grade-block .media-content {
+  overflow-x: unset !important;
+}
 .map-rank {
   font-size: 24px;
   font-weight: 600;
@@ -222,8 +224,7 @@ html {
   top: 0;
   left: 0;
   height: 100%;
-  background: hsl(var(
-  --main), 30%, 50%);
+  background: hsl(var(--main), 30%, 50%);
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
@@ -604,7 +605,9 @@ span.beatmap-mapper {
   .two-sides {
     display: contents !important;
   }
-  p.ranks { width: 360px; }
+  p.ranks {
+    width: 360px;
+  }
   .column.is-one-third,
   .column.is-one-third-tablet {
     flex: none;
@@ -683,7 +686,7 @@ span.beatmap-mapper {
 }
 @media screen and (max-width: 550px) {
   p.ranks {
-      width: 235px;
+    width: 235px;
   }
 }
 @media screen and (max-width: 450px) {
@@ -713,17 +716,21 @@ span.beatmap-mapper {
   color: #8dc36b;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 
-.pop-enter-active, .pop-leave-active {
-  transition: all .5s ease;
+.pop-enter-active,
+.pop-leave-active {
+  transition: all 0.5s ease;
 }
-.pop-enter, .pop-leave-to {
+.pop-enter,
+.pop-leave-to {
   transform: scale(0.8);
 }
 .log-block {

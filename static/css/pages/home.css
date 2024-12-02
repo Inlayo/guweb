@@ -24,7 +24,8 @@
   max-width: inherit;
 }
 
-#title, #mascot {
+#title,
+#mascot {
   animation: appear 0.4s ease;
 }
 

@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: osu-mode;
-  src: url(/static/fonts/extra.ttf) format("truetype")
+  src: url(/static/fonts/extra.ttf) format("truetype");
 }
 
 /* layout */
@@ -162,7 +162,7 @@ a.foot-link {
 
 @media (min-width: 1140px) {
   #app {
-      width: 1140px;
+    width: 1140px;
   }
 }
 
@@ -288,7 +288,7 @@ a.foot-link {
 }
 
 .bg-seccond {
-  background-color: hsl(var(--main),10%,15%);
+  background-color: hsl(var(--main), 10%, 15%);
 }
 
 /* auth notification */
