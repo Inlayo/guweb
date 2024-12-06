@@ -1,5 +1,7 @@
 <nav id="navbar" class="navbar is-primary">
   <div class="navbar-brand">
+    <a class="navbar-item navbar-logo" href="/home"> {{ appName() }} </a>
+
     <a
       role="button"
       class="navbar-burger"
@@ -19,22 +21,22 @@
       <a class="navbar-item" href="/leaderboard"> Leaderboards </a>
 
       <!--<div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link">
-                    Information
-                </a>
-                <div class="navbar-dropdown">
-                    <a class="navbar-item" href="/doc/rules">
-                        Rules
-                    </a>
-                    <a class="navbar-item" href="/discord">
-                        Discord
-                    </a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item" href="https://github.com/varkaria/guweb/issues/new">
-                        Report an issue
-                    </a>
-                </div>
-            </div>-->
+              <a class="navbar-link">
+                  Information
+              </a>
+              <div class="navbar-dropdown">
+                  <a class="navbar-item" href="/doc/rules">
+                      Rules
+                  </a>
+                  <a class="navbar-item" href="/discord">
+                      Discord
+                  </a>
+                  <hr class="navbar-divider">
+                  <a class="navbar-item" href="https://github.com/varkaria/guweb/issues/new">
+                      Report an issue
+                  </a>
+              </div>
+          </div>-->
 
       {% if session.authenticated and session.user_data['is_staff'] %}
       <a class="navbar-item" href="/admin"> Admin </a>
