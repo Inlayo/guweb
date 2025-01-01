@@ -10,13 +10,13 @@ a:hover {
 }
 
 .main-block {
-  background-color: hsl(var(--main), 10%, 15%);
   margin-top: 0;
   width: auto;
 }
 
 .leaderboard-banner {
-  background-color: hsl(var(--main), 30%, 50%);
+  background: url("https://wallpaperaccess.com/full/527686.jpg");
+  background-size: stretch;
   height: 194px;
   border-radius: 0;
   border-top-right-radius: 8px;
@@ -28,7 +28,30 @@ a:hover {
   color: #222;
   height: 38px;
   font-size: 12px;
-  background-color: hsl(var(--main), 15%, 25%);
+  background-color: rgb(48, 48, 60);
+}
+
+.player-avatar {
+  display: inline-block;
+  background-size: 100%;
+  margin-right: 10px;
+  width: 30px;
+  height: 27px;
+  margin-bottom: -10px;
+  transition: 0.2s filter ease-out, 0.2s box-shadow ease-out;
+  border-radius: 5px;
+}
+
+.leaderboard-column:first-child .column-player-rank {
+  color: rgb(247, 200, 45) !important;
+}
+
+.leaderboard-column:nth-child(2) .column-player-rank {
+  color: rgb(192, 192, 192) !important;
+}
+
+.leaderboard-column:nth-child(3) .column-player-rank {
+  color: rgb(192, 136, 99) !important;
 }
 
 .leaderboard-main-bg {
@@ -54,11 +77,15 @@ tr td {
 .column-player-rank {
   padding: 0 10px;
   text-align: center;
-  background-color: hsl(var(--main), 15%, 27%) !important;
+  background-color: rgb(38, 38, 47.5);
   min-width: 44px;
   font-weight: 600;
   font-size: 13px;
   color: #fff;
+}
+
+.column-player-rank-no-color {
+  color: #fff !important;
 }
 
 .column-player-name {
@@ -97,7 +124,7 @@ tr td {
 
 tr.leaderboard-column td {
   font-weight: 600;
-  border-bottom: hsl(var(--main), 20%, 30%);
+  border-bottom: rgb(48, 48, 60);
   transition: 0.1s background-color;
   color: #fff !important;
   text-align: center;
@@ -109,7 +136,7 @@ table th {
 }
 
 .leaderboard-column:hover td:not(:first-child) {
-  background-color: hsl(var(--main), 20%, 30%);
+  background-color: rgb(64, 64, 80);
 }
 
 .main-banner {
@@ -126,7 +153,7 @@ table th {
   height: 232px;
 }
 
-.main-banner > * {
+.main-banner>* {
   z-index: 2;
 }
 
@@ -225,7 +252,7 @@ table th {
   border-top-left-radius: 8px;
 }
 
-.leaderboard-table > tbody {
+.leaderboard-table>tbody {
   transition: 0.2s opacity;
 }
 
@@ -239,9 +266,11 @@ table th {
   .mode-icon {
     display: none;
   }
+
   .main-banner {
     padding: 0px 12px;
   }
+
   .banner-text {
     font-size: 36px;
   }
@@ -262,10 +291,15 @@ table th {
   margin-top: -41px;
   margin-left: -41px;
 }
-.popover-body, .tooltip-inner, .flag-dropdown {
+
+.popover-body,
+.tooltip-inner,
+.flag-dropdown {
   font-size: 12px;
 }
-.flag-dropdown, .noUi-tooltip {
+
+.flag-dropdown,
+.noUi-tooltip {
   background-color: hsl(var(--main), 15%, 5%) !important;
   filter: opacity(0.95);
   border-radius: 4px;
@@ -285,7 +319,34 @@ table th {
   font-weight: 600;
   font-style: normal;
 }
-.user-flag:hover>.flag-dropdown, .player-flag:hover>.flag-dropdown {
+
+.user-flag:hover>.flag-dropdown,
+.player-flag:hover>.flag-dropdown {
   visibility: visible;
   opacity: 1;
+}
+
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pager-btn {
+  margin: 12px 6px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: rgb(72, 72, 90);
+  width: 32px;
+  height: 32px;
+  color: white;
+  cursor: pointer;
+}
+
+.pager-btn.btn-disabled {
+  cursor: unset;
+  background: rgb(48, 48, 60);
 }

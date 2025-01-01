@@ -2,7 +2,7 @@
 
 <head>
   <!-- Title -->
-  <title>{{ appName() }} - {% block title %}{% endblock %}</title>
+  <title>{% block title %} - {{ appName() }}{% endblock %}</title>
 
   <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png">
@@ -11,9 +11,9 @@
   <link rel="manifest" href="/static/favicon/site.webmanifest">
   <link rel="mask-icon" href="/static/favicon/safari-pinned-tab.svg" color="#d55b9e">
   <link rel="shortcut icon" href="/static/favicon/favicon.ico">
-  <meta name="msapplication-TileColor" content="#000000">
+  <meta name="msapplication-TileColor" content="#3F73A6">
   <meta name="msapplication-config" content="/static/favicon/browserconfig.xml">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#3F73A6">
 
   <!-- Metadata -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +24,7 @@
     crossorigin="anonymous"></script>
 
   <!-- Bulma -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HakuraSukinoe/bulma-hsl/bulma.min-v7.css" />
+  <link rel="stylesheet" href="/static/css/bulma.css" />
 
   <!-- Font awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />

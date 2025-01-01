@@ -1,3 +1,24 @@
+<meta name="description" content="Leaderboards on kokisu - An osu! private server dedicated to sst3w's cat Koki!">
+
+<!-- Google / Search Engine Tags -->
+<meta itemprop="name" content="Leaderboards - kokisu">
+<meta itemprop="description" content="Leaderboards on kokisu - An osu! private server dedicated to sst3w's cat Koki!">
+<meta itemprop="image" content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png">
+
+<!-- Facebook Meta Tags -->
+<meta property="og:url" content="https://{{ domain() }}/leaderboard/std/pp/vn">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Leaderboards - kokisu">
+<meta property="og:description"
+    content="Leaderboards on kokisu - An osu! private server dedicated to sst3w's cat Koki!">
+<meta property="og:image" content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:title" content="Leaderboards - kokisu">
+<meta name="twitter:description"
+    content="Leaderboards on kokisu - An osu! private server dedicated to sst3w's cat Koki!">
+<meta name="twitter:image" content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png">
+
 {% extends 'base.html' %}
 {% block title %} Leaderboard {% endblock %}
 
@@ -10,29 +31,31 @@
     var mods = "{{ mods }}";
     var sort = "{{ sort }}";
     var domain = "{{ domain() }}";
+    var page = parseInt("{{ page }}");
 </script>
 
 <link rel="stylesheet" href="/static/css/pages/leaderboard.css">
 {% endblock %}
 
 {% block content %}
-<div id="app" :class="(load ? 'load' : '')">
+<div id="app" :class="(load ? 'load' : '')" style="zoom: 1.1">
     <div class="leaderboard-banner main-banner">
         <div class="main-selector">
             <a class="mode-select" v-bind:class="{ 'active': mode === 'std' }"
-            @click="LoadLeaderboard(sort, 'std', mods)">
+                @click="LoadLeaderboard(sort, 'std', mods)">
                 <i class="mode-icon mode-osu"></i><span class="modetext"> osu!</span>
             </a>
             <a class="mode-select" v-bind:class="{ 'active': mode === 'taiko', 'disabled': mods === 'ap' }"
-            @click="LoadLeaderboard(sort, 'taiko', mods)">
+                @click="LoadLeaderboard(sort, 'taiko', mods)">
                 <i class="mode-icon mode-taiko"></i><span class="modetext"> osu!taiko</span>
             </a>
             <a class="mode-select" v-bind:class="{ 'active': mode === 'catch', 'disabled': mods === 'ap' }"
-            @click="LoadLeaderboard(sort, 'catch', mods)">
+                @click="LoadLeaderboard(sort, 'catch', mods)">
                 <i class="mode-icon mode-catch"></i><span class="modetext"> osu!catch</span>
             </a>
-            <a class="mode-select" v-bind:class="{ 'active': mode === 'mania', 'disabled': mods === 'ap' || mods === 'rx' }"
-            @click="LoadLeaderboard(sort, 'mania', mods)">
+            <a class="mode-select"
+                v-bind:class="{ 'active': mode === 'mania', 'disabled': mods === 'ap' || mods === 'rx' }"
+                @click="LoadLeaderboard(sort, 'mania', mods)">
                 <i class="mode-icon mode-mania"></i><span class="modetext"> osu!mania</span>
             </a>
         </div>
@@ -40,17 +63,19 @@
         <div class="selector">
             <div class="left">
                 <a class="simple-banner-switch" v-bind:class="{ 'active': sort === 'pp' }"
-                @click="LoadLeaderboard('pp', mode, mods, '')">PP</a>
-                <a class="simple-banner-switch" v-bind:class="{ 'active': sort === 'rscore' }"
-                @click="LoadLeaderboard('rscore', mode, mods, '')">Score</a>
+                    @click="LoadLeaderboard('pp', mode, mods)">PP</a>
+                <a class="simple-banner-switch" v-bind:class="{ 'active': sort === 'score' }"
+                    @click="LoadLeaderboard('score', mode, mods)">Score</a>
             </div>
             <div class="right">
                 <a class="simple-banner-switch" v-bind:class=" { 'active': mods === 'vn' }"
-                @click="LoadLeaderboard(sort, mode, 'vn')">Vanilla</a>
-                <a class="simple-banner-switch" v-bind:class=" { 'active': mods === 'rx', 'disabled': mode === 'mania' }"
-                @click="LoadLeaderboard(sort, mode, 'rx')">Relax</a>
-                <a class="simple-banner-switch" v-bind:class=" { 'active': mods === 'ap', 'disabled': mode === 'taiko' || mode === 'catch' || mode === 'mania'  }"
-                @click="LoadLeaderboard(sort, mode, 'ap')">Autopilot</a>
+                    @click="LoadLeaderboard(sort, mode, 'vn')">Vanilla</a>
+                <a class="simple-banner-switch"
+                    v-bind:class=" { 'active': mods === 'rx', 'disabled': mode === 'mania' }"
+                    @click="LoadLeaderboard(sort, mode, 'rx')">Relax</a>
+                <a class="simple-banner-switch"
+                    v-bind:class=" { 'active': mods === 'ap', 'disabled': mode === 'taiko' || mode === 'catch' || mode === 'mania'  }"
+                    @click="LoadLeaderboard(sort, mode, 'ap')">Autopilot</a>
             </div>
         </div>
     </div>
@@ -62,9 +87,9 @@
                         <tr>
                             <th class="t-heading"> </th>
                             <th class="t-heading t-heading--main"></th>
-                            <th v-if="sort == 'pp' || sort == 'rscore'" class="t-heading table--selected">
+                            <th v-if="sort == 'pp' || sort == 'score'" class="t-heading table--selected">
                                 <% (sort=='pp' ? "PP" : "" ) %>
-                                    <% (sort=='rscore' ? "Score" : "" ) %>
+                                    <% (sort=='score' ? "Score" : "" ) %>
                             </th>
                             <th class="t-heading"> Accuracy </th>
                             <th class="t-heading"> Playcount </th>
@@ -73,7 +98,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(user, index) in boards" class="leaderboard-column">
-                            <td class="column-player-rank">#<% index + 1 %>
+                            <td class="column-player-rank" v-bind:style="(page > 0) ? 'color: #fff !important' : ''">#<% (page * 50) + index + 1 %>
                             </td>
                             <td class="column-player-name text-left">
                                 <a :title="flags[user.country.toUpperCase()]"
@@ -83,13 +108,15 @@
                                         <% flags[user.country.toUpperCase()] %>
                                     </div>
                                 </a>
+                                <a class="player-avatar"
+                                    :style="'background-image: url(https://a.kokisu.moe/' + user.player_id + ')'"></a>
                                 <a :href="'/u/'+user.player_id+'?mode='+mode+'&mods='+mods">
                                     <% user.name %>
                                 </a>
                             </td>
-                            <td v-if="sort == 'pp' || sort == 'rscore'">
+                            <td v-if="sort == 'pp' || sort == 'score'">
                                 <% (sort=='pp' ? user.pp+'pp' : "" ) %>
-                                    <% (sort=='rscore' ? scoreFormat(user.rscore) : "" ) %>
+                                    <% (sort=='score' ? scoreFormat(user.rscore) : "" ) %>
                             </td>
                             <td>
                                 <% user.acc.toFixed(2) %>%
@@ -108,6 +135,22 @@
                 <div class="text-center">
                     there are no players to display!
                 </div>
+            </div>
+            <div class="pager">
+                <span class="pager-btn" v-bind:class="(page === 0) ? 'btn-disabled' : ''"
+                    @click="if (page > 0) LoadLeaderboard(sort, mode, mods, -1)">
+                    <span>
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </span>
+                </span>
+                Page <% page + 1 %>
+                <span class="pager-btn"
+                    v-bind:class="(page === (page + 1) || boards.length < 50) ? 'btn-disabled' : '3'"
+                    @click="if (boards.length == 50) LoadLeaderboard(sort, mode, mods, 1)">
+                    <span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+                </span>
             </div>
         </div>
     </div>

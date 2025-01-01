@@ -1,3 +1,23 @@
+<!-- HTML Meta Tags -->
+<meta name="description" content="Register on kokisu - An osu! private server dedicated to sst3w's cat Koki!">
+
+<!-- Google / Search Engine Tags -->
+<meta itemprop="name" content="Register - kokisu">
+<meta itemprop="description" content="Log on kokisu - An osu! private server dedicated to sst3w's cat Koki!">
+<meta itemprop="image" content="http://{{ domain() }}/static/favicon/android-chrome-256x256.png">
+
+<!-- Facebook Meta Tags -->
+<meta property="og:url" content="https://{{ domain() }}/register">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Register - kokisu">
+<meta property="og:description" content="Log on kokisu - An osu! private server dedicated to sst3w's cat Koki!">
+<meta property="og:image" content="http://{{ domain() }}/static/favicon/android-chrome-256x256.png">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:title" content="Register - kokisu">
+<meta name="twitter:description" content="Log on kokisu - An osu! private server dedicated to sst3w's cat Koki!">
+<meta name="twitter:image" content="http://{{ domain() }}/static/favicon/android-chrome-256x256.png">
+
 {% extends "base.html" %}
 {% block title %} Register {% endblock %}
 
@@ -6,6 +26,12 @@
 {% endblock %}
 
 {% block content %}
+<style>
+  .my-con {
+    margin-top: 18vh;
+  }
+</style>
+
 <div class="main-block is-marginless is-paddingless is-auth">
   <div class="columns pm-reset is-weeb">
     <div class="column title-block">
@@ -38,6 +64,15 @@
           <label for="pass" class="label">Password</label>
           <div class="control has-icons-left">
             <input id="pass" type="password" name="password" placeholder="*************" class="input" autocomplete="new-password" required>
+            <span class="icon is-small is-left">
+              <i class="fa fa-lock"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="pass" class="label">Confirm Password</label>
+          <div class="control has-icons-left">
+            <input id="pass" type="password" name="confirm_password" placeholder="*************" class="input" autocomplete="new-password" required>
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>
             </span>
