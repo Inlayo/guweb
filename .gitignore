@@ -144,3 +144,4 @@ config.py
 !.data/backgrounds/.gitkeep
 !.data/banners/.gitkeep
 nohup.out
+.cache/
