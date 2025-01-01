@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} {{ bmap['title'] }}'s Leaderboard - kokisu {% endblock %}
+{% block title %} {{ bmap['title'] }}'s Leaderboard - Inlayo {% endblock %}
 
 {% block header %}
 <meta name="description" content="Click to view the beatmap leaderboard.">
@@ -129,7 +129,7 @@
             <span style="font-size: 16px;">{{ bmap['artist'] }}</span>
             <span style="font-size: 16px;">Mapped by <strong style="color:hsl(var(--main),70%,70%);"><a href="https://osu.ppy.sh/u/{{ bmap['creator'] }}">{{ bmap['creator'] }}</a></strong></span>
             
-            <span style="font-size: 16px;">{{ status }} {% if isbancho and bmapdate != None %}<% moment("{{ bmapdate }}").local().fromNow() %>{% endif %} on <strong style="color:hsl(var(--main),70%,70%);"><a>{% if is_bancho %} Bancho{% else %} Kokisu{% endif %}</a></strong></span>
+            <span style="font-size: 16px;">{{ status }} {% if isbancho and bmapdate != None %}<% moment("{{ bmapdate }}").local().fromNow() %>{% endif %} on <strong style="color:hsl(var(--main),70%,70%);"><a>{% if is_bancho %} Bancho{% else %} Inlayo{% endif %}</a></strong></span>
         </div>
         <div class="map-name" style="margin-top: -30;">  
             <span style="font-size: 16px;"><i class="fa-solid icon fa-star" style="margin-right: 4;"></i><span id="diffrating"><% Number(mapinfo.diff).toFixed(2) || "{{ bmap['diff'] }}" %></span>
