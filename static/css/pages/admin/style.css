@@ -3,7 +3,7 @@
 }
 
 .sidebar {
-    background: #3c3c3c;
+    background: #00000000;
     width: 230px;
     top: 0;
     left: 0;
@@ -112,7 +112,7 @@
     position: relative;
     padding: .5rem .7rem;
     z-index: 4;
-    background: hsl(var(--main),37%,50%);
+    background: #00000000;
 }
 
 .sidebar .logo a.logo-normal {
