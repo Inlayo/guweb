@@ -1,4 +1,6 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+    integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <nav id="navbar" class="navbar is-primary">
     <div class="container">
@@ -22,83 +24,75 @@
                 <a class="navbar-item" href="/topplays">
                     Top Plays
                 </a>
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        Docs
-                    </a>
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item" href="/rules">
-                            Rules
-                        </a>
-                    </div>
-                </div>
+                <a class="navbar-item" href="/rules">
+                    Rules
+                </a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         Socials
                     </a>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item" href="/discord">
-                            Discord
-                        </a>
-                        <a class="navbar-item" href="/yt">
-                            YouTube
-                        </a>
+
+                        <a class="navbar-item" href="/github">GitHub</a>
+                        <a class="navbar-item" href="/discord">Discord</a>
+                        <a class="navbar-item" href="/youtube">YouTube</a>
+                        <a class="navbar-item" href="/twitter">Twitter</a>
+                        <a class="navbar-item" href="/instagram">Instagram</a>
                     </div>
                 </div>
-                <a class="navbar-item" href="/donate">
-                    Donate
-                </a>
                 {% if session.authenticated and session.user_data['is_staff'] %}
                 <a class="navbar-item" href="/admin">
                     Admin
                 </a>
                 {% endif %}
-                </div>
-            </div>
-
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="search-bar">
-                        <input id="search-txt" type="text" placeholder="Search">
-                      <button onclick="search()"><i class="fa-solid fa-magnifying-glass"></i></button>
-                      <script src="/static/js/search.js"></script>
-                    </div>
-                    <div id="search-results" class="search-results">
-                    </div>
-                </div>
-                {% if session.authenticated %}
-                <div class="navbar-item has-dropdown is-hoverable" style="zoom: 1.1">
-                    <a class="navbar-link">
-                        <div class="navbar-avatar" style="background: url(https://a.{{ domain() }}/{{ session.user_data['id'] }}); background-size: cover; background-position: 50%;"></div>
-                        {{ session.user_data['name'] }}
-                    </a>
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item" href="/u/{{ session.user_data['id'] }}">
-                            Profile
-                        </a>
-                        <a class="navbar-item" href="/settings">
-                            Settings
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item" href="/logout">
-                            Logout
-                        </a>
-                    </div>
-                </div>
-                {% else %}
-                <div class="navbar-item" style="zoom: 1.1">
-                    <div class="buttons">
-                        <a class="button is-primary" href="/register">
-                            <strong>Sign up</strong>
-                        </a>
-                        <a class="button is-light" href="/login">
-                            Log in
-                        </a>
-                    </div>
-                </div>
-                {% endif %}
             </div>
         </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="search-bar">
+                    <input id="search-txt" type="text" placeholder="Search">
+                    <button onclick="search()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <script src="/static/js/search.js"></script>
+                </div>
+                <div id="search-results" class="search-results">
+                </div>
+            </div>
+            {% if session.authenticated %}
+            <div class="navbar-item has-dropdown is-hoverable" style="zoom: 1.1">
+                <a class="navbar-link">
+                    <div class="navbar-avatar"
+                        style="background: url(https://a.{{ domain() }}/{{ session.user_data['id'] }}); background-size: cover; background-position: 50%;">
+                    </div>
+                    {{ session.user_data['name'] }}
+                </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="/u/{{ session.user_data['id'] }}">
+                        Profile
+                    </a>
+                    <a class="navbar-item" href="/settings">
+                        Settings
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="/logout">
+                        Logout
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div class="navbar-item" style="zoom: 1.1">
+                <div class="buttons">
+                    <a class="button is-primary" href="/register">
+                        <strong>Sign up</strong>
+                    </a>
+                    <a class="button is-light" href="/login">
+                        Log in
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
     </div>
     </div>
 </nav>
