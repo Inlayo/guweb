@@ -24,22 +24,21 @@
                 <a class="navbar-item" href="/topplays">
                     Top Plays
                 </a>
+                <a class="navbar-item" href="/rules">
+                    Rules
+                </a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         Socials
                     </a>
                     <div class="navbar-dropdown">
-
-                        <a class="navbar-item" href="/github">GitHub</a>
-                        <a class="navbar-item" href="/discord">Discord</a>
-                        <a class="navbar-item" href="/youtube">YouTube</a>
-                        <a class="navbar-item" href="/twitter">Twitter</a>
-                        <a class="navbar-item" href="/instagram">Instagram</a>
+                        <a class="navbar-item" href="/github"> GitHub</a>
+                        <a class="navbar-item" href="/discord"> Discord</a>
+                        <a class="navbar-item" href="/youtube"> YouTube</a>
+                        <a class="navbar-item" href="/twitter"> Twitter</a>
+                        <a class="navbar-item" href="/instagram"> Instagram</a>
                     </div>
                 </div>
-                <a class="navbar-item" href="/rules">
-                    Rules
-                </a>
                 {% if session.authenticated and session.user_data['is_staff'] %}
                 <a class="navbar-item" href="/admin">
                     Admin
