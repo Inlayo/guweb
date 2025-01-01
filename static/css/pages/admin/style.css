@@ -3,7 +3,7 @@
 }
 
 .sidebar {
-    background: hsl(var(--main), 10%, 15%);
+    background: #3c3c3c;
     width: 230px;
     top: 0;
     left: 0;
@@ -82,7 +82,7 @@
 }
 
 .sidebar .nav li>a:hover {
-    background: #ff939314;
+    background: #ee99ff22;
     transform: translateY(-2px)
 }
 
@@ -342,7 +342,7 @@ li {
     font-size: 12px;
     margin-left: 10px;
     transition: .2s background-color;
-    color: #ff679b
+    color: #bb67ff
 }
 
 .user-stats {
