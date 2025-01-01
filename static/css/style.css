@@ -27,7 +27,8 @@ html {
   background-color: rgb(96, 96, 120);
 }
 
-.button.is-primary.is-hovered, .button.is-primary:hover {
+.button.is-primary.is-hovered,
+.button.is-primary:hover {
   background-color: rgb(128, 128, 160);
 }
 
@@ -212,9 +213,21 @@ a.foot-link {
 }
 
 .navbar-logo {
-  object-fit: cover;
-  padding-right: 0;
-  padding-top: 3.75;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.minimized .navbar-logo {
+  font-size: 15px !important;
+}
+
+.navbar-logo {
+  transition: 0.2s ease;
+  font-size: 1.2rem;
+}
+
+.navbar-logo:hover {
+  transform: scale(1.05);
 }
 
 .navbar-logo-img {
@@ -245,8 +258,8 @@ a.foot-link {
   background-color: rgb(47, 47, 59) !important;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  border-top: 1px solid rgba(0,0,0,.2);
-  box-shadow: 0 8px 8px rgba(10,10,10,.1);
+  border-top: 1px solid rgba(0, 0, 0, .2);
+  box-shadow: 0 8px 8px rgba(10, 10, 10, .1);
   display: none;
   font-size: .875rem;
   left: 0;
