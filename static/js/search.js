@@ -14,7 +14,6 @@ function handleBlur() {
 
 function search() {
   const searchtxt = document.getElementById("search-txt").value;
-  const domain = 'kokisu.moe';
   const parentElement = document.getElementById('search-results');
   if (searchtxt === "") {
     parentElement.innerHTML = '';
@@ -38,7 +37,7 @@ function search() {
         wrapper.setAttribute('class', 'result-wrapper');
         wrapper.setAttribute('id', `result${i}`);
         wrapper.addEventListener('click', function () {
-          location.href = `https://${domain}/u/${data.result[i].id}`;
+          location.href = `https://osu.${domain}/u/${data.result[i].id}`;
         });
         const image = document.createElement('div');
         image.setAttribute('id', 'result-image');
