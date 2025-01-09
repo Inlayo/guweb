@@ -168,7 +168,7 @@ def crop_image(image: 'Image') -> 'Image':
 def get_user_badges(uid: int, privs: int):
     group_list = []
     user_priv = Privileges(int(privs))
-    if Privileges.Dangerous in user_priv:
+    if Privileges.Dangerous in user_priv and uid in [5]:
         group_list.append(["code" ,"Developer", "#9DE3FF"])
     if Privileges.Normal not in user_priv:
         group_list.append(["ban", "Restricted", "black"])
@@ -187,7 +187,7 @@ def get_user_badges(uid: int, privs: int):
             group_list.append(["hammer", "GMT", "#9DFFAA"])
         if Privileges.Nominator in user_priv:
             group_list.append(["music", "Beatmap Nominator", "#9DFFFB"])
-        if Privileges.Whitelisted in user_priv:
+        if Privileges.Whitelisted in user_priv and if uid in [3,5,8]:
             group_list.append(["check", "Verified", "#9DFFA0"])
         if Privileges.Supporter in user_priv:
             group_list.append(["heart", "Supporter", "#FF9DF5"])

@@ -187,7 +187,7 @@ async def settings_avatar():
 async def settings_avatar_post():
     # constants
     MAX_IMAGE_SIZE = glob.config.max_image_size * 1024 * 1024
-    AVATARS_PATH = f'{glob.config.path_to_gulag}avatars'
+    AVATARS_PATH = f'{glob.config.path_to_gulag}.data/avatars'
     ALLOWED_EXTENSIONS = ['.jpeg', '.jpg', '.png']
 
     avatar = (await request.files).get('avatar')
