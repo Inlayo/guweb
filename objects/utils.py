@@ -174,7 +174,7 @@ def get_user_badges(uid: int, privs: int):
         group_list.append(["ban", "Restricted", "black"])
     else:
         if uid in [3]:
-            group_list.append(["crown" ,"Owner", "#DE9DFF"])
+            group_list.append(["crown", "Owner", "#DE9DFF"])
         if Privileges.Admin in user_priv:
             group_list.append(["star", "Admin", "#FEFF9D"])
         if uid in [4]:
