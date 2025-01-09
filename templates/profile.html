@@ -44,8 +44,7 @@
             <div class="map-data">
                 <div class="map-content1">
                     <div class="map-image">
-                        <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.beatmap.set_id + '/covers/card.jpg'"
-                            class="map-image-picture">
+                        <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.beatmap.set_id + '/covers/card.jpg'" onerror="this.style.display='none'" class="map-image-picture">
                     </div>
                     <div class="map-title-block">
                         <div class="map-title">
@@ -120,7 +119,7 @@
     <div v-if="data.maps.{{ id }}.out.length != 0" class="beatmaps">
         <a v-for="(map, index) in data.maps.{{ id }}.out" class="beatmap-block">
             <div class="beatmap-preview" :href="'/b/' + map.id"
-                v-bind:style='{ background: `url(https://assets.ppy.sh/beatmaps/${map.set_id}/covers/card.jpg)` }'>
+                v-bind:style='{ background: `url(https://assets.ppy.sh/beatmaps/${map.set_id}/covers/card.jpg)` }' onerror="this.style.display='none'">
             </div>
             <div class="beatmap-stats"><span class="beatmap-title">
                     <% map.title %> [<% map.version %>]
@@ -394,7 +393,7 @@
             <div class="column">
                 {{ scores('Best Scores', 'best')}}
                 {{ scores('Recent Scores', 'recent')}}
-                {{ scores('First Place Scores', 'first')}}
+                <!-- {{ scores('First Place Scores', 'first')}} -->
                 {{ maps('Most Beatmaps Played', 'most')}}
             </div>
         </div>

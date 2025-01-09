@@ -36,7 +36,7 @@
 	var isPlaying = false;
 	myAudio.volume = 0.15; 
     //dont laugh at this ok.
-    myAudio.src = "https://catboy.best/preview/audio/{{ bmap['id'] }}";
+    myAudio.src = "https://b.redstar.moe/preview/{{ bmap['set_id'] }}.mp3";
     myAudio.onerror = function() {
         myAudio.src = "https://b.ppy.sh/preview/{{ bmap['set_id'] }}.mp3";
     };

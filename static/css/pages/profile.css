@@ -10,12 +10,12 @@
 }
 
 .second-block {
-  background: rgb(32, 32, 40);
+  background: rgb(32, 32, 32);
 }
 
 .stats-block {
   width: 100%;
-  background: rgb(48, 48, 60);
+  background: rgb(48, 48, 48);
   padding: 9.5px;
   margin-bottom: 9.5px !important;
   border-bottom-left-radius: 8px;
@@ -38,7 +38,7 @@
   align-items: flex-end;
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
-  background: rgb(32, 32, 40);
+  background: rgb(32, 32, 32);
   position: relative;
   overflow: hidden;
 }
@@ -57,7 +57,7 @@
 }
 
 a:hover {
-  color: rgb(172, 172, 215);
+  color: rgb(172, 172, 175);
 }
 
 .info-block {
@@ -110,11 +110,11 @@ a:hover {
 }
 
 .mode-selects {
-  background: rgb(32, 32, 40);
+  background: rgb(32, 32, 32);
 }
 
 .badge-selects {
-  background: rgb(24, 24, 30);
+  background: rgb(24, 24, 24);
   display: inline-table;
 }
 
@@ -242,7 +242,7 @@ html {
 
 .header {
   padding: 10px 10px;
-  background: rgb(64, 64, 80);
+  background: rgb(64, 64, 64);
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
@@ -467,14 +467,15 @@ html {
 
 .map-image {
   padding-left: 12px;
+  
 }
 
 .beatmaps {
   width: 100%;
-  display: grid;
+  display: grid;m
   grid-gap: 10px;
   grid-template-columns: repeat(auto-fill, minmax(399px, 312px));
-  background: rgb(24, 24, 30);
+  background: rgb(24, 24, 24);
   padding: 6px 6px 12px 6px;
 }
 
@@ -495,12 +496,12 @@ html {
 
 .beatmap-block {
   border-radius: 8px;
-  background-color: rgb(48, 48, 60);
+  background-color: rgb(48, 48, 48);
   color: #fff;
 }
 
 .beatmap-block:hover {
-  background-color: rgb(64, 64, 80);
+  background-color: rgb(64, 64, 64);
   transform: scale(1.01);
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04),
     0 16px 24px rgba(0, 0, 0, 0.04), 0 24px 32px rgba(0, 0, 0, 0.04);
@@ -533,7 +534,7 @@ html {
 }
 
 .beatmap-footer .target-button {
-  background-color: rgb(64, 64, 80);
+  background-color: rgb(64, 64, 64);
   border-radius: 6px;
   padding: 4.5px 7px;
   font-size: 12px;
@@ -579,7 +580,7 @@ span.beatmap-mapper {
 
 .show-button {
   padding: 3px 42px;
-  background: rgb(48, 48, 60);
+  background: rgb(48, 48, 48);
   margin: 0px 8px 8px 8px;
   text-align: center;
   transition: 0.2s;
@@ -762,12 +763,12 @@ span.beatmap-mapper {
 .log-block {
   transition: 0.2s ease;
   margin-bottom: 12px;
-  background: rgb(24, 24, 30);
+  background: rgb(24, 24, 24);
 }
 
 .is-badge {
   display: inline-block;
-  background: rgb(40, 40, 50);
+  background: rgb(40, 40, 40);
   color: white;
   border-radius: 25px;
   justify-content: center;
