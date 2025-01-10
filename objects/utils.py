@@ -172,33 +172,29 @@ def crop_image(image: "Image") -> "Image":
 def get_user_badges(uid: int, privs: int):
     group_list = []
     user_priv = Privileges(int(privs))
-    if Privileges.Dangerous in user_priv or uid in [5]:
-        group_list.append(["code", "Developer", "#9DE3FF"])
+    if uid in [3]:
+        group_list.append(["crown", "Owner", "#DE9DFF"])
     if Privileges.Normal not in user_priv:
         group_list.append(["ban", "Restricted", "black"])
     else:
-        if uid in [3]:
-            group_list.append(["crown", "Owner", "#DE9DFF"])
-        if Privileges.Admin in user_priv:
+        if Privileges.Admin in user_priv or uid in [3]:
             group_list.append(["star", "Admin", "#FEFF9D"])
-        if uid in [4]:
-            group_list.append(["transgender", "  Trans", "#F5A9B8"])
-        if uid in [4]:
-            group_list.append(["heart", "Wife", "#FFFFFF"])
-        if uid in [4]:
-            group_list.append(["bug", "  Official Test Account", "#b8fffa"])
+        if Privileges.Dangerous in user_priv or uid in [5]:
+            group_list.append(["code", "Developer", "#9DE3FF"])
         if Privileges.Mod in user_priv:
             group_list.append(["hammer", "GMT", "#9DFFAA"])
         if Privileges.Nominator in user_priv:
             group_list.append(["music", "Beatmap Nominator", "#9DFFFB"])
-        if Privileges.Whitelisted in user_priv or uid in [3, 5, 8]:
-            group_list.append(["check", "Verified", "#9DFFA0"])
-        if Privileges.Supporter in user_priv:
-            group_list.append(["heart", "Supporter", "#FF9DF5"])
         if Privileges.Premium in user_priv:
             group_list.append(["gem", "Premium", "#FFCBFA"])
+        if Privileges.Supporter in user_priv:
+            group_list.append(["heart", "Supporter", "#FF9DF5"])
         if Privileges.Alumni in user_priv:
             group_list.append(["heart", "Contributor", "#FF66AA"])
+        if Privileges.Whitelisted in user_priv:
+            group_list.append(["check", "Verified", "#9DFFA0"])
+        if uid in [4]:
+            group_list.append(["bug", "  Official Test Account", "#b8fffa"])
 
     return group_list
 
