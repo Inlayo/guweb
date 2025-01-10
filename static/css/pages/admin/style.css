@@ -33,7 +33,7 @@
     display: block;
     line-height: 23px;
     z-index: 1;
-    color: hsla(0, 0%, 100%, .8)
+    color: #ffffffcc
 }
 
 .sidebar .sidebar-wrapper>.nav [data-toggle=collapse]~div>ul>li>a i {
@@ -82,7 +82,7 @@
 }
 
 .sidebar .nav li>a:hover {
-    background: #ee99ff22;
+    background: rgba(238, 153, 255, 0.133);
     transform: translateY(-2px)
 }
 
@@ -208,7 +208,7 @@ li {
 }
 
 .section-lead {
-    color: #b5b5b5
+    color: rgb(181, 181, 181)
 }
 
 .section {
@@ -284,7 +284,7 @@ li {
 }
 
 .user-block {
-    background-color: #413030;
+    background-color: rgb(48, 48, 48);
     color: #fff
 }
 
@@ -305,11 +305,11 @@ li {
 }
 
 .unverified {
-    background: #3c3c3c
+    background: rgb(60, 60, 60)
 }
 
 .unverified .target-button {
-    background: #4c4a4a!important
+    background: rgb(74, 74, 74)!important
 }
 
 .user-artist, .user-mapper, .user-title {
@@ -336,13 +336,13 @@ li {
 }
 
 .user-footer .target-button {
-    background-color: #5d4343;
+    background-color: rgb(67, 67, 67);
     border-radius: 6px;
     padding: 4.5px 7px;
     font-size: 12px;
     margin-left: 10px;
     transition: .2s background-color;
-    color: #bb67ff
+    color: rgb(187, 103, 255)
 }
 
 .user-stats {
@@ -382,7 +382,7 @@ span.user-mapper {
     padding: 8px;
     border-radius: 8px;
     overflow: hidden;
-    background: #413030;
+    background: rgb(48, 48, 48);
     transition: .2s ease;
     cursor: pointer
 }
@@ -443,7 +443,7 @@ span.user-mapper {
 
 .map-pp {
     font-weight: 700;
-    color: #cc5288;
+    color: rgb(187, 103, 255);
     font-size: 20px
 }
 

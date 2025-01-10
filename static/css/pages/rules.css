@@ -110,7 +110,7 @@ button:focus {
 }
 
 .bordertitle {
-    border-left: 6px solid rgb(64, 64, 80);
+    border-left: 6px solid rgb(64, 64, 64);
 }
 
 .bordertitle .title {
@@ -190,7 +190,7 @@ button:focus {
 }
 
 .is-waiting {
-    background: rgb(32, 32, 40);
+    background: rgb(32, 32, 32);
     border-radius: 0px;
     padding: 30px !important;
 }

@@ -481,6 +481,8 @@ a.foot-link {
 }
 
 .noti-column {
+  padding-top: -10px;
+  padding-bottom: 10px;
   display: flex;
   width: 100%;
 }

@@ -184,7 +184,7 @@ a:hover {
 }
 
 .link-button {
-    background-color: rgb(74, 74, 92.5);
+    background-color: rgb(74, 74, 74);
     font-weight: 500;
     outline: none;
     border-radius: 40px;
@@ -199,7 +199,7 @@ a:hover {
 }
 
 .link-button:hover {
-    background-color: rgb(92, 92, 115);
+    background-color: rgb(92, 92, 92);
 }
 
 /* Main Block Section */

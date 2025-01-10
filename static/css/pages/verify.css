@@ -89,7 +89,7 @@ button:focus {
 }
 
 .bordertitle {
-    border-left: 6px solid rgb(64, 64, 80);
+    border-left: 6px solid rgb(64, 64, 64);
 }
 
 .bordertitle .title {
@@ -123,7 +123,7 @@ button:focus {
     width: 39px;
     min-width: 39px;
     height: 39px;
-    background: rgb(64, 64, 80);
+    background: rgb(64, 64, 64);
     border-radius: 6px;
 }
 
@@ -169,7 +169,7 @@ button:focus {
 }
 
 .is-waiting {
-    background: rgb(32, 32, 40);
+    background: rgb(32, 32, 32);
     border-radius: 0px;
     padding: 6px 20px !important;
 }
