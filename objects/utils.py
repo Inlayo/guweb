@@ -168,6 +168,7 @@ def crop_image(image: "Image") -> "Image":
 
     return image
 
+#icon info > https://semantic-ui.com/elements/icon.html
 
 def get_user_badges(uid: int, privs: int):
     group_list = []
@@ -194,7 +195,9 @@ def get_user_badges(uid: int, privs: int):
         if Privileges.Whitelisted in user_priv:
             group_list.append(["check", "Verified", "#9DFFA0"])
         if uid in [4]:
-            group_list.append(["bug", "  Official Test Account", "#b8fffa"])
+            group_list.append(["bug", " Official Test Account", "#b8fffa"])
+        if uid in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]:
+            group_list.append(["compass", "Alpha Player", "#883fb6"])
 
     return group_list
 
