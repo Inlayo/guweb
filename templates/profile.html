@@ -1,23 +1,23 @@
 <!-- HTML Meta Tags -->
 <meta name="description" content="{{ user['name'] }}'s profile on Inlayo">
-<meta property="og:image" content="http://a.{{ domain() }}/{{ user['id'] }}">
+<meta property="og:image" content="https://a.{{ domain() }}/{{ user['id'] }}">
 
 <!-- Google / Search Engine Tags -->
 <meta itemprop="name" content="{{ user['name'] }}'s Profile - Inlayo">
 <meta itemprop="description" content="{{ user['name'] }}'s profile on Inlayo">
-<meta itemprop="image" content="http://a.{{ domain() }}/{{ user['id'] }}">
+<meta itemprop="image" content="https://a.{{ domain() }}/{{ user['id'] }}">
 
 <!-- Facebook Meta Tags -->
 <meta property="og:url" content="https://{{ domain() }}/u/{{ user['id'] }}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ user['name'] }}'s Profile - Inlayo">
 <meta property="og:description" content="{{ user['name'] }}'s profile on Inlayo">
-<meta property="og:image" content="http://a.{{ domain() }}/{{ user['id'] }}">
+<meta property="og:image" content="https://a.{{ domain() }}/{{ user['id'] }}">
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:title" content="{{ user['name'] }}'s Profile - Inlayo">
 <meta name="twitter:description" content="{{ user['name'] }}'s profile on Inlayo">
-<meta name="twitter:image" content="http://a.{{ domain() }}/{{ user['id'] }}">
+<meta name="twitter:image" content="https://a.{{ domain() }}/{{ user['id'] }}">
 
 {% extends 'base.html' %}
 {% block title %} {{ user['name'] }}'s Profile {% endblock %}
