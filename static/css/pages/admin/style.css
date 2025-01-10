@@ -82,7 +82,7 @@
 }
 
 .sidebar .nav li>a:hover {
-    background: rgba(238, 153, 255, 0.133);
+    background: rgba(255, 255, 255, .3);
     transform: translateY(-2px)
 }
 
@@ -200,7 +200,8 @@ li {
 }
 
 .column {
-    padding: 24px 26px
+    padding-left: 100px;
+    padding-right: 100px;
 }
 
 .content h2 {
@@ -215,8 +216,12 @@ li {
     padding: 1rem 0
 }
 
+.is-padding {
+    padding-left: 50px
+}
+
 .is-avatar {
-    width: 5%;
+    width: 7%;
     flex: inherit;
     margin-right: 20px;
     border-radius: 12px
@@ -232,7 +237,7 @@ li {
     padding: 10px;
     position: relative;
     border: 0;
-    background: hsl(var(--main),15%,25%);
+    background: rgba(255, 255, 255, .3);
 }
 
 .card .stat {
@@ -275,7 +280,7 @@ li {
     display: flex;
     border-radius: 8px;
     padding: 12px;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1.3;
     align-items: center;
     overflow: hidden;
@@ -284,7 +289,7 @@ li {
 }
 
 .user-block {
-    background-color: rgb(48, 48, 48);
+    background-color: rgb(50, 50, 50);
     color: #fff
 }
 
@@ -342,7 +347,7 @@ li {
     font-size: 12px;
     margin-left: 10px;
     transition: .2s background-color;
-    color: rgb(187, 103, 255)
+    color: rgb(255, 255, 255)
 }
 
 .user-stats {
@@ -382,7 +387,7 @@ span.user-mapper {
     padding: 8px;
     border-radius: 8px;
     overflow: hidden;
-    background: rgb(48, 48, 48);
+    background: rgb(50, 50, 50);
     transition: .2s ease;
     cursor: pointer
 }
@@ -442,8 +447,8 @@ span.user-mapper {
 }
 
 .map-pp {
-    font-weight: 700;
-    color: rgb(187, 103, 255);
+    font-weight: 500;
+    color: rgb(255, 255, 255);
     font-size: 20px
 }
 
