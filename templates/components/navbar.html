@@ -26,12 +26,12 @@
                 <a class="navbar-item" href="/topplays">
                     Top Plays
                 </a>
-                <!-- <a class="navbar-item" href="/clans">
-                    Clans
-                </a> -->
                 <a class="navbar-item" href="/rules">
                     Rules
                 </a>
+                <!-- <a class="navbar-item" href="/clans">
+                    Clans
+                </a> -->
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         Socials
@@ -45,15 +45,15 @@
                         <a class="navbar-item" href="https://osu-server-list.com/server/inlayo" target="_blank">&nbsp;osu! Server List</a>
                     </div>
                 </div>
-                {% if session.authenticated and session.user_data['is_staff'] %}
-                <a class="navbar-item" href="/admin">
-                    Admin
-                </a>
-                {% endif %}
             </div>
         </div>
 
         <div class="navbar-end">
+            {% if session.authenticated and session.user_data['is_staff'] %}
+                <a class="navbar-item" href="/admin">
+                    Admin
+                </a>
+                {% endif %}
             <div class="navbar-item">
                 <div class="search-bar">
                     <input id="search-txt" type="text" placeholder="Search">
