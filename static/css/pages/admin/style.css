@@ -2,6 +2,16 @@
     margin-top: 53px!important
 }
 
+.element {
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+  
+.element::-webkit-scrollbar {
+    display: none;
+}  
+
 .sidebar {
     background: #00000000;
     width: 230px;

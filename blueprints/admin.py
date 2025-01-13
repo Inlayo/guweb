@@ -38,7 +38,7 @@ async def home():
         'SELECT scores.*, maps.artist, maps.title, '
         'maps.set_id, maps.creator, maps.version '
         'FROM scores JOIN maps ON scores.map_md5 = maps.md5 '
-        'ORDER BY scores.id DESC LIMIT 10'
+        'ORDER BY scores.id DESC LIMIT 100'
     )
 
     return await render_template(
