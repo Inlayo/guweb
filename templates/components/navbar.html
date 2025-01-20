@@ -79,13 +79,13 @@
           {{ session.user_data['name'] }}
         </a>
         <div class="navbar-dropdown">
-          {% if session.authenticated and session.user_data['is_staff'] %}
-          <a class="navbar-item" href="/admin"> &nbsp;Admin </a>
-          {% endif %}
           <a class="navbar-item" href="/u/{{ session.user_data['id'] }}">
             &nbsp;Profile
           </a>
           <a class="navbar-item" href="/settings"> &nbsp;Settings </a>
+          {% if session.authenticated and session.user_data['is_staff'] %}
+          <a class="navbar-item" href="/admin"> &nbsp;Management </a>
+          {% endif %}
           <hr class="navbar-divider" />
           <a class="navbar-item" href="/logout"> &nbsp;Logout </a>
         </div>
