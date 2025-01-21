@@ -178,7 +178,7 @@ def get_user_badges(uid: int, privs: int):
     if Privileges.Normal not in user_priv:
         group_list.append(["ban", "Restricted", "black"])
     else:
-        if Privileges.Admin in user_priv or uid in [3]:
+        if Privileges.Admin in user_priv:
             group_list.append(["star", "Admin", "#FEFF9D"])
         if Privileges.Dangerous in user_priv or uid in [5]:
             group_list.append(["code", "Developer", "#9DE3FF"])
@@ -194,10 +194,10 @@ def get_user_badges(uid: int, privs: int):
             group_list.append(["heart", "Contributor", "#FF66AA"])
         if Privileges.Whitelisted in user_priv:
             group_list.append(["check", "Verified", "#9DFFA0"])
+        if Privileges.Normal in user_priv and uid not in [4]:
+            group_list.append(["compass", "Alpha Player", "#883fb6"])
         if uid in [4]:
             group_list.append(["bug", " Official Test Account", "#b8fffa"])
-        if uid in [1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]:
-            group_list.append(["compass", "Alpha Player", "#883fb6"])
 
     return group_list
 
