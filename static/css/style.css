@@ -873,13 +873,13 @@ a.foot-link {
 
 body::-webkit-scrollbar {
   width: 12px;
-  background-color: hsl(var(--main), 10%, 25%);
+  background-color: rgb(60, 65, 70);
   border-bottom-right-radius: 8px;
 }
 
 body::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: hsl(var(--main), 15%, 40%);
+  background-color: rgb(85, 100, 120);
 }
 
 [v-cloak] {
