@@ -180,7 +180,7 @@ def get_user_badges(uid: int, privs: int):
     else:
         if Privileges.Admin in user_priv:
             group_list.append(["star", "Admin", "#FEFF9D"])
-        if Privileges.Dangerous in user_priv or uid in [5]:
+        if Privileges.Dangerous in user_priv:
             group_list.append(["code", "Developer", "#9DE3FF"])
         if Privileges.Mod in user_priv:
             group_list.append(["hammer", "GMT", "#9DFFAA"])
