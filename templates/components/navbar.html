@@ -83,7 +83,7 @@
             &nbsp;Profile
           </a>
           <a class="navbar-item" href="/settings"> &nbsp;Settings </a>
-          {% if session.authenticated and session.user_data['is_admin'] %}
+          {% if session.authenticated and session.user_data['is_staff'] %}
           <a class="navbar-item" href="/admin"> &nbsp;Management </a>
           {% endif %}
           <hr class="navbar-divider" />
