@@ -24,6 +24,8 @@ mysql = {
     'password': 'changeme',
 }
 
+redisDSN = f"redis://:REDIS_PASSWORD@localhost:6379/0"
+
 # path to gulag root (must have leading and following slash)
 path_to_gulag = '/path/to/gulag/'
 
@@ -47,6 +49,7 @@ registration = True
 #Daum SMTP, IMAP Email
 SenderEmail = ""
 SenderEmailPassword = ""
+DISCORD_EMAIL_LOG_WEBHOOK = ""
 
 # social links (used throughout guweb)
 github = 'https://github.com/varkaria/guweb'

@@ -14,6 +14,7 @@ from quart import session
 from cmyui.logging import Ansi
 from cmyui.logging import log
 from cmyui.mysql import AsyncSQLPool
+from redis import asyncio as aioredis
 from cmyui.version import Version
 
 from objects import glob
@@ -38,6 +39,11 @@ async def mysql_conn() -> None:
     log('Connected to MySQL!', Ansi.LGREEN)
 
 @app.before_serving
+async def redis_conn() -> None:
+    glob.redis = await aioredis.from_url(glob.config.redisDSN)
+    log('Connected to Redis!', Ansi.LGREEN)
+
+@app.before_serving
 async def http_conn() -> None:
     glob.http = aiohttp.ClientSession(json_serialize=lambda x: orjson.dumps(x).decode())
     log('Got our Client Session!', Ansi.LGREEN)
@@ -45,6 +51,7 @@ async def http_conn() -> None:
 @app.after_serving
 async def shutdown() -> None:
     await glob.db.close()
+    await glob.redis.close() 
     await glob.http.close()
 
 # globals which can be used in template code

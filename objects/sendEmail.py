@@ -1,5 +1,7 @@
 import smtplib
 import imaplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from objects import glob
 from objects import logUtils as log
 from discord_webhook import DiscordWebhook, DiscordEmbed
@@ -7,9 +9,19 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 sender_email = glob.config.SenderEmail
 sender_password = glob.config.SenderEmailPassword
 
-def mailSend(to_email, msg, type=""):
+def mailSend(to_email, subject, body, type=""):
     sc = 200
     # SMTP 서버에 연결 및 이메일 전송
+
+    # 보내는 사람 이메일 계정 정보
+
+    # 이메일 메시지 설정
+    msg = MIMEMultipart()
+    msg['From'] = f'inlayoOSU! Bot BanchoBot <{sender_email}>'  # 별명을 추가한 부분
+    msg['To'] = f"inlayoOSU Username <{to_email}>"
+    msg['Subject'] = subject
+    msg.attach(MIMEText(body, 'plain'))
+
     try:
         smtp = smtplib.SMTP_SSL("smtp.daum.net", 465)
         smtp.login(sender_email, sender_password)

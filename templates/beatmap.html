@@ -34,37 +34,55 @@
     var setid = "{{ bmap['set_id'] }}";
     var myAudio = document.getElementById("BeatmapAudio");
 	var isPlaying = false;
-	myAudio.volume = 0.15; 
+	myAudio.volume = 0.2; 
     //dont laugh at this ok.
     myAudio.src = "https://b.redstar.moe/preview/{{ bmap['set_id'] }}.mp3";
     myAudio.onerror = function() {
         myAudio.src = "https://b.ppy.sh/preview/{{ bmap['set_id'] }}.mp3";
     };
+
+    myAudio.addEventListener('loadedmetadata', () => {
+        document.getElementById("current_time").innerText = `0.0 / ${Math.round(myAudio.duration * 10) / 10}`
+        document.getElementById("current_time").style.color = ""
+    });
+    myAudio.addEventListener("timeupdate", function(){
+        document.getElementById("current_time").innerText = `${Math.round(myAudio.currentTime * 10) / 10} / ${Math.round(myAudio.duration * 10) / 10}`
+    });
+    myAudio.addEventListener("ended", function(){
+        document.getElementById("current_time").innerText = `0 / ${Math.round(myAudio.duration * 10) / 10}`
+    });
+
     function togglePlay() {
-				if (isPlaying) { 
-                    myAudio.pause() 
-                    document.getElementById("PlayState").innerHTML = '<strong>Preview Song</strong>';
-                    document.getElementById("preview-icon").classList.remove('fa-pause');
-					document.getElementById("preview-icon").classList.add('fa-play');
-				} else {
-					myAudio.play();
-					document.getElementById("PlayState").innerHTML = '<strong>Pause</strong>';
-                    document.getElementById("preview-icon").classList.remove('fa-play');
-					document.getElementById("preview-icon").classList.add('fa-pause');
-				}
-			};
-			myAudio.onplaying = function() {
-				isPlaying = true;
-			};
-			myAudio.onpause = function() {
-				isPlaying = false;
-			};
-            myAudio.addEventListener("ended", function(){
-				myAudio.currentTime = 0;
-				document.getElementById("PlayState").innerHTML = '<strong>Preview Song</strong>';
-                document.getElementById("preview-icon").classList.remove('fa-pause');
-				document.getElementById("preview-icon").classList.add('fa-play');
-			});
+        if (isPlaying) { 
+            myAudio.pause() 
+            document.getElementById("PlayState").innerHTML = '<strong>Preview Song</strong>';
+            document.getElementById("preview-icon").classList.remove('fa-pause');
+            document.getElementById("preview-icon").classList.add('fa-play');
+            document.getElementById("preview-icon2").classList.remove('fa-pause');
+            document.getElementById("preview-icon2").classList.add('fa-play');
+        } else {
+            myAudio.play();
+            document.getElementById("PlayState").innerHTML = '<strong>Pause</strong>';
+            document.getElementById("preview-icon").classList.remove('fa-play');
+            document.getElementById("preview-icon").classList.add('fa-pause');
+            document.getElementById("preview-icon2").classList.remove('fa-play');
+            document.getElementById("preview-icon2").classList.add('fa-pause');
+        }
+    };
+    myAudio.onplaying = function() {
+        isPlaying = true;
+    };
+    myAudio.onpause = function() {
+        isPlaying = false;
+    };
+    myAudio.addEventListener("ended", function(){
+        myAudio.currentTime = 0;
+        document.getElementById("PlayState").innerHTML = '<strong>Preview Song</strong>';
+        document.getElementById("preview-icon").classList.remove('fa-pause');
+        document.getElementById("preview-icon").classList.add('fa-play');
+        document.getElementById("preview-icon2").classList.remove('fa-pause');
+        document.getElementById("preview-icon2").classList.add('fa-play');
+    });
 </script>
 
 <link rel="stylesheet" href="/static/css/pages/beatmap.css">
@@ -120,7 +138,7 @@
             </div>
           </div>
         </div>
-    <div class="banner-bg" style="background-image: url('https://assets.ppy.sh/beatmaps/{{ bmap['set_id'] }}/covers/row.jpg');background-position: center;height:197.5px;"></div>
+    <div class="banner-bg" style="background-image: url('https://assets.ppy.sh/beatmaps/{{ bmap['set_id'] }}/covers/raw.jpg');background-position: center;height:197.5px;"></div>
     
     </div>
     <div class="main-block">
@@ -149,6 +167,10 @@
                 </a>
                 <a class="button is-primary" onclick="togglePlay()">
                     <i class="fa-solid fa-play icon" id="preview-icon" style="margin-top:6;"></i><span id="PlayState"><strong>Preview Song</strong></span>
+                </a>
+                <a class="button is-primary">
+                    <i class="fa-solid fa-play icon" id="preview-icon2" style="margin-top:6;"></i>
+                    <span id="current_time" style="color: red;">&#8592 wait a sec...</span>
                 </a>
             </div>
         </div>

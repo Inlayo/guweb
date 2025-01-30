@@ -8,6 +8,8 @@ import os
 import time
 import timeago
 import datetime
+import string
+import random
 
 from cmyui.logging import Ansi
 from cmyui.logging import log
@@ -626,11 +628,19 @@ async def score_select(id):
     user_data['customization'] = utils.has_profile_customizations(score_data['userid'])
     return await render_template('score.html', score=score_data, mods_mode_str=mods_mode_str, map=map_data, mode=mode, mods=mods, userinfo=user_data, datetime=datetime, timeago=timeago, pp=int(score_data['pp'] + 0.5))
 
-@frontend.route('/emailverify', methods=['POST'])
+@frontend.route('/register_emailverify', methods=['POST'])
 async def emaliVerify_post():
     form = await request.form
-    new_email = form.get('email', type=str)
-    #mailSend()
+    email = form.get('email', type=str)
+    isExistEmail = await glob.db.fetch('SELECT email FROM users WHERE email = %s', email)
+    if isExistEmail: return "exist"
+    isExistRedisKEY = await glob.redis.ttl(f"guweb:EmailVerify:{email}")
+    if isExistRedisKEY != -2: return str(isExistRedisKEY)
+    key = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+    await glob.redis.set(f"guweb:EmailVerify:{email}", key, 300)
+
+    mailSend(email, "inlayoOSU's Register Email Verification", key)
+    return "sent"
 
 @frontend.route('/register')
 async def register():
