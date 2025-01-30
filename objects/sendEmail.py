@@ -1,7 +1,7 @@
 import smtplib
 import imaplib
 from objects import glob
-import logUtils as log
+from objects import logUtils as log
 from discord_webhook import DiscordWebhook, DiscordEmbed
 
 sender_email = glob.config.SenderEmail
@@ -37,19 +37,13 @@ def mailSend(to_email, msg, type=""):
     # 디코 웹훅 전송
     try:
         if sc != 200: raise sc
-
-        if type == "AutoBan" or type == "Ban":
-            origin = msg.as_string()
-            msg = origin[:origin.find("Content-Type: text/html;")]
-            msg += origin[origin.find('<a id="Reason for sending mail"'):origin.find('</a>', origin.find('<a id="Reason for sending mail"')) + 4]
-        else: msg = msg.as_string()
-
-        webhook = DiscordWebhook(url=UserConfig["AdminLogWebhook"])
+        msg = msg.as_string()
+        if len(msg) > 4096: msg = msg[:4096] #description 길이제한
+        webhook = DiscordWebhook(url=glob.config.DISCORD_EMAIL_LOG_WEBHOOK)
         embed = DiscordEmbed(description=msg, color=242424)
-        embed.set_author(name=f"{sess['AccountName']} Sent {type} email", url=f"{UserConfig['ServerURL']}u/{sess['AccountId']}", icon_url=f"{UserConfig['AvatarServer']}999")
-        embed.set_footer(text="via RealistikPanel!")
+        embed.set_author(name=f"BanchoBot Sent {type} email", url=f"https://osu.{glob.config.domain}/u/1", icon_url=f"https://a.{glob.config.domain}/1")
+        embed.set_footer(text="via guweb!")
         webhook.add_embed(embed)
         webhook.execute()
-        print(" * Posting webhook!")
     except Exception as e: log.error(f"디코 웹훅 전송 실패! | {e}")
     return sc

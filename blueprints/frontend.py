@@ -24,6 +24,7 @@ from quart import send_file
 from constants import regexes
 from objects import glob
 from objects import utils
+from objects.sendEmail import mailSend
 from objects.privileges import Privileges
 from objects.utils import flash
 from objects.utils import flash_with_customizations
@@ -627,7 +628,9 @@ async def score_select(id):
 
 @frontend.route('/emailverify', methods=['POST'])
 async def emaliVerify_post():
-    pass
+    form = await request.form
+    new_email = form.get('email', type=str)
+    #mailSend()
 
 @frontend.route('/register')
 async def register():
