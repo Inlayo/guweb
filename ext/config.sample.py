@@ -44,9 +44,13 @@ disallowed_passwords = {
 # enable registration
 registration = True
 
+#Daum SMTP, IMAP Email
+SenderEmail = ""
+SenderEmailPassword = ""
+
 # social links (used throughout guweb)
 github = 'https://github.com/varkaria/guweb'
-discord_server = 'https://discord.com/invite/Y5uPvcNpD9'
+discord_server = 'https://discord.com/invite/'
 youtube = 'https://youtube.com/'
 twitter = 'https://twitter.com/'
 instagram = 'https://instagram.com/'

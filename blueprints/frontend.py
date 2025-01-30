@@ -625,6 +625,10 @@ async def score_select(id):
     user_data['customization'] = utils.has_profile_customizations(score_data['userid'])
     return await render_template('score.html', score=score_data, mods_mode_str=mods_mode_str, map=map_data, mode=mode, mods=mods, userinfo=user_data, datetime=datetime, timeago=timeago, pp=int(score_data['pp'] + 0.5))
 
+@frontend.route('/emailverify', methods=['POST'])
+async def emaliVerify_post():
+    pass
+
 @frontend.route('/register')
 async def register():
     if 'authenticated' in session:

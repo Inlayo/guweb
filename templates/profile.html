@@ -40,11 +40,11 @@
     </div>
     <div v-if="data.scores.{{ id }}.out.length != 0" class="scores">
         <div v-for="(map, index) in data.scores.{{ id }}.out" class="map-single"
-            :style="`background: linear-gradient(rgba(24, 24, 30, 0.6) 0%, rgba(24, 24, 30, 0.8) 100%), url(https://assets.ppy.sh/beatmaps/${map.beatmap.set_id}/covers/cover@2x.jpg)`">
+            :style="`background: linear-gradient(rgba(24, 24, 30, 0.6) 0%, rgba(24, 24, 30, 0.8) 100%), url(https://assets.ppy.sh/beatmaps/${map.beatmap.set_id}/covers/row.jpg)`">
             <div class="map-data">
                 <div class="map-content1">
                     <div class="map-image">
-                        <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.beatmap.set_id + '/covers/card@2x.jpg'" onerror="this.style.display='none'" class="map-image-picture">
+                        <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.beatmap.set_id + '/covers/row.jpg'" onerror="this.style.display='none'" class="map-image-picture">
                     </div>
                     <div class="map-title-block">
                         <div class="map-title">
@@ -119,7 +119,7 @@
     <div v-if="data.maps.{{ id }}.out.length != 0" class="beatmaps">
         <a v-for="(map, index) in data.maps.{{ id }}.out" class="beatmap-block">
             <div class="beatmap-preview" :href="'/b/' + map.id"
-                v-bind:style='{ background: `url(https://assets.ppy.sh/beatmaps/${map.set_id}/covers/card@2x.jpg)` }' onerror="this.style.display='none'">
+                v-bind:style='{ background: `url(https://assets.ppy.sh/beatmaps/${map.set_id}/covers/row.jpg)` }' onerror="this.style.display='none'">
             </div>
             <div class="beatmap-stats"><span class="beatmap-title">
                     <% map.title %> [<% map.version %>]
