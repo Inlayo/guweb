@@ -3,6 +3,7 @@ quart
 bcrypt
 aiomysql
 aiohttp
+discord-webhook===1.3.0
 mysql-connector
 orjson
 timeago
