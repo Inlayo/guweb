@@ -471,12 +471,9 @@ html {
 }
 
 .beatmaps {
-  width: 100%;
-  display: grid;m
-  grid-gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(399px, 312px));
-  background: rgb(24, 24, 24);
-  padding: 6px 6px 12px 6px;
+  background: content-box;
+  transition: 0.2s transform ease;
+  padding: 6px 6px 0.1px 6px;
 }
 
 .beatmap-block {
@@ -506,6 +503,21 @@ html {
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04),
     0 16px 24px rgba(0, 0, 0, 0.04), 0 24px 32px rgba(0, 0, 0, 0.04);
   color: #fff;
+}
+
+.map-mapper {
+  font-size: 12;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.map-plays {
+  padding-top: 2;
+  font-size: 13;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .beatmap-artist,
