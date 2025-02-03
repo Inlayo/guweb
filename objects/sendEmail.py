@@ -17,8 +17,8 @@ def mailSend(to_email, subject, body, type=""):
 
     # 이메일 메시지 설정
     msg = MIMEMultipart()
-    msg['From'] = f'osu!Inlayo Bot <{sender_email}>'  # 별명을 추가한 부분
-    msg['To'] = f"osu!Inlayo Username <{to_email}>"
+    msg['From'] = f'InlayoBot <{sender_email}>'  # 별명을 추가한 부분
+    msg['To'] = f"Inlayo Username <{to_email}>"
     msg['Subject'] = subject
     msg.attach(MIMEText(body, 'plain'))
 

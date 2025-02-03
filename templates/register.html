@@ -18,8 +18,7 @@
 <meta name="twitter:description" content="Log on Inlayo" />
 <meta name="twitter:image" content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png" />
 
-{% extends "base.html" %} {% block title %} Register {% endblock %} {% block
-header %}
+{% extends "base.html" %} {% block title %} Register {% endblock %} {% block header %}
 <link rel="stylesheet" href="/static/css/pages/auth.css" />
 {% endblock %} {% block content %}
 <style>
@@ -29,47 +28,51 @@ header %}
 </style>
 
 <script>
-  async function sendVerificationEmail() {
-    var emailInput = document.getElementById("email");
-    var email = emailInput.value.trim().toLowerCase();
+async function sendVerificationEmail() {
+  var emailInput = document.getElementById("email");
+  var email = emailInput.value.trim().toLowerCase();
+  var sendBtn = document.getElementById("send-btn");
+  var registerBtn = document.getElementById("register-btn");
 
-    if (!email) {
-      alert("Please enter a valid email address.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("email", email);
-
-    emailInput.disabled = true;
-
-    try {
-      const response = await fetch("/register_emailverify", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Server responded with an error.");
-      }
-
-      const data = await response.text();
-
-      if (data === "exist") {
-        emailInput.value = "";
-        alert("This email is already registered.");
-      } else if (data === "sent") {
-        alert("Verification email sent successfully!");
-      } else if (!isNaN(data)) {
-        alert(`Verification email has been sent. You can try again in ${data} seconds.`);
-      } else {
-        alert("Failed to send verification email.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred. Please try again later.");
-    }
+  if (!email) {
+    alert("Please enter a valid email address.");
+    return;
   }
+
+  const formData = new FormData();
+  formData.append("email", email);
+
+  try {
+    const response = await fetch("/register_emailcheck", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Server responded with an error.");
+    }
+
+    const data = await response.text();
+
+    if (data === "exist") {
+      emailInput.value = "";
+      alert("This email is already registered.");
+    } else if (data === "sent") {
+      alert("Verification email sent successfully!");
+      sendBtn.disabled = true;
+      registerBtn.disabled = false;
+    } else if (!isNaN(data)) {
+      alert(`Verification email has been sent. You can try again in ${data} seconds.`);
+      sendBtn.disabled = true;
+      registerBtn.disabled = false;
+    } else {
+      alert("Failed to send verification email.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred. Please try again later.");
+  }
+}
 </script>
 
 <div class="main-block is-marginless is-paddingless is-auth">
@@ -100,7 +103,7 @@ header %}
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>
             </span>
-            <button type="button" class="button is-send" onclick="sendVerificationEmail()" a>
+            <button id="send-btn" type="button" class="button is-send" onclick="sendVerificationEmail()" a>
               Send
             </button>
           </div>
@@ -108,8 +111,7 @@ header %}
         <div class="field">
           <label for="verification" class="label">Email Verification</label>
           <div class="control has-icons-left">
-            <input id="verification" type="verification" name="verification" placeholder="******" class="input"
-              autocomplete="verification" required />
+            <input id="verification" type="text" name="emailkey" placeholder="*************" class="input" required />
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>
             </span>
@@ -146,7 +148,7 @@ header %}
         </div>
         {% endif %}
         <div class="field">
-          <button type="submit" class="button is-primary">Register</button>
+          <button id="register-btn" type="submit" class="button is-primary" disabled>Register</button>
         </div>
       </form>
     </div>

@@ -1,22 +1,135 @@
 {% extends "base.html" %}
-{% block title %} 404 {% endblock %}
+{% block title %} Forgot Password {% endblock %}
 
 {% block header %}
-<link rel="stylesheet" href="/static/css/pages/block.css">
+<link rel="stylesheet" href="/static/css/pages/auth.css" />
 {% endblock %}
 
 {% block content %}
-<div class="main-block">
-	<div class="title-block">
-		<h2 class="title-title">
-			Forgot Password
-		</h2>
-	</div>
-	<div class="text-block">
-		<h3 class="text-title">You forgot your password? Dont worry!</h3>
-    	<li>Please join our Discord and create a ticket in the # 📞ㆍreport forum!</li>
-		<li>We can help you with your request there.</li>
-		<br>
-	   	<li>You can join the Discord <a href="/discord">here</a>.</li>
-	</div>
+<style>
+  .my-con {
+    margin-top: 18vh;
+  }
+</style>
+
+<script>
+async function sendVerificationEmail() {
+  var emailInput = document.getElementById("email");
+  var email = emailInput.value.trim().toLowerCase();
+  var sendBtn = document.getElementById("send-btn");
+  var submitBtn = document.getElementById("submit-btn");
+
+  if (!email) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("email", email);
+
+  try {
+    const response = await fetch("/forgot_emailcheck", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Server responded with an error.");
+    }
+
+    const data = await response.text();
+
+    if (data === "sent") {
+      alert("Verification email sent successfully!");
+      sendBtn.disabled = true;
+      submitBtn.disabled = false;
+    } else if (!isNaN(data)) {
+      alert(`Verification email has been sent. You can try again in ${data} seconds.`);
+      sendBtn.disabled = true;
+      submitBtn.disabled = false;
+    } else {
+      alert("Failed to send verification email.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred. Please try again later.");
+  }
+}
+</script>
+
+<div class="main-block is-marginless is-paddingless is-auth">
+  <div class="columns pm-reset is-weeb">
+    <div class="column title-block">
+      <h1 class="title" id="regtitle">Forgot Password</h1>
+    </div>
+  </div>
+  <div class="columns pm-reset flex-lcenter is-block">
+    <div class="box">
+      <div class="login-bg"></div>
+      <form action="/forgot" method="post" class="form-content">
+        <div class="field">
+          <label for="email" class="label">Email</label>
+          <div class="control has-icons-left is-expanded">
+            <input id="email" type="email" name="email" placeholder="e.g. inla@inla.kr" class="input"
+              autocomplete="email" required />
+            <span class="icon is-small is-left">
+              <i class="fa fa-envelope"></i>
+            </span>
+            <button id="send-btn" type="button" class="button is-send" onclick="sendVerificationEmail()">
+              Send
+            </button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="verification" class="label">Email Verification</label>
+          <div class="control has-icons-left">
+            <input id="verification" type="text" name="emailkey" placeholder="*************" class="input" required />
+            <span class="icon is-small is-left">
+              <i class="fa fa-lock"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="pass" class="label">New Password</label>
+          <div class="control has-icons-left">
+            <input id="pass" type="password" name="new_password" placeholder="*************" class="input"
+              autocomplete="new-password" required />
+            <span class="icon is-small is-left">
+              <i class="fa fa-lock"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="pass" class="label">Confirm New Password</label>
+          <div class="control has-icons-left">
+            <input id="pass" type="password" name="repeat_password" placeholder="*************" class="input"
+              autocomplete="new-password" required />
+            <span class="icon is-small is-left">
+              <i class="fa fa-lock"></i>
+            </span>
+          </div>
+        </div>
+        <div class="mt-5"></div>
+        <div class="dialog">
+          Remember your password? <a href="/login">Login</a>
+        </div>
+        {% if not captchaKey() == 'changeme' %}
+        <div class="field">
+          <div class="h-captcha" data-sitekey="{{ captchaKey() }}" data-theme="dark"
+            style="display: flex; justify-content: center"></div>
+        </div>
+        {% endif %}
+        <div class="field">
+          <button id="submit-btn" type="submit" class="button is-primary" disabled>Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% if flash %}
+<div class="paper-snackbar is-{{ status }}" style="opacity: 1">{{ flash }}</div>
+{% endif %} {% if not captchaKey() == 'changeme' %}
+<script src="https://hcaptcha.com/1/api.js" async defer></script>
+{% endif %}
 {% endblock %}

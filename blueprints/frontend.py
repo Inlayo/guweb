@@ -53,6 +53,81 @@ async def home():
 async def forgot():
     return await render_template('forgot.html')
 
+@frontend.route('/forgot_emailcheck', methods=["POST"])
+async def forgot_emaliCheck_post():
+    form = await request.form
+    email = form.get('email', type=str)
+    isExistRedisKEY = await glob.redis.ttl(f"guweb:ForgotEmailVerify:{email}")
+    if isExistRedisKEY != -2: return str(isExistRedisKEY)
+    key = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+    await glob.redis.set(f"guweb:ForgotEmailVerify:{email}", key, 300)
+
+    mailSend(email, "Inlayo Forgot Email Verification", key)
+    return "sent"
+
+@frontend.route('/forgot', methods=["POST"])
+async def forget_resetpassword():
+    form = await request.form
+    email = form.get('email', type=str).lower()
+    emailkey = form.get('emailkey')
+    new_password = form.get('new_password')
+    repeat_password = form.get('repeat_password')
+    uid = (await glob.db.fetch('SELECT id FROM users WHERE email = %s',[email]))["id"]
+
+    if email is None or emailkey is None or new_password is None or repeat_password is None:
+        return await flash('error', 'Invalid parameters.', 'forgot')
+
+    # new password and repeat password don't match; deny post
+    if new_password != repeat_password:
+        return await flash('error', "Your new password doesn't match your repeated password!", 'forgot')
+
+    # Passwords must:
+    # - be within 8-32 characters in length
+    # - have more than 3 unique characters
+    # - not be in the config's `disallowed_passwords` list
+    if not 8 < len(new_password) <= 32:
+        return await flash('error', 'Your new password must be 8-32 characters in length.', 'forgot')
+
+    if len(set(new_password)) <= 3:
+        return await flash('error', 'Your new password must have more than 3 unique characters.', 'forgot')
+
+    if new_password.lower() in glob.config.disallowed_passwords:
+        return await flash('error', 'Your new password was deemed too simple.', 'forgot')
+    
+    #이메일 인증키 체크
+    try: RedisKEY = (await glob.redis.get(f"guweb:ForgotEmailVerify:{email}")).decode("utf-8")
+    except: return await flash('error', 'Email verification code is incorrect.', 'forgot')
+    if emailkey == RedisKEY: await glob.redis.delete(f"guweb:ForgotEmailVerify:{email}")
+    else: return await flash('error', 'Email verification code is incorrect.', 'forgot')
+
+    # cache and other password related information
+    bcrypt_cache = glob.cache['bcrypt']
+    pw_bcrypt = (await glob.db.fetch(
+        'SELECT pw_bcrypt '
+        'FROM users '
+        'WHERE id = %s',
+        [uid])
+    )['pw_bcrypt'].encode()
+
+    # remove old password from cache
+    if pw_bcrypt in bcrypt_cache:
+        del bcrypt_cache[pw_bcrypt]
+
+    # calculate new md5 & bcrypt pw
+    pw_md5 = hashlib.md5(new_password.encode()).hexdigest().encode()
+    pw_bcrypt = bcrypt.hashpw(pw_md5, bcrypt.gensalt())
+
+    # update password in cache and db
+    bcrypt_cache[pw_bcrypt] = pw_md5
+
+    await glob.db.execute(
+        'UPDATE users '
+        'SET pw_bcrypt = %s '
+        'WHERE id = %s',
+        [pw_bcrypt, uid]
+    )
+    return await flash('success', 'Your password has been changed! Please log in again.', 'login')
+
 @frontend.route('/rules')
 async def rules():
     return await render_template('rules.html')
@@ -385,8 +460,7 @@ async def profile_select(id):
         return (await render_template('404.html'), 404)
 
     # no point in viewing bot's profile
-    if user_data["id"] == 1:
-        return (await render_template('404.html'), 404)
+    #if user_data["id"] == 1: return (await render_template('404.html'), 404)
 
     # make sure mode & mods are valid args
     if mode is not None and mode not in VALID_MODES:
@@ -628,18 +702,18 @@ async def score_select(id):
     user_data['customization'] = utils.has_profile_customizations(score_data['userid'])
     return await render_template('score.html', score=score_data, mods_mode_str=mods_mode_str, map=map_data, mode=mode, mods=mods, userinfo=user_data, datetime=datetime, timeago=timeago, pp=int(score_data['pp'] + 0.5))
 
-@frontend.route('/register_emailverify', methods=['POST'])
-async def emaliVerify_post():
+@frontend.route('/register_emailcheck', methods=['POST'])
+async def register_emaliCheck_post():
     form = await request.form
     email = form.get('email', type=str)
     isExistEmail = await glob.db.fetch('SELECT email FROM users WHERE email = %s', email)
     if isExistEmail: return "exist"
-    isExistRedisKEY = await glob.redis.ttl(f"guweb:EmailVerify:{email}")
+    isExistRedisKEY = await glob.redis.ttl(f"guweb:RegisterEmailVerify:{email}")
     if isExistRedisKEY != -2: return str(isExistRedisKEY)
     key = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
-    await glob.redis.set(f"guweb:EmailVerify:{email}", key, 300)
+    await glob.redis.set(f"guweb:RegisterEmailVerify:{email}", key, 300)
 
-    mailSend(email, "inlayoOSU's Register Email Verification", key)
+    mailSend(email, "Inlayo Register Email Verification", key)
     return "sent"
 
 @frontend.route('/register')
@@ -663,14 +737,15 @@ async def register_post():
     form = await request.form
     username = form.get('username', type=str)
     email = form.get('email', type=str)
+    emailkey = form.get('emailkey', type=str)
     passwd_txt = form.get('password', type=str)
     confirm_passwd_txt = form.get('confirm_password', type=str)
 
-    if username is None or email is None or passwd_txt is None or confirm_passwd_txt is None:
-        return await flash('error', 'Invalid parameters.', 'home')
+    if username is None or email is None or emailkey is None or passwd_txt is None or confirm_passwd_txt is None:
+        return await flash('error', 'Invalid parameters.', 'register')
 
     if passwd_txt != confirm_passwd_txt:
-         return await flash('error', 'The entered passwords do not match.', 'register')
+        return await flash('error', 'The entered passwords do not match.', 'register')
 
     if glob.config.hCaptcha_sitekey != 'changeme':
         captcha_data = form.get('h-captcha-response', type=str)
@@ -710,6 +785,12 @@ async def register_post():
 
     if await glob.db.fetch('SELECT 1 FROM users WHERE email = %s', email):
         return await flash('error', 'Email already taken by another user.', 'register')
+
+    #이메일 인증키 체크
+    try: RedisKEY = await glob.redis.get(f"guweb:RegisterEmailVerify:{email}"); RedisKEY = RedisKEY.decode("utf-8")
+    except: return await flash('error', 'Email verification code is incorrect.', 'register')
+    if emailkey == RedisKEY: await glob.redis.delete(f"guweb:RegisterEmailVerify:{email}")
+    else: return await flash('error', 'Email verification code is incorrect.', 'register')
 
     # Passwords must:
     # - be within 8-32 characters in length
