@@ -630,7 +630,7 @@ async def beatmap(bid):
     
     # Make sure mode, mods and id are valid, otherwise 404 page
     if (
-        bid == None or not bid.isdigit() or
+        bid == None or not bid.lstrip('-').isdigit() or
         mode not in VALID_MODES or mods not in VALID_MODS or
         mode == "mania" and mods == "rx" or mods == "ap" and mode != "std"):
         return (await render_template('404.html'), 404)
