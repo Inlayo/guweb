@@ -29,21 +29,23 @@
 
 <script>
 async function sendVerificationEmail() {
-  var emailInput = document.getElementById("email");
-  var email = emailInput.value.trim().toLowerCase();
-  var sendBtn = document.getElementById("send-btn");
-  var registerBtn = document.getElementById("register-btn");
+  const emailInput = document.getElementById("email");
+  const email = emailInput.value.trim().toLowerCase();
+  const sendBtn = document.getElementById("send-btn");
+  const registerBtn = document.getElementById("register-btn");
+  sendBtn.classList.add("is-loading") //버튼에 로딩 애니메이션 추가
+  sendBtn.disabled = true
 
   if (!email) {
-    alert("Please enter a valid email address.");
-    return;
+    sendBtn.classList.remove("is-loading"); sendBtn.disabled = false
+    return alert("Please enter a valid email address.")
   }
 
   const formData = new FormData();
+  formData.append("user", document.getElementById("user").value);
   formData.append("email", email);
-
   try {
-    const response = await fetch("/register_emailcheck", {
+    const response = await fetch("/register_emailchecksend", {
       method: "POST",
       body: formData,
     });
@@ -53,24 +55,30 @@ async function sendVerificationEmail() {
     }
 
     const data = await response.text();
-
-    if (data === "exist") {
-      emailInput.value = "";
-      alert("This email is already registered.");
-    } else if (data === "sent") {
+    if (data === "sent") {
+      sendBtn.disabled = true;
+      registerBtn.disabled = false;
       alert("Verification email sent successfully!");
-      sendBtn.disabled = true;
-      registerBtn.disabled = false;
     } else if (!isNaN(data)) {
-      alert(`Verification email has been sent. You can try again in ${data} seconds.`);
       sendBtn.disabled = true;
       registerBtn.disabled = false;
+      alert(`Verification email has been sent. You can try again in ${data} seconds.`);
+    }
+    else if (data === "exist") {
+      emailInput.value = ""; sendBtn.disabled = false //로딩 애니메이션 넣으면서 버튼을 비활성화 하기 때문에 요청 실패시에만 버튼 원복으로 바꿈
+      alert("This email is already registered.");
+    } else if (data.startsWith("ERROR | ")) {
+      sendBtn.disabled = false //로딩 애니메이션 넣으면서 버튼을 비활성화 하기 때문에 요청 실패시에만 버튼 원복으로 바꿈
+      alert(`ERROR! report admin plz \n\n${data}`);
     } else {
+      sendBtn.disabled = false //로딩 애니메이션 넣으면서 버튼을 비활성화 하기 때문에 요청 실패시에만 버튼 원복으로 바꿈
       alert("Failed to send verification email.");
     }
   } catch (error) {
     console.error("Error:", error);
     alert("An error occurred. Please try again later.");
+  } finally {
+    sendBtn.classList.remove("is-loading"); sendBtn.disabled = false
   }
 }
 </script>
@@ -98,7 +106,7 @@ async function sendVerificationEmail() {
         <div class="field">
           <label for="email" class="label">Email</label>
           <div class="control has-icons-left is-expanded">
-            <input id="email" type="email" name="email" placeholder="e.g. inla@inla.kr" class="input"
+            <input id="email" type="email" name="email" placeholder="e.g. {{ SenderEmail }}" class="input"
               autocomplete="email" required />
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>

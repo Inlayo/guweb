@@ -2,23 +2,22 @@ import smtplib
 import imaplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.header import Header
 from objects import glob
 from objects import logUtils as log
 from discord_webhook import DiscordWebhook, DiscordEmbed
+import traceback
 
 sender_email = glob.config.SenderEmail
 sender_password = glob.config.SenderEmailPassword
 
-def mailSend(to_email, subject, body, type=""):
+def exceptionE(msg=""): e = traceback.format_exc(); log.error(f"{msg} \n{e}"); return e
+def mailSend(nick: str, to_email: str, subject: str, body: str, type=""):
     sc = 200
-    # SMTP 서버에 연결 및 이메일 전송
-
-    # 보내는 사람 이메일 계정 정보
-
-    # 이메일 메시지 설정
     msg = MIMEMultipart()
-    msg['From'] = f'InlayoBot <{sender_email}>'  # 별명을 추가한 부분
-    msg['To'] = f"Inlayo Username <{to_email}>"
+    msg['From'] = f'InlayoBot <{sender_email}>'
+    if nick and not nick.isascii(): nick = str(Header(nick, 'utf-8').encode())
+    msg['To'] = f"{nick} <{to_email}>" if nick else to_email
     msg['Subject'] = subject
     msg.attach(MIMEText(body, 'plain'))
 
@@ -30,8 +29,7 @@ def mailSend(to_email, subject, body, type=""):
         log.info(f"{type} 이메일 전송 성공")
     except Exception as e:
         #SMTPDataError(code, resp), smtplib.SMTPDataError
-        log.error(f"{type} 이메일 전송 실패 : {e}")
-        sc = e
+        exceptionE(f"{type} 이메일 전송 실패 : {e}"); sc = e
 
     # 보낸메일함에 복사
     try:
@@ -40,11 +38,8 @@ def mailSend(to_email, subject, body, type=""):
             imap.login(sender_email, sender_password)
             imap.append("Sent", None, None, msg.as_bytes())
             log.info("보낸메일함 복사 성공!")
-        else:
-            log.warning("메일 전송 실패함에 따라 보낸메일함 복사는 하지 않음")
-    except Exception as e:
-        log.error(f"보낸메일함 복사 실패 : {e}")
-        sc = e
+        else: log.warning("메일 전송 실패함에 따라 보낸메일함 복사는 하지 않음")
+    except Exception as e: exceptionE(f"보낸메일함 복사 실패 : {e}"); sc = e
 
     # 디코 웹훅 전송
     try:
@@ -57,5 +52,5 @@ def mailSend(to_email, subject, body, type=""):
         embed.set_footer(text="via guweb!")
         webhook.add_embed(embed)
         webhook.execute()
-    except Exception as e: log.error(f"디코 웹훅 전송 실패! | {e}")
+    except Exception as e: exceptionE(f"디코 웹훅 전송 실패! | {e}")
     return sc

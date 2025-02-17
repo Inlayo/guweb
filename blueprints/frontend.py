@@ -13,6 +13,7 @@ import random
 
 from cmyui.logging import Ansi
 from cmyui.logging import log
+from objects import logUtils as log2
 from functools import wraps
 from PIL import Image
 from pathlib import Path
@@ -51,19 +52,21 @@ async def home():
 
 @frontend.route('/forgot')
 async def forgot():
-    return await render_template('forgot.html')
+    return await render_template('forgot.html', SenderEmail=glob.config.SenderEmail)
 
-@frontend.route('/forgot_emailcheck', methods=["POST"])
-async def forgot_emaliCheck_post():
+@frontend.route('/forgot_emailchecksend', methods=["POST"])
+async def forgot_emaliCheckSend_post():
     form = await request.form
     email = form.get('email', type=str)
+    username = (await glob.db.fetch('SELECT name FROM users WHERE email = %s',[email]))
+    if username: username = username["name"]
+    else: return "404 Not Found"
     isExistRedisKEY = await glob.redis.ttl(f"guweb:ForgotEmailVerify:{email}")
     if isExistRedisKEY != -2: return str(isExistRedisKEY)
     key = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
     await glob.redis.set(f"guweb:ForgotEmailVerify:{email}", key, 300)
-
-    mailSend(email, "Inlayo Forgot Email Verification", key)
-    return "sent"
+    mst = mailSend(username, email, "Inlayo Forgot Email Verification", key)
+    return "sent" if mst == 200 else f"ERROR | {mst}"
 
 @frontend.route('/forgot', methods=["POST"])
 async def forget_resetpassword():
@@ -702,9 +705,10 @@ async def score_select(id):
     user_data['customization'] = utils.has_profile_customizations(score_data['userid'])
     return await render_template('score.html', score=score_data, mods_mode_str=mods_mode_str, map=map_data, mode=mode, mods=mods, userinfo=user_data, datetime=datetime, timeago=timeago, pp=int(score_data['pp'] + 0.5))
 
-@frontend.route('/register_emailcheck', methods=['POST'])
-async def register_emaliCheck_post():
+@frontend.route('/register_emailchecksend', methods=['POST'])
+async def register_emaliCheckSend_post():
     form = await request.form
+    username = form.get('user', type=str)
     email = form.get('email', type=str)
     isExistEmail = await glob.db.fetch('SELECT email FROM users WHERE email = %s', email)
     if isExistEmail: return "exist"
@@ -712,9 +716,8 @@ async def register_emaliCheck_post():
     if isExistRedisKEY != -2: return str(isExistRedisKEY)
     key = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
     await glob.redis.set(f"guweb:RegisterEmailVerify:{email}", key, 300)
-
-    mailSend(email, "Inlayo Register Email Verification", key)
-    return "sent"
+    mst = mailSend(username, email, "Inlayo Register Email Verification", key)
+    return "sent" if mst == 200 else f"ERROR | {mst}"
 
 @frontend.route('/register')
 async def register():
@@ -724,7 +727,7 @@ async def register():
     if not glob.config.registration:
         return await flash('error', 'Registrations are currently disabled.', 'home')
 
-    return await render_template('register.html')
+    return await render_template('register.html', SenderEmail=glob.config.SenderEmail)
 
 @frontend.route('/register', methods=['POST'])
 async def register_post():
