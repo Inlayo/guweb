@@ -66,7 +66,8 @@ async def forgot_emaliCheckSend_post():
     key = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
     await glob.redis.set(f"guweb:ForgotEmailVerify:{email}", key, 300)
     mst = mailSend(username, email, "Inlayo Forgot Email Verification", key)
-    return "sent" if mst == 200 else f"ERROR | {mst}"
+    if mst == 200: return "sent"
+    else: await glob.redis.delete(f"guweb:ForgotEmailVerify:{email}"); return f"ERROR | {mst}"
 
 @frontend.route('/forgot', methods=["POST"])
 async def forget_resetpassword():
@@ -717,7 +718,8 @@ async def register_emaliCheckSend_post():
     key = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
     await glob.redis.set(f"guweb:RegisterEmailVerify:{email}", key, 300)
     mst = mailSend(username, email, "Inlayo Register Email Verification", key)
-    return "sent" if mst == 200 else f"ERROR | {mst}"
+    if mst == 200: return "sent"
+    else: await glob.redis.delete(f"guweb:RegisterEmailVerify:{email}"); return f"ERROR | {mst}"
 
 @frontend.route('/register')
 async def register():

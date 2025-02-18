@@ -14,6 +14,7 @@
 
 <script>
 async function sendVerificationEmail() {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   const emailInput = document.getElementById("email");
   const email = emailInput.value.trim().toLowerCase();
   const sendBtn = document.getElementById("send-btn");
@@ -21,7 +22,7 @@ async function sendVerificationEmail() {
   sendBtn.classList.add("is-loading") //버튼에 로딩 애니메이션 추가
   sendBtn.disabled = true
 
-  if (!email) {
+  if (!email | !emailRegex.test(email)) {
     sendBtn.classList.remove("is-loading"); sendBtn.disabled = false
     return alert("Please enter a valid email address.")
   }
