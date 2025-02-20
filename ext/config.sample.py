@@ -47,6 +47,10 @@ disallowed_passwords = {
 registration = True
 
 #Daum SMTP, IMAP Email
+EmailVerifyKeyLength = 16
+SentEmailTimeout = 300
+SMTP_serverInfo = {"host": "smtp.daum.net", "port": 465}
+IMAP_serverInfo = {"host": "imap.daum.net", "port": 993}
 SenderEmail = ""
 SenderEmailPassword = ""
 DISCORD_EMAIL_LOG_WEBHOOK = ""

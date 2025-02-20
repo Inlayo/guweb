@@ -40,7 +40,7 @@ frontend = Blueprint('frontend', __name__)
 def login_required(func):
     @wraps(func)
     async def wrapper(*args, **kwargs):
-        if not session:
+        if not session or not session.get("authenticated"):
             return await flash('error', 'You must be logged in to access that page.', 'login')
         return await func(*args, **kwargs)
     return wrapper
@@ -49,10 +49,6 @@ def login_required(func):
 @frontend.route('/')
 async def home():
     return await render_template('home.html')
-
-@frontend.route('/forgot')
-async def forgot():
-    return await render_template('forgot.html', SenderEmail=glob.config.SenderEmail)
 
 @frontend.route('/forgot_emailchecksend', methods=["POST"])
 async def forgot_emaliCheckSend_post():
@@ -63,11 +59,15 @@ async def forgot_emaliCheckSend_post():
     else: return "404 Not Found"
     isExistRedisKEY = await glob.redis.ttl(f"guweb:ForgotEmailVerify:{email}")
     if isExistRedisKEY != -2: return str(isExistRedisKEY)
-    key = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
-    await glob.redis.set(f"guweb:ForgotEmailVerify:{email}", key, 300)
+    key = ''.join(random.choices(string.ascii_letters + string.digits, k=glob.config.EmailVerifyKeyLength))
+    await glob.redis.set(f"guweb:ForgotEmailVerify:{email}", key, glob.config.SentEmailTimeout)
     mst = mailSend(username, email, "Inlayo Forgot Email Verification", key)
     if mst == 200: return "sent"
     else: await glob.redis.delete(f"guweb:ForgotEmailVerify:{email}"); return f"ERROR | {mst}"
+
+@frontend.route('/forgot')
+async def forgot():
+    return await render_template('forgot.html', SenderEmail=glob.config.SenderEmail)
 
 @frontend.route('/forgot', methods=["POST"])
 async def forget_resetpassword():
@@ -100,9 +100,9 @@ async def forget_resetpassword():
     
     #이메일 인증키 체크
     try: RedisKEY = (await glob.redis.get(f"guweb:ForgotEmailVerify:{email}")).decode("utf-8")
-    except: return await flash('error', 'Email verification code is incorrect.', 'forgot')
+    except: return await flash('error', 'Email verification code is Expired.', 'forgot')
     if emailkey == RedisKEY: await glob.redis.delete(f"guweb:ForgotEmailVerify:{email}")
-    else: return await flash('error', 'Email verification code is incorrect.', 'forgot')
+    else: return await flash('error', 'Email verification code is Incorrect.', 'forgot')
 
     # cache and other password related information
     bcrypt_cache = glob.cache['bcrypt']
@@ -140,6 +140,39 @@ async def rules():
 async def home_account_edit():
     return redirect('/settings/profile')
 
+@frontend.route('/settings/profile_emailchecksend', methods=['POST'])
+@login_required
+async def settings_profile_emaliCheckSend_post():
+    omstatus = nmstatus = None
+    form = await request.form
+    new_name = form.get('username', type=str)
+    new_email = form.get('email', type=str)
+    old_name = session["user_data"]["name"]
+    old_email = session["user_data"]["email"]
+    if (new_name == old_name and new_email == old_email): return "NotChanges"
+
+    if old_email != new_email:
+        isExistEmail = await glob.db.fetch('SELECT email FROM users WHERE email = %s', new_email)
+        if isExistEmail: return "exist"
+        isExistRedisKEY = await glob.redis.ttl(f"guweb:Settings/profile:{old_email}->{new_email}")
+        if isExistRedisKEY != -2: nmstatus = isExistRedisKEY
+        else:
+            newkey = ''.join(random.choices(string.ascii_letters + string.digits, k=glob.config.EmailVerifyKeyLength))
+            await glob.redis.set(f"guweb:Settings/profile:{old_email}->{new_email}", newkey, glob.config.SentEmailTimeout)
+            mst = mailSend(new_name, new_email, "Inlayo settings/profile new Email Verification", f"new Email({new_email}) Verification\n\n{newkey}")
+            if mst == 200: nmstatus = "sent"
+            else: await glob.redis.delete(f"guweb:Settings/profile:{old_email}->{new_email}"); nmstatus = f"ERROR | {mst}"
+
+    isExistRedisKEY = await glob.redis.ttl(f"guweb:Settings/profile:{old_email}")
+    if isExistRedisKEY != -2: omstatus = isExistRedisKEY
+    else:
+        oldkey = ''.join(random.choices(string.ascii_letters + string.digits, k=glob.config.EmailVerifyKeyLength))
+        mst = mailSend(old_name, old_email, "Inlayo settings/profile old Email Verification", f"old Email({old_email}) Verification\n\n{oldkey}")
+        await glob.redis.set(f"guweb:Settings/profile:{old_email}", oldkey, glob.config.SentEmailTimeout)
+        if mst == 200: omstatus = "sent"
+        else: await glob.redis.delete(f"guweb:Settings/profile:{old_email}"); omstatus = f"ERROR | {mst}"
+    return [omstatus, nmstatus]
+
 @frontend.route('/settings')
 @frontend.route('/settings/profile')
 @login_required
@@ -153,6 +186,8 @@ async def settings_profile_post():
 
     new_name = form.get('username', type=str)
     new_email = form.get('email', type=str)
+    oldEmailKey = form.get('oldemailkey', type=str)
+    newEmailKey = form.get('newemailkey', type=str)
 
     if new_name is None or new_email is None:
         return await flash('error', 'Invalid parameters.', 'home')
@@ -160,12 +195,17 @@ async def settings_profile_post():
     old_name = session['user_data']['name']
     old_email = session['user_data']['email']
 
+    log2.debug2(form); log2.debug2(session)
+    log2.info(f"{old_name}, {new_name} | {old_email}, {new_email} | {oldEmailKey}, {newEmailKey}")
+
     # no data has changed; deny post
-    if (
-        new_name == old_name and
-        new_email == old_email
-    ):
+    if (new_name == old_name and new_email == old_email ):
         return await flash('error', 'No changes have been made.', 'settings/profile')
+
+    #old 이메일 인증키 체크
+    try: RedisKEY = (await glob.redis.get(f"guweb:Settings/profile:{old_email}")).decode("utf-8")
+    except: return await flash('error', 'old Email verification code is Expired.', 'settings/profile')
+    if oldEmailKey != RedisKEY: return await flash('error', 'old Email verification code is Incorrect.', 'settings/profile')
 
     if new_name != old_name:
         if not session['user_data']['is_donator']:
@@ -203,6 +243,12 @@ async def settings_profile_post():
         )
 
     if new_email != old_email:
+        #new 이메일 인증키 체크
+        try: RedisKEY = (await glob.redis.get(f"guweb:Settings/profile:{old_email}->{new_email}")).decode("utf-8")
+        except: return await flash('error', 'new Email verification code is Expired.', 'settings/profile')
+        if newEmailKey == RedisKEY: await glob.redis.delete(f"guweb:Settings/profile:{old_email}->{new_email}")
+        else: return await flash('error', 'new Email verification code is Incorrect.', 'settings/profile')
+
         # Emails must:
         # - match the regex `^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$`
         # - not already be taken by another player
@@ -219,6 +265,7 @@ async def settings_profile_post():
             'WHERE id = %s',
             [new_email, session['user_data']['id']]
         )
+    await glob.redis.delete(f"guweb:Settings/profile:{old_email}")
 
     # logout
     session.pop('authenticated', None)
@@ -715,8 +762,8 @@ async def register_emaliCheckSend_post():
     if isExistEmail: return "exist"
     isExistRedisKEY = await glob.redis.ttl(f"guweb:RegisterEmailVerify:{email}")
     if isExistRedisKEY != -2: return str(isExistRedisKEY)
-    key = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
-    await glob.redis.set(f"guweb:RegisterEmailVerify:{email}", key, 300)
+    key = ''.join(random.choices(string.ascii_letters + string.digits, k=glob.config.EmailVerifyKeyLength))
+    await glob.redis.set(f"guweb:RegisterEmailVerify:{email}", key, glob.config.SentEmailTimeout)
     mst = mailSend(username, email, "Inlayo Register Email Verification", key)
     if mst == 200: return "sent"
     else: await glob.redis.delete(f"guweb:RegisterEmailVerify:{email}"); return f"ERROR | {mst}"
@@ -792,10 +839,10 @@ async def register_post():
         return await flash('error', 'Email already taken by another user.', 'register')
 
     #이메일 인증키 체크
-    try: RedisKEY = await glob.redis.get(f"guweb:RegisterEmailVerify:{email}"); RedisKEY = RedisKEY.decode("utf-8")
-    except: return await flash('error', 'Email verification code is incorrect.', 'register')
+    try: RedisKEY = (await glob.redis.get(f"guweb:RegisterEmailVerify:{email}")).decode("utf-8")
+    except: return await flash('error', 'Email verification code is Expired.', 'register')
     if emailkey == RedisKEY: await glob.redis.delete(f"guweb:RegisterEmailVerify:{email}")
-    else: return await flash('error', 'Email verification code is incorrect.', 'register')
+    else: return await flash('error', 'Email verification code is Incorrect.', 'register')
 
     # Passwords must:
     # - be within 8-32 characters in length

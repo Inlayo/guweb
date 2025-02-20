@@ -1061,3 +1061,40 @@ input:checked+label.checkbox:hover {
 .file-icon {
   margin-left: 2em;
 }
+
+/* button:focus{
+  outline: 0;
+}
+
+.button.is-send {
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgb(96, 96, 96);
+  border: none;
+  color: #fff;
+  padding: 12px 12px;
+  border-radius: 7px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.button.is-send:hover {
+  background-color: rgb(128, 128, 128);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+} */
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-container .input {
+  width: 100%;
+  padding: 10px;
+  padding-right: 70px; /* 버튼이 input 내부에서 겹치지 않도록 여백 추가 */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}

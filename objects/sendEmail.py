@@ -22,7 +22,7 @@ def mailSend(nick: str, to_email: str, subject: str, body: str, type=""):
     msg.attach(MIMEText(body, 'plain'))
 
     try:
-        smtp = smtplib.SMTP_SSL("smtp.daum.net", 465)
+        smtp = smtplib.SMTP_SSL(**glob.config.SMTP_serverInfo)
         smtp.login(sender_email, sender_password)
         smtp.sendmail(sender_email, to_email, msg.as_string())
         smtp.quit()
@@ -34,7 +34,7 @@ def mailSend(nick: str, to_email: str, subject: str, body: str, type=""):
     # 보낸메일함에 복사
     try:
         if sc == 200:
-            imap = imaplib.IMAP4_SSL("imap.daum.net", 993)
+            imap = imaplib.IMAP4_SSL(**glob.config.IMAP_serverInfo)
             imap.login(sender_email, sender_password)
             imap.append("Sent", None, None, msg.as_bytes())
             log.info("보낸메일함 복사 성공!")
