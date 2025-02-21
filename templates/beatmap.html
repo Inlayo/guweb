@@ -58,15 +58,11 @@
             document.getElementById("PlayState").innerHTML = '<strong>Preview Song</strong>';
             document.getElementById("preview-icon").classList.remove('fa-pause');
             document.getElementById("preview-icon").classList.add('fa-play');
-            document.getElementById("preview-icon2").classList.remove('fa-pause');
-            document.getElementById("preview-icon2").classList.add('fa-play');
         } else {
             myAudio.play();
             document.getElementById("PlayState").innerHTML = '<strong>Pause</strong>';
             document.getElementById("preview-icon").classList.remove('fa-play');
             document.getElementById("preview-icon").classList.add('fa-pause');
-            document.getElementById("preview-icon2").classList.remove('fa-play');
-            document.getElementById("preview-icon2").classList.add('fa-pause');
         }
     };
     myAudio.onplaying = function() {
@@ -80,8 +76,6 @@
         document.getElementById("PlayState").innerHTML = '<strong>Preview Song</strong>';
         document.getElementById("preview-icon").classList.remove('fa-pause');
         document.getElementById("preview-icon").classList.add('fa-play');
-        document.getElementById("preview-icon2").classList.remove('fa-pause');
-        document.getElementById("preview-icon2").classList.add('fa-play');
     });
 </script>
 
@@ -167,11 +161,12 @@
                 </a>
                 <a class="button is-primary" onclick="togglePlay()">
                     <i class="fa-solid fa-play icon" id="preview-icon" style="margin-top:6;"></i><span id="PlayState"><strong>Preview Song</strong></span>
+                    &nbsp&nbsp|&nbsp&nbsp</span><span id="current_time" style="color: red;">&#8592 wait a sec...</span>
                 </a>
-                <a class="button is-primary">
+                <!-- <a class="button is-primary">
                     <i class="fa-solid fa-play icon" id="preview-icon2" style="margin-top:6;"></i>
                     <span id="current_time" style="color: red;">&#8592 wait a sec...</span>
-                </a>
+                </a> -->
             </div>
         </div>
         <div class="leaderboard-main-bg table-responsive">
