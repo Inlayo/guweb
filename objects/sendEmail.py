@@ -12,7 +12,7 @@ sender_email = glob.config.SenderEmail
 sender_password = glob.config.SenderEmailPassword
 
 def exceptionE(msg=""): e = traceback.format_exc(); log.error(f"{msg} \n{e}"); return e
-def mailSend(nick: str, to_email: str, subject: str, body: str, type=""):
+def mailSend(nick: str, to_email: str, subject: str, body: str, type=" "):
     sc = 200
     msg = MIMEMultipart()
     msg['From'] = f'InlayoBot <{sender_email}>'
@@ -48,7 +48,7 @@ def mailSend(nick: str, to_email: str, subject: str, body: str, type=""):
         if len(msg) > 4096: msg = msg[:4096] #description 길이제한
         webhook = DiscordWebhook(url=glob.config.DISCORD_EMAIL_LOG_WEBHOOK)
         embed = DiscordEmbed(description=msg, color=242424)
-        embed.set_author(name=f"BanchoBot Sent {type} email", url=f"https://osu.{glob.config.domain}/u/1", icon_url=f"https://a.{glob.config.domain}/1")
+        embed.set_author(name=f"BanchoBot Sent {type}email", url=f"https://osu.{glob.config.domain}/u/1", icon_url=f"https://a.{glob.config.domain}/1")
         embed.set_footer(text="via guweb!")
         webhook.add_embed(embed)
         webhook.execute()
