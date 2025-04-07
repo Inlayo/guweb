@@ -259,7 +259,7 @@
                                 <td>Global rank</td>
                                 <td class="right-aligned">
                                     <span id="global-rank"> 
-                                        <% '#' + data.stats.out[modegulag].rank %>
+                                        <% data.stats.out[modegulag].rank === 0 ? '-' : '#' + data.stats.out[modegulag].rank %>
                                     </span>
                                 </td>
                             </tr>
@@ -267,7 +267,7 @@
                                 <td>Country rank</td>
                                 <td class="right-aligned">
                                     <span id="country-rank">
-                                        <% '#' + data.stats.out[modegulag].country_rank %>
+                                        <% data.stats.out[modegulag].country_rank === 0 ? '-' : '#' + data.stats.out[modegulag].country_rank %>
                                     </span>
                                 </td>
                             </tr>

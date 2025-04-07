@@ -74,15 +74,13 @@ block header %}
                 <span class="user-mapper">
                   {{
                   timeago.format((datetime.datetime.fromtimestamp(user.creation_time)),
-                  (datetime.datetime.now() + datetime.timedelta(seconds = 60 *
-                  3.4))) }}
+                  (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
                 </span>
                 <div class="d-flex align-items-baseline">
                   <span>
                     {{
                     timeago.format((datetime.datetime.fromtimestamp(user.latest_activity)),
-                    (datetime.datetime.now() + datetime.timedelta(seconds = 60 *
-                    3.4))) }}
+                    (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
                   </span>
                   <div class="target-button newmaps-color">
                     <i class="fa fa-arrow-right"></i>
@@ -126,7 +124,7 @@ block header %}
                 <div class="map-date">
                   <time>
                     {{ timeago.format((maps.play_time), (datetime.datetime.now()
-                    + datetime.timedelta(seconds = 60 * 3.4))) }}
+                    + datetime.timedelta(seconds = 60))) }}
                   </time>
                 </div>
               </div>
