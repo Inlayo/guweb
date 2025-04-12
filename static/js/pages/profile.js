@@ -40,7 +40,7 @@ new Vue({
                         out: [],
                         load: true,
                         more: {
-                            limit: 6,
+                            limit: 5,
                             full: true
                         }
                     }
