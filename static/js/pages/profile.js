@@ -91,7 +91,7 @@ new Vue({
                         id: this.userid,
                         mode: this.StrtoGulagInt(),
                         scope: sort,
-                        //limit: this.data.scores[`${sort}`].more.limit //more.total 변수로 인한 비활성화
+                        limit: 100 //API MAX = 100
                     }
                 })
                 .then(res => {
@@ -109,7 +109,7 @@ new Vue({
                     params: {
                         id: this.userid,
                         mode: this.StrtoGulagInt(),
-                        //limit: this.data.maps.most.more.limit //more.total 변수로 인한 비활성화
+                        limit: 100 //API MAX = 100
                     }
                 })
                 .then(res => {
@@ -154,16 +154,16 @@ new Vue({
                 window.event.preventDefault();
 
             if (which == 'bestscore') {
-                this.data.scores.best.more.limit += 5;
+                this.data.scores.best.more.limit += 10;
                 this.LoadScores('best');
             } else if (which == 'recentscore') {
-                this.data.scores.recent.more.limit += 5;
+                this.data.scores.recent.more.limit += 10;
                 this.LoadScores('recent');
             } else if (which == 'firstscore') {
-                this.data.scores.first.more.limit += 5;
+                this.data.scores.first.more.limit += 10;
                 this.LoadScores('first');
             } else if (which == 'mostplay') {
-                this.data.maps.most.more.limit += 5;
+                this.data.maps.most.more.limit += 10;
                 this.LoadMostBeatmaps();
             }
         },
