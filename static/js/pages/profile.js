@@ -43,7 +43,7 @@ new Vue({
                         out: [],
                         load: true,
                         more: {
-                            limit: 6,
+                            limit: 5,
                             full: true,
                             total: 0
                         }
@@ -146,7 +146,7 @@ new Vue({
             this.modegulag = this.StrtoGulagInt();
             this.data.scores.recent.more.limit = 5
             this.data.scores.best.more.limit = 5
-            this.data.maps.most.more.limit = 6
+            this.data.maps.most.more.limit = 5
             this.LoadAllofdata();
         },
         AddLimit(which) {
@@ -163,7 +163,7 @@ new Vue({
                 this.data.scores.first.more.limit += 5;
                 this.LoadScores('first');
             } else if (which == 'mostplay') {
-                this.data.maps.most.more.limit += 4;
+                this.data.maps.most.more.limit += 5;
                 this.LoadMostBeatmaps();
             }
         },
