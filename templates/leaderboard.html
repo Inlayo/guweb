@@ -109,7 +109,11 @@
                                     </div>
                                 </a>
                                 <a class="player-avatar"
-                                    :style="'background-image: url(https://a.{{ domain() }}/' + user.player_id + ')'"></a>
+                                    :style="'background-image: url(https://a.{{ domain() }}/' + user.player_id + ')'">
+                                </a>
+                                <a v-if="user.clan_tag" :style="{ color: {{ session.user_data['id'] }} === user.userid ? 'hsl(var(--main), 60%, 78%) !important' : ( {{ session.user_data['id'] }} !== user.userid ? '#ffffff' : '') }" :href="'/u/'+user.userid+'?mode='+mode+'&mods='+mods">
+                                    [<% user.clan_tag %>]
+                                </a>
                                 <a :href="'/u/'+user.player_id+'?mode='+mode+'&mods='+mods">
                                     <% user.name %>
                                 </a>
