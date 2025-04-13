@@ -15,7 +15,8 @@ new Vue({
                         load: true,
                         more: {
                             limit: 5,
-                            full: true
+                            full: true,
+                            total: 0
                         }
                     },
                     best: {
@@ -23,7 +24,8 @@ new Vue({
                         load: true,
                         more: {
                             limit: 5,
-                            full: true
+                            full: true,
+                            total: 0
                         }
                     },
                     first: {
@@ -31,7 +33,8 @@ new Vue({
                         load: true,
                         more: {
                             limit: 5,
-                            full: true
+                            full: true,
+                            total: 0
                         }
                     }
                 },
@@ -40,8 +43,9 @@ new Vue({
                         out: [],
                         load: true,
                         more: {
-                            limit: 5,
-                            full: true
+                            limit: 6,
+                            full: true,
+                            total: 0
                         }
                     }
                 },
@@ -87,13 +91,16 @@ new Vue({
                         id: this.userid,
                         mode: this.StrtoGulagInt(),
                         scope: sort,
-                        limit: this.data.scores[`${sort}`].more.limit
+                        //limit: this.data.scores[`${sort}`].more.limit //more.total 변수로 인한 비활성화
                     }
                 })
                 .then(res => {
-                    this.data.scores[`${sort}`].out = res.data.scores;
+                    const allScores = res.data.scores; //전체 점수 받아오기
+                    this.data.scores[`${sort}`].out = allScores.slice(0, this.data.scores[`${sort}`].more.limit); //limit 만큼만 저장
+                    //this.data.scores[`${sort}`].out = res.data.scores;
                     this.data.scores[`${sort}`].load = false
                     this.data.scores[`${sort}`].more.full = this.data.scores[`${sort}`].out.length != this.data.scores[`${sort}`].more.limit;
+                    this.data.scores[`${sort}`].more.total = allScores.length //total
                 });
         },
         LoadMostBeatmaps() {
@@ -102,13 +109,16 @@ new Vue({
                     params: {
                         id: this.userid,
                         mode: this.StrtoGulagInt(),
-                        limit: this.data.maps.most.more.limit
+                        //limit: this.data.maps.most.more.limit //more.total 변수로 인한 비활성화
                     }
                 })
                 .then(res => {
-                    this.data.maps.most.out = res.data.maps;
+                    const allScores = res.data.maps; //전체 점수 받아오기
+                    this.data.maps.most.out = allScores.slice(0, this.data.maps.most.more.limit); //limit 만큼만 저장
+                    //this.data.maps.most.out = res.data.maps;
                     this.data.maps.most.load = false;
                     this.data.maps.most.more.full = this.data.maps.most.out.length != this.data.maps.most.more.limit;
+                    this.data.maps.most.more.total = allScores.length //total
                 });
         },
         LoadUserStatus() {

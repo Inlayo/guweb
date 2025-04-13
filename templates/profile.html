@@ -35,7 +35,7 @@
 <div class="log-block" v-bind:class="{ 'load' : data.scores.{{ id }}.load }">
     <div class="header">
         <div class="title">
-            <i class="fas fa-trophy"></i> {{ title }} (<% data.scores['{{ id }}'].out.length %>)
+            <i class="fas fa-trophy"></i> {{ title }} (<% data.scores['{{ id }}'].out.length %>/<% data.scores['{{ id }}'].more.total %>)
         </div>
     </div>
     <div v-if="data.scores.{{ id }}.out.length != 0" class="scores">
@@ -113,7 +113,7 @@
 <div class="log-block" v-bind:class="{ 'load' : data.maps.{{ id }}.load }">
     <div class="header">
         <div class="title">
-            <i class="fas fa-address-book"></i> {{ title }} (<% data.maps['{{ id }}'].out.length %>)
+            <i class="fas fa-address-book"></i> {{ title }} (<% data.maps['{{ id }}'].out.length %>/<% data.maps['{{ id }}'].more.total %>)
         </div>
     </div>
     <div v-if="data.maps.{{ id }}.out.length != 0" class="beatmaps" style="display: flex; flex-direction: column; margin-bottom: 8px;">
