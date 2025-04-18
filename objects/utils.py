@@ -195,7 +195,7 @@ def get_user_badges(uid: int, privs: int):
         if Privileges.Whitelisted in user_priv:
             group_list.append(["check", "Verified", "#9DFFA0"])
         if Privileges.Verified in user_priv and uid not in [4]:
-            group_list.append(["heart", "Player", "#cc88ff"])
+            group_list.append(["heart", "Player", "#cc8833"])
         if uid in [4]:
             group_list.append(["bug", " Official Test Account", "#b8fffa"])
 
