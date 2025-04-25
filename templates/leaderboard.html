@@ -117,14 +117,14 @@
                                 </a>
                                 <a :style="{ color: {{ session.user_data['id'] }} === user.userid ? 'hsl(var(--main), 60%, 78%) !important' : ( {{ session.user_data['id'] }} !== user.userid ? '#ffffff' : '') }"
                                 :href="'/u/' + user.userid + '?mode=' + mode + '&mods=' + mods">
-                                    <% user.player_name %>
+                                    <% user.name %>
                                 </a>
                                 {% else %}
                                 <a v-if="user.clan_tag" :href="'/u/'+user.userid+'?mode='+mode+'&mods='+mods">
                                     [<% user.clan_tag %>]
                                 </a>
                                 <a :href="'/u/'+user.userid+'?mode='+mode+'&mods='+mods">
-                                    <% user.player_name %>
+                                    <% user.name %>
                                 </a>
                                 {% endif %}
                             </td>
