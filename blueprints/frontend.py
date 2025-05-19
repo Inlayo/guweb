@@ -314,7 +314,7 @@ async def clan_join(inviteKey):
     if not clanInfo: return f"TODO : {inviteKey} | 해당 가입키는 존재하지 않으므로 가입 거절 처리하기"
     isExistClan = await glob.db.fetch("SELECT clan_id, clan_priv FROM users WHERE id = %s", [userID])
     if not isExistClan['clan_id'] and not isExistClan['clan_priv']: await glob.db.execute('UPDATE users SET clan_id = %s, clan_priv = 1 WHERE id = %s', [clanInfo["clan"], userID])
-    return redirect(f"/c/{clanInfo["clan"]}")
+    return redirect(f"/c/{clanInfo['clan']}")
 
 @frontend.route('/clans/clansettings/k', methods=["POST"])
 @login_required
