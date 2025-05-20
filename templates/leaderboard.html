@@ -112,7 +112,7 @@
                                     :style="'background-image: url(https://a.{{ domain() }}/' + user.player_id + ')'">
                                 </a>
                                 <a :href="'/u/'+user.player_id+'?mode='+mode+'&mods='+mods">
-                                    <% user.name %>
+                                    <% user.clan_tag ? `[${user.clan_tag}] ${user.name}` : user.name %>
                                 </a>
                             </td>
                             <td v-if="sort == 'pp' || sort == 'score'">
