@@ -156,6 +156,13 @@
   </div>
 </div>
 
+<!-- bancho's Ingame Registaration -->
+<script>
+  const params = new URLSearchParams(location.search);
+  document.getElementById('user').value = params.get('username')
+  document.getElementById('email').value = params.get('email')
+</script>
+
 {% if flash %}
 <div class="paper-snackbar is-{{ status }}" style="opacity: 1">{{ flash }}</div>
 {% endif %} {% if not captchaKey() == 'changeme' %}
