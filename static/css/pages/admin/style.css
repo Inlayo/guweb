@@ -248,7 +248,8 @@ li {
     font-size: 16px;
     margin-top: 6px;
     padding: 10px 10px 0;
-    text-transform: uppercase
+    /* 유저 리스트 가져올떄 이거떄문에 대문자로 표시되서 비활성화함. + 총 4곳에서 쓰여서 나머지들은 html 에서 직접 대문자로 씀. */
+    /* text-transform: uppercase */
 }
 
 .card .title {

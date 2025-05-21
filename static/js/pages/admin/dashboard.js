@@ -24,7 +24,7 @@ new Vue({
     LoadOnlineUsers() {
       var vm = this;
       vm.$axios
-        .get("https://c.inla.kr/online", { responseType: "text" })
+        .get(`https://c.${domain}/online`, { responseType: "text" })
         .then(function (response) {
           const data = response.data;
           const userSection = data.split("users:")[1]?.split("bots:")[0];
