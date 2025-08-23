@@ -424,7 +424,7 @@ async def topplays():
     # get all top scores
     scores = await glob.db.fetchall('SELECT s.status, s.id scoreid, userid, pp, mods, grade, m.set_id, m.title, m.version, u.country, u.name '
                                     'FROM scores s LEFT JOIN users u ON u.id=s.userid LEFT JOIN maps m ON m.md5=s.map_md5 '
-                                    'WHERE s.mode=%s AND u.priv & 1 AND m.status in (2, 3) AND s.status=2 '
+                                    'WHERE u.id != 1 AND s.mode=%s AND u.priv & 1 AND m.status in (2, 3) AND s.status=2 '
                                     'ORDER BY PP desc LIMIT 45', [mode_int])
     for score in scores:
         score['mods'] = utils.get_mods(score['mods'])
