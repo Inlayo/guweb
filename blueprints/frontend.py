@@ -770,7 +770,6 @@ async def login_post():
         "invite": user_info["clan_invite"]
     }
     session["flash_data"] = {}
-    log2.info(session)
 
     if glob.config.debug:
         login_time = (time.time_ns() - login_time) / 1e6
