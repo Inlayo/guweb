@@ -60,7 +60,7 @@ def flashrect(status: str="", msg: str="", template: str="", isGet: bool=False, 
     - isGet=True: 세션에서 flash 데이터를 가져오기
     """
     if isGet:
-        d = session.get("flash_data"); session["flash_data"] = {}
+        d = session.get("flash_data", {}); session["flash_data"] = {} #세션에서 딱 1번만 가져오고 초기화
         if not d: return d
         return {"flash": d.get("msg"), "status": d.get("status"), **d.get("kwargs", {})}
     else:

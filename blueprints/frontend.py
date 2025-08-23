@@ -48,14 +48,14 @@ def login_required(func):
         return await func(*args, **kwargs)
     return wrapper
 
-
 @frontend.before_request
 async def check_session():
-    required_keys = ["authenticated", "user_data", "clan_data", "flash_data"] # 하나라도 없으면 세션 초기화
-    if any(key not in session for key in required_keys):
-        rebuildSession(session['user_data']['id'])
-        return redirect('/login')
-    
+    required_keys = ["authenticated", "user_data", "clan_data", "flash_data"] #하나라도 없으면 세션 초기화
+    if "user_data" in session and any(key not in session for key in required_keys):
+        session.clear()
+        return flashrect("error", "There is an issue with your session information. Please login again.", "/login")
+
+
 
 @frontend.route('/home')
 @frontend.route('/')
