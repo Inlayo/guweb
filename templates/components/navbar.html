@@ -26,7 +26,21 @@
         <a class="navbar-item" href="/leaderboard"> Leaderboards </a>
         <a class="navbar-item" href="/topplays"> Top Plays </a>
         <!-- <a class="navbar-item" href="/rules"> Rules </a> -->
-        <a class="navbar-item" href="/clans"> Clans </a>
+
+        {% if session.authenticated %}
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link"> Clans </a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="/clans">&nbsp;Clan Leaderboard</a>
+              {% if session.clan_data["id"] %}
+                <a class="navbar-item" href="/settings/clansettings">&nbsp;Clan Settings</a>
+              {% else %}
+                <a class="navbar-item" href="/clans/create">&nbsp;Create Clan</a>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link"> Socials </a>
           <div class="navbar-dropdown">

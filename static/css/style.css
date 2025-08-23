@@ -427,9 +427,10 @@ a.foot-link {
   min-height: 0rem;
 }
 
-.navbar-dropdown {
+/* 글자 넘어감 현상으로 주석처리함 */
+/* .navbar-dropdown {
   width: 152px;
-}
+} */
 
 .input,
 .select select,

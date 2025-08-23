@@ -19,10 +19,12 @@ from PIL import Image
 from pathlib import Path
 from quart import Blueprint
 from quart import redirect
-from quart import render_template
+from objects.utils import rebuildSession, flashrect, render_template_flashrect as render_template #render_template 는 flashrect() 함수 때문에 재정의 함
+#from quart import render_template
 from quart import request
 from quart import session
 from quart import send_file
+from discord_webhook import DiscordWebhook, DiscordEmbed
 
 from constants import regexes
 from objects import glob
@@ -42,8 +44,11 @@ def login_required(func):
     async def wrapper(*args, **kwargs):
         if not session or not session.get("authenticated"):
             return await flash('error', 'You must be logged in to access that page.', 'login')
+        await rebuildSession(session['user_data']['id'])
         return await func(*args, **kwargs)
     return wrapper
+
+
 
 @frontend.route('/home')
 @frontend.route('/')
@@ -266,63 +271,126 @@ async def settings_profile_post():
     await glob.redis.delete(f"guweb:Settings/profile:{old_email}")
 
     # logout
-    session.pop('authenticated', None)
-    session.pop('user_data', None)
+    session.clear()
     return await flash('success', 'Your username/email have been changed! Please login again.', 'login')
 
-@frontend.route('/c/<cid>')
+@frontend.route('/c/<id>')
+async def clanPage(id):
+    clanInfo = await glob.db.fetch("SELECT * FROM clans WHERE id = %s", [id])
+    if clanInfo: clanMembers = await glob.db.fetchall('SELECT id, name, UPPER(country) AS country, clan_priv FROM users WHERE clan_id = %s AND id != %s', [id, clanInfo["owner"]])
+    else: return await render_template('404.html')
+
+    #return await render_template('clans/profile.html', clanInfo=clanInfo, clanMembers=clanMembers) #TODO : clan 페이지 만들어야함
+    #return f"clanInfo = {clanInfo}<br><br>clanMembers = {clanMembers}"
+
+    mode = request.args.get('mode', 'std', type=str) # 1. key 2. default value
+    mods = request.args.get('mods', 'vn', type=str)
+    user_data = await glob.db.fetch('SELECT name, safe_name, id, priv, country, creation_time, latest_activity FROM users WHERE id = 3')
+    return await render_template('clans/profile.html', user=user_data, mode=mode, mods=mods, datetime=datetime, timeago=timeago)
+
+@frontend.route('/clans')
+async def clans_lists():
+    clans = await glob.db.fetchall("SELECT * FROM clans")
+    if clans is None: return await flash('error', 'No Clans here.', 'clans')
+
+    mode = request.args.get('mode', 'std', type=str) # 1. key 2. default value
+    mods = request.args.get('mods', 'vn', type=str)
+    sort = request.args.get('sort', 'pp', type=str)
+    page = request.args.get('page', 1, type=int) - 1
+
+    if (
+        mode not in VALID_MODES or mods not in VALID_MODS or
+        mode == "mania" and mods == "rx" or mods == "ap" and mode != "std" or
+        sort not in ["pp", "score"] or page < 0):
+        return (await render_template('404.html'), 404)
+
+    return await render_template('clans/leaderboard.html', mode=mode, sort=sort, mods=mods, page=page)
+
+@frontend.route('/clans/create', methods=["GET", "POST"])
 @login_required
-async def clanPage(cid):
-    clanInfo = await glob.db.fetch("SELECT c.id, c.name, c.tag, c.owner, ci.invite FROM clans as c LEFT JOIN clans_invites ci ON c.id = ci.clan WHERE c.id = %s", [cid])
-    if clanInfo: clanMembers = await glob.db.fetchall('SELECT id, name, UPPER(country) AS country, clan_priv FROM users WHERE clan_id = %s AND id != %s', [clanInfo["id"], clanInfo["owner"]])
-    else: return f"{cid} Clan Does Not Exist!" #TODO : clan 페이지 만들어야함
+async def clan_make():
+    userID = session['user_data']['id']
+    if session["clan_data"]["id"]: return redirect("/settings/clansettings")
 
-    return f"clanInfo = {clanInfo}<br><br>clanMembers = {clanMembers}"
-    #return await render_template('settings/clansample.html', clanInfo=clanInfo, clanMembers=clanMembers) #TODO : clan 페이지 만들어야함
+    if request.method == "GET": return await render_template('clans/create.html')
+    else:
+        form = await request.form
+        clanname = form.get("clanname", type=str)
+        clantag = form.get("clantag", type=str)
+        created_at = datetime.datetime.utcnow()
+        if not clanname or not clantag: return await flash('error', 'Invalid parameters.', 'clans/create')
 
-@frontend.route('/clans', methods=["GET", "POST"])
-@frontend.route('/clans/clansettings', methods=["GET", "POST"])
+        isExistClan = await glob.db.fetch("SELECT name, tag FROM clans WHERE name = %s OR tag = %s", [clanname, clantag])
+        if isExistClan:
+            if clanname.lower() == isExistClan["name"].lower(): return await flash('error', 'clanname is Exist!', 'clans/create')
+            if clantag.lower() == isExistClan["tag"].lower(): return await flash('error', 'clantag is Exist!', 'clans/create')
+
+        cid = await glob.db.execute('INSERT INTO clans (name, tag, owner, created_at) VALUES (%s, %s, %s, %s)', [clanname, clantag, userID, created_at])
+        await glob.db.execute('UPDATE users SET clan_id = %s, clan_priv = %s WHERE id = %s', [cid, 3, userID])
+        await rebuildSession(userID)
+        return redirect(f"/c/{cid}")
+
+@frontend.route('/settings/clansettings', methods=["GET", "POST"])
 @login_required
 async def settings_clan():
     userID = session['user_data']['id']
-    clanInfo = await glob.db.fetch("SELECT c.id, c.name, c.tag, COALESCE(ci.invite, '') AS invite FROM clans as c LEFT JOIN clans_invites ci ON c.id = ci.clan WHERE owner = %s", [userID])
-    if clanInfo: clanMembers = await glob.db.fetchall('SELECT id, name, UPPER(country) AS country, clan_priv FROM users WHERE clan_id = %s AND id != %s', [clanInfo["id"], userID])
+    clanInfo = session["clan_data"]
+    if clanInfo["id"]:
+        clanMembers = await glob.db.fetchall('SELECT id, name, UPPER(country) AS country, clan_priv FROM users WHERE clan_id = %s AND id != %s', [clanInfo["id"], userID])
+        if clanInfo["priv"] < 2:
+            return await flash('error', 'You have no permissions!', 'clans/settings', clanInfo=clanInfo, clanMembers=clanMembers)
+    else: return redirect("/clans/create")
 
-    if request.method == "GET": return await render_template('settings/clan.html', clanInfo=clanInfo, clanMembers=clanMembers)
+    if request.method == "GET": return await render_template('clans/settings.html', clanInfo=clanInfo, clanMembers=clanMembers)
     else:
         form = await request.form
         Content_Type = request.headers.get("Content-Type", "")
         userID = session['user_data']['id']
-        clanInfo["tag"] = form.get("clantag", type=str)
-        clanInfo["name"] = form.get("clanname", type=str)
-        checkForm = bool(clanInfo["tag"] or clanInfo["name"])
+        new_name = form.get("clanname", type=str)
+        new_tag = form.get("clantag", type=str)
+        checkForm = bool(new_tag or new_name)
+
+        if "multipart/form-data" in Content_Type and not checkForm:
+            return await flash('error', 'Invalid parameters.', 'clans/settings', clanInfo=clanInfo, clanMembers=clanMembers)
+
+        old_name = session['clan_data']['name']
+        old_tag = session['clan_data']['tag']
+
+        # no data has changed; deny post
+        if (new_name == old_name and new_tag == old_tag):
+            return await flash('error', 'No changes have been made.', 'clans/settings', clanInfo=clanInfo, clanMembers=clanMembers)
 
         if "multipart/form-data" in Content_Type and checkForm:
-            await glob.db.execute('UPDATE clans SET tag = %s, name = %s WHERE id = %s', [clanInfo["tag"], clanInfo["name"], clanInfo['id']])
-            return await flash('success', 'Your clan has been successfully update!', 'settings/clan', clanInfo=clanInfo, clanMembers=clanMembers)
+            await glob.db.execute('UPDATE clans SET tag = %s, name = %s WHERE id = %s', [new_tag, new_name, clanInfo['id']])
+            await rebuildSession(userID)
+            return await flash('success', 'Your clan has been successfully update!', 'clans/settings', clanInfo=session["clan_data"], clanMembers=clanMembers)
 
-        if not checkForm:
-            clanInfo["invite"] = ''.join(random.choices(string.ascii_letters, k=8))
-            await glob.db.execute('INSERT INTO clans_invites (clan, invite) VALUES (%s, %s) ON DUPLICATE KEY UPDATE invite = %s', [clanInfo["id"], clanInfo["invite"], clanInfo["invite"]])
-            return await flash('success', 'Your clan invite key has been successfully update!', 'settings/clan', clanInfo=clanInfo, clanMembers=clanMembers)
+        if "application/x-www-form-urlencoded" in Content_Type and not checkForm:
+            invite = ''.join(random.choices(string.ascii_letters, k=8))
+            isExist = await glob.db.fetch('SELECT id, name FROM clans WHERE invite = %s', [invite])
+            if isExist: return await flash('error', f"By sheer luck, the newly generated <{invite[:4]}****> key collided with clan <{isExist['name']} ({isExist['id']})>'s key. Please generate a new one!", 'clans/settings', clanInfo=clanInfo, clanMembers=clanMembers)
+            await glob.db.execute('UPDATE clans SET invite = %s WHERE id = %s', [invite, clanInfo["id"]])
+            await rebuildSession(userID)
+            return await flash('success', 'Your clan invite key has been successfully update!', 'clans/settings', clanInfo=session["clan_data"], clanMembers=clanMembers)
 
 @frontend.route('/clans/invite/<inviteKey>')
 @login_required
 async def clan_join(inviteKey):
     userID = session['user_data']['id']
-    clanInfo = await glob.db.fetch('SELECT clan FROM clans_invites WHERE invite = %s', [inviteKey])
-    if not clanInfo: return f"TODO : {inviteKey} | 해당 가입키는 존재하지 않으므로 가입 거절 처리하기"
-    isExistClan = await glob.db.fetch("SELECT clan_id, clan_priv FROM users WHERE id = %s", [userID])
-    if not isExistClan['clan_id'] and not isExistClan['clan_priv']: await glob.db.execute('UPDATE users SET clan_id = %s, clan_priv = 1 WHERE id = %s', [clanInfo["clan"], userID])
-    return redirect(f"/c/{clanInfo['clan']}")
+    clanInfo = await glob.db.fetch('SELECT id, name FROM clans WHERE invite = %s', [inviteKey])
+    if not clanInfo: return await render_template('404.html')
+    if session["clan_data"]['id']: return flashrect('error', "Seems like you're already in the clan.", f"/c/{clanInfo['id']}") 
+    await glob.db.execute('UPDATE users SET clan_id = %s, clan_priv = 1 WHERE id = %s', [clanInfo["id"], userID])
+    return redirect(f"/c/{clanInfo['id']}")
 
-@frontend.route('/clans/clansettings/k', methods=["POST"])
+@frontend.route('/settings/clansettings/k', methods=["POST"])
 @login_required
 async def clan_kick():
-    form = await request.form
-    userID = form.get("member", type=int)
-    await glob.db.execute('UPDATE users SET clan_id = 0, clan_priv = 0 WHERE id = %s', [userID])
-    return redirect("/clans/clansettings")
+    if session["clan_data"]["priv"] >= 2:
+        form = await request.form
+        userID = form.get("member", type=int)
+        await glob.db.execute('UPDATE users SET clan_id = 0, clan_priv = 0 WHERE id = %s', [userID])
+    return redirect("/settings/clansettings")
 
 @frontend.route('/topplays')
 async def topplays():
@@ -541,8 +609,7 @@ async def settings_password_post():
     )
 
     # logout
-    session.pop('authenticated', None)
-    session.pop('user_data', None)
+    session.clear()
     return await flash('success', 'Your password has been changed! Please log in again.', 'login')
 
 
@@ -626,11 +693,12 @@ async def login_post():
 
     # check if account exists
     user_info = await glob.db.fetch(
-        'SELECT id, name, email, priv, '
-        'pw_bcrypt, silence_end '
-        'FROM users '
-        'WHERE safe_name = %s OR email = %s '
-        'ORDER BY safe_name = %s DESC ',
+        'SELECT u.id, u.name, u.email, u.priv, u.pw_bcrypt, u.country, u.silence_end, u.donor_end, u.clan_id AS uclan_id, u.clan_priv, '
+        "COALESCE(c.id, 0) AS cclan_id, c.name AS clan_name, c.tag AS clan_tag, c.owner AS clan_owner, c.created_at AS clan_created_at, COALESCE(c.invite, '') AS clan_invite "
+        'FROM users u '
+        "LEFT JOIN clans c ON u.clan_id = c.id "
+        'WHERE u.safe_name = %s OR u.email = %s '
+        'ORDER BY u.safe_name = %s DESC',
         [utils.get_safe_name(username), username, utils.get_safe_name(username)]
     )
 
@@ -678,10 +746,24 @@ async def login_post():
         'name': user_info['name'],
         'email': user_info['email'],
         'priv': user_info['priv'],
+        "country": user_info["country"],
         'silence_end': user_info['silence_end'],
+        "donor_end": user_info["donor_end"],
         'is_staff': user_info['priv'] & Privileges.Staff != 0,
         'is_donator': user_info['priv'] & Privileges.Donator != 0
     }
+    session["clan_data"] = {
+        "id": user_info["uclan_id"],
+        "idCheck": user_info["cclan_id"],
+        "priv": user_info["clan_priv"],
+        "name": user_info["clan_name"],
+        "tag": user_info["clan_tag"],
+        "owner": user_info["clan_owner"],
+        "created_at": user_info["clan_created_at"],
+        "invite": user_info["clan_invite"]
+    }
+    session["flash_data"] = {}
+    log2.info(session)
 
     if glob.config.debug:
         login_time = (time.time_ns() - login_time) / 1e6
@@ -970,8 +1052,7 @@ async def logout():
         log(f'{session["user_data"]["name"]} logged out.', Ansi.LGREEN)
 
     # clear session data
-    session.pop('authenticated', None)
-    session.pop('user_data', None)
+    session.clear()
 
     # render login
     return await flash('success', 'Successfully logged out!', 'login')

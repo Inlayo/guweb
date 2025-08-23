@@ -7,14 +7,82 @@ from cmyui.logging import Ansi
 from cmyui.logging import log
 from pathlib import Path
 from quart import render_template
+from quart import redirect
 from quart import session
 
 from objects import glob
 from objects import utils
+from objects import logUtils as log2
 from objects.privileges import Privileges
 
-if TYPE_CHECKING:
-    from PIL.Image import Image
+if TYPE_CHECKING: from PIL.Image import Image
+
+async def rebuildSession(userID: int) -> dict:
+    def rt(sess): session.update(sess); log2.debug(f"rebuildSession() session | {session}"); return sess
+    flash_data = session["flash_data"]
+    session.clear(); sess = {"_permanent": True}
+    user_info = await glob.db.fetch(
+        'SELECT u.id, u.name, u.email, u.priv, u.pw_bcrypt, u.country, u.silence_end, u.donor_end, u.clan_id AS uclan_id, u.clan_priv, '
+        "COALESCE(c.id, 0) AS cclan_id, c.name AS clan_name, c.tag AS clan_tag, c.owner AS clan_owner, c.created_at AS clan_created_at, COALESCE(c.invite, '') AS clan_invite "
+        'FROM users u '
+        "LEFT JOIN clans c ON u.clan_id = c.id "
+        'WHERE u.id = %s ', [userID]
+    )
+    if not user_info or user_info['id'] == 1: return rt(sess)
+    sess['authenticated'] = True
+    sess['user_data'] = {
+        'id': user_info['id'],
+        'name': user_info['name'],
+        'email': user_info['email'],
+        'priv': user_info['priv'],
+        "country": user_info["country"],
+        'silence_end': user_info['silence_end'],
+        "donor_end": user_info["donor_end"],
+        'is_staff': user_info['priv'] & Privileges.Staff != 0,
+        'is_donator': user_info['priv'] & Privileges.Donator != 0
+    }
+    sess["clan_data"] = {
+        "id": user_info["uclan_id"],
+        "idCheck": user_info["cclan_id"],
+        "priv": user_info["clan_priv"],
+        "name": user_info["clan_name"],
+        "tag": user_info["clan_tag"],
+        "owner": user_info["clan_owner"],
+        "created_at": user_info["clan_created_at"],
+        "invite": user_info["clan_invite"]
+    }
+    session["flash_data"] = flash_data if flash_data else {}
+    return rt(sess)
+def flashrect(status: str="", msg: str="", template: str="", isGet: bool=False, **kwargs):
+    """
+    flash() + redirect()
+    - isGet=False: flash 데이터를 세션에 저장 후 리다이렉트
+    - isGet=True: 세션에서 flash 데이터를 가져오기
+    """
+    if isGet:
+        d = session.get("flash_data"); session["flash_data"] = {}
+        if not d: return d
+        return {"flash": d.get("msg"), "status": d.get("status"), **d.get("kwargs", {})}
+    else:
+        if not msg and not status and not template: raise KeyError("for test")
+        session["flash_data"] = {
+            "msg": msg,
+            "status": status,
+            "kwargs": kwargs,
+            "template": template
+        }
+        return redirect(template)
+async def render_template_flashrect(template_name_or_list: str | list[str], **context) -> str:
+    """(CUSTOM VER) Render the template with the context given.
+    Arguments:
+        template_name_or_list: Template name to render of a list of
+            possible template names.
+        context: The variables to pass to the template.
+    """
+    flash = flashrect(isGet=True)
+    context = {**context, **flash}
+    log2.debug(f"flashrect() = {flash}")
+    return await render_template(template_name_or_list, **context)
 
 
 async def flash(status: str, msg: str, template: str, **kwargs) -> str:
