@@ -53,7 +53,7 @@ def login_required(func):
 async def check_session():
     required_keys = ["authenticated", "user_data", "clan_data", "flash_data"] # 하나라도 없으면 세션 초기화
     if any(key not in session for key in required_keys):
-        session.clear()
+        rebuildSession(session['user_data']['id'])
         return redirect('/login')
     
 
