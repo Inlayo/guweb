@@ -26,47 +26,45 @@
         <a class="navbar-item" href="/leaderboard"> Leaderboards </a>
         <a class="navbar-item" href="/topplays"> Top Plays </a>
         <!-- <a class="navbar-item" href="/rules"> Rules </a> -->
-
-        {% if session.authenticated %}
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link"> Clans </a>
-            <div class="navbar-dropdown">
-              <a class="navbar-item" href="/clans">&nbsp;Clan Leaderboard</a>
-              {% if session.clan_data["id"] %}
-                <a class="navbar-item" href="/settings/clansettings">&nbsp;Clan Settings</a>
-              {% else %}
-                <a class="navbar-item" href="/clans/create">&nbsp;Create Clan</a>
-              {% endif %}
-            </div>
-          </div>
-        {% endif %}
-
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link"> Socials </a>
           <div class="navbar-dropdown">
             <!-- <a class="navbar-item" href="/github" target="_blank"
-              >&nbsp;GitHub</a
+              >&nbsp;GitHub&nbsp;</a
             > -->
             <a class="navbar-item" href="/twitter" target="_blank"
-              >&nbsp;Twitter</a
+              >&nbsp;Twitter&nbsp;</a
             >
             <a class="navbar-item" href="/discord" target="_blank"
-              >&nbsp;Discord</a
+              >&nbsp;Discord&nbsp;</a
             >
             <a class="navbar-item" href="/youtube" target="_blank"
-              >&nbsp;YouTube</a
+              >&nbsp;YouTube&nbsp;</a
             >
             <!-- <a class="navbar-item" href="/instagram" target="_blank"
-              >&nbsp;Instagram</a
+              >&nbsp;Instagram&nbsp;</a
             > -->
             <a
               class="navbar-item"
               href="https://osu-server-list.com/server/inlayo"
               target="_blank"
-              >&nbsp;osu! Server List</a
+              >&nbsp;osu! Server List&nbsp;</a
             >
           </div>
         </div>
+        {% if session.authenticated %}
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link"> Clans </a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="/clans">&nbsp;Clan Leaderboard&nbsp;</a>
+              {% if session.clan_data["id"] %}
+                <a class="navbar-item" href="/settings/clansettings">&nbsp;Clan Settings&nbsp;</a>
+              {% else %}
+                <a class="navbar-item" href="/clans/create">&nbsp;Create Clan&nbsp;</a>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
       </div>
     </div>
 
@@ -92,14 +90,14 @@
         </a>
         <div class="navbar-dropdown">
           <a class="navbar-item" href="/u/{{ session.user_data['id'] }}">
-            &nbsp;Profile
+            &nbsp;Profile&nbsp;
           </a>
-          <a class="navbar-item" href="/settings"> &nbsp;Settings </a>
+          <a class="navbar-item" href="/settings"> &nbsp;Settings&nbsp;</a>
           {% if session.authenticated and session.user_data['is_staff'] %}
-          <a class="navbar-item" href="/admin"> &nbsp;Management </a>
+          <a class="navbar-item" href="/admin"> &nbsp;Management&nbsp;</a>
           {% endif %}
           <hr class="navbar-divider" />
-          <a class="navbar-item" href="/logout"> &nbsp;Logout </a>
+          <a class="navbar-item" href="/logout"> &nbsp;Logout&nbsp;</a>
         </div>
       </div>
       {% else %}
