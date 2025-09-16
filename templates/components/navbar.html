@@ -53,17 +53,23 @@
           </div>
         </div>
         {% if session.authenticated %}
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link"> Clans </a>
-            <div class="navbar-dropdown">
-              <a class="navbar-item" href="/clans">&nbsp;Clan Leaderboard&nbsp;</a>
-              {% if session.clan_data["id"] %}
-                <a class="navbar-item" href="/settings/clansettings">&nbsp;Clan Settings&nbsp;</a>
-              {% else %}
-                <a class="navbar-item" href="/clans/create">&nbsp;Create Clan&nbsp;</a>
-              {% endif %}
-            </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link"> Clans </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="/clans"
+              >&nbsp;Clan Leaderboard&nbsp;</a
+            >
+            {% if session.clan_data["id"] %}
+            <a class="navbar-item" href="/settings/clansettings"
+              >&nbsp;Clan Settings&nbsp;</a
+            >
+            {% else %}
+            <a class="navbar-item" href="/clans/create"
+              >&nbsp;Create Clan&nbsp;</a
+            >
+            {% endif %}
           </div>
+        </div>
         {% endif %}
       </div>
     </div>

@@ -15,7 +15,8 @@ block header %}
         <div class="title">total users</div>
         <i class="fa fa-users"></i>
         <div class="value">{{ dashdata['count'] }}</div>
-        <div class="stat">THAT'S A LOT OF PEOPLE!</div> <!-- <div class="stat">that's a lot of people!</div> -->
+        <div class="stat">THAT'S A LOT OF PEOPLE!</div>
+        <!-- <div class="stat">that's a lot of people!</div> -->
       </div>
     </div>
     <div class="column is-paddingless p-3">
@@ -31,7 +32,8 @@ block header %}
         <div class="title">lastest user</div>
         <i class="fa fa-book"></i>
         <div class="value">{{ dashdata['lastest_user'] }}</div>
-        <div class="stat">LATEST AND GREATEST! WELCOME!</div> <!-- <div class="stat">latest and greatest! welcome!</div> -->
+        <div class="stat">LATEST AND GREATEST! WELCOME!</div>
+        <!-- <div class="stat">latest and greatest! welcome!</div> -->
       </div>
     </div>
     <div class="column is-paddingless p-3">
@@ -39,7 +41,8 @@ block header %}
         <div class="title">total banned</div>
         <i class="fa fa-calendar"></i>
         <div class="value">{{ dashdata['banned'] }}</div>
-        <div class="stat">NAUGHTY NAUGHTY :(</div> <!-- <div class="stat">naughty naughty :(</div> -->
+        <div class="stat">NAUGHTY NAUGHTY :(</div>
+        <!-- <div class="stat">naughty naughty :(</div> -->
       </div>
     </div>
   </div>
@@ -74,13 +77,15 @@ block header %}
                 <span class="user-mapper">
                   {{
                   timeago.format((datetime.datetime.fromtimestamp(user.creation_time)),
-                  (datetime.datetime.utcnow() + datetime.timedelta(seconds = 60 * 3.4))) }}
+                  (datetime.datetime.utcnow() + datetime.timedelta(seconds = 60
+                  * 3.4))) }}
                 </span>
                 <div class="d-flex align-items-baseline">
                   <span>
                     {{
                     timeago.format((datetime.datetime.fromtimestamp(user.latest_activity)),
-                    (datetime.datetime.utcnow() + datetime.timedelta(seconds = 60 * 3.4))) }}
+                    (datetime.datetime.utcnow() + datetime.timedelta(seconds =
+                    60 * 3.4))) }}
                   </span>
                   <div class="target-button newmaps-color">
                     <i class="fa fa-arrow-right"></i>
@@ -123,8 +128,9 @@ block header %}
                 </div>
                 <div class="map-date">
                   <time>
-                    {{ timeago.format((maps.play_time), (datetime.datetime.utcnow()
-                    + datetime.timedelta(seconds = 60 * 3.4))) }}
+                    {{ timeago.format((maps.play_time),
+                    (datetime.datetime.utcnow() + datetime.timedelta(seconds =
+                    60 * 3.4))) }}
                   </time>
                 </div>
               </div>
