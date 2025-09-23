@@ -12,7 +12,12 @@
     border-top-right-radius: 16px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: 500;
 }
 
@@ -20,7 +25,8 @@ h1 {
     font-size: 1.9em;
 }
 
-h2, .doc-title {
+h2,
+.doc-title {
     font-size: 1.7em;
 }
 
@@ -28,7 +34,8 @@ h2, .doc-title {
     padding: 22px;
 }
 
-h3, .doc-subtitle {
+h3,
+.doc-subtitle {
     font-size: 1.5em;
 }
 
@@ -49,7 +56,8 @@ h6 {
     font-size: 0.9em;
 }
 
-ol, ul {
+ol,
+ul {
     padding: 0px 0px 10px 20px;
 }
 

@@ -74,11 +74,11 @@ new Vue({
         LoadProfileData() {
             this.$set(this.data.stats, 'load', true);
             this.$axios.get(`${window.location.protocol}//api.${domain}/v1/get_player_info`, {
-                    params: {
-                        id: this.userid,
-                        scope: 'all'
-                    }
-                })
+                params: {
+                    id: this.userid,
+                    scope: 'all'
+                }
+            })
                 .then(res => {
                     this.$set(this.data.stats, 'out', res.data.player.stats);
                     this.data.stats.load = false;
@@ -87,13 +87,13 @@ new Vue({
         LoadScores(sort) {
             this.$set(this.data.scores[`${sort}`], 'load', true);
             this.$axios.get(`${window.location.protocol}//api.${domain}/v1/get_player_scores`, {
-                    params: {
-                        id: this.userid,
-                        mode: this.StrtoGulagInt(),
-                        scope: sort,
-                        limit: 100 //API MAX = 100
-                    }
-                })
+                params: {
+                    id: this.userid,
+                    mode: this.StrtoGulagInt(),
+                    scope: sort,
+                    limit: 100 //API MAX = 100
+                }
+            })
                 .then(res => {
                     const allScores = res.data.scores; //전체 점수 받아오기
                     this.data.scores[`${sort}`].out = allScores.slice(0, this.data.scores[`${sort}`].more.limit); //limit 만큼만 저장
@@ -106,12 +106,12 @@ new Vue({
         LoadMostBeatmaps() {
             this.$set(this.data.maps.most, 'load', true);
             this.$axios.get(`${window.location.protocol}//api.${domain}/v1/get_player_most_played`, {
-                    params: {
-                        id: this.userid,
-                        mode: this.StrtoGulagInt(),
-                        limit: 100 //API MAX = 100
-                    }
-                })
+                params: {
+                    id: this.userid,
+                    mode: this.StrtoGulagInt(),
+                    limit: 100 //API MAX = 100
+                }
+            })
                 .then(res => {
                     const allScores = res.data.maps; //전체 점수 받아오기
                     this.data.maps.most.out = allScores.slice(0, this.data.maps.most.more.limit); //limit 만큼만 저장
@@ -123,10 +123,10 @@ new Vue({
         },
         LoadUserStatus() {
             this.$axios.get(`${window.location.protocol}//api.${domain}/v1/get_player_status`, {
-                    params: {
-                        id: this.userid
-                    }
-                })
+                params: {
+                    id: this.userid
+                }
+            })
                 .then(res => {
                     this.$set(this.data, 'status', res.data.player_status)
                 })
@@ -183,12 +183,12 @@ new Vue({
                     return 'In Multiplayer: Song Select';
                 case 6:
                     return `Watching: 👓 ${d.info_text}`;
-                    // 7 not used
+                // 7 not used
                 case 8:
                     return `Testing: 🎾 ${d.info_text}`;
                 case 9:
                     return `Submitting: 🧼 ${d.info_text}`;
-                    // 10 paused, never used
+                // 10 paused, never used
                 case 11:
                     return 'Idle: 🏢 In multiplayer lobby';
                 case 12:

@@ -4,12 +4,12 @@ new Vue({
     data() {
         return {
             flags: window.flags,
-            boards : {},
-            mode : 'std',
-            mods : 'vn',
-            sort : 'pp',
-            country : 'all',
-            load : false
+            boards: {},
+            mode: 'std',
+            mods: 'vn',
+            sort: 'pp',
+            country: 'all',
+            load: false
         };
     },
     created() {
@@ -26,12 +26,11 @@ new Vue({
             if (window.event)
                 window.event.preventDefault();
 
-            if (change === null)
-            {
-              page = 0;
+            if (change === null) {
+                page = 0;
             }
             else
-              page += change;
+                page += change;
 
             let offset = page * 50;
 
@@ -50,13 +49,13 @@ new Vue({
             };
             window.history.replaceState('', document.title, `/clans?mode=${this.mode}&mods=${this.mods}&sort=${this.sort}&page=${page + 1}`);
             this.$axios.get(`${window.location.protocol}//api.${domain}/v1/get_leaderboard`, { params: params })
-            .then(res => {
-                if (res.data.leaderboard.length !== 51 && offset > 0) {
-                    last_page = page + 1;
-                }
-                this.boards = res.data.leaderboard;
-                this.$set(this, 'load', false);
-            });
+                .then(res => {
+                    if (res.data.leaderboard.length !== 51 && offset > 0) {
+                        last_page = page + 1;
+                    }
+                    this.boards = res.data.leaderboard;
+                    this.$set(this, 'load', false);
+                });
         },
         scoreFormat(score) {
             var addCommas = this.addCommas;

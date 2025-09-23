@@ -3,9 +3,9 @@ html {
 }
 
 @media screen and (max-width: 1024px) {
-  .my-con {
-    margin-top: 150px;
-  }
+    .my-con {
+        margin-top: 150px;
+    }
 }
 
 .user-block {
@@ -27,7 +27,9 @@ html {
     width: 18px
 }
 
-.user-artist,.user-mapper,.user-title {
+.user-artist,
+.user-mapper,
+.user-title {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;

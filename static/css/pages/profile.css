@@ -467,7 +467,7 @@ html {
 
 .map-image {
   padding-left: 12px;
-  
+
 }
 
 .beatmaps {
@@ -795,6 +795,6 @@ span.beatmap-mapper {
 }
 
 .is-badge:hover {
-     transform: translateY(-3px);
-     cursor: pointer;
+  transform: translateY(-3px);
+  cursor: pointer;
 }
