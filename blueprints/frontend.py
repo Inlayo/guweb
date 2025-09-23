@@ -1070,6 +1070,7 @@ async def logout():
 # social media redirections
 
 @frontend.route('/github')
+@frontend.route('/gh')
 async def github_redirect():
     return redirect(glob.config.github)
 
@@ -1078,6 +1079,7 @@ async def discord_redirect():
     return redirect(glob.config.discord_server)
 
 @frontend.route('/youtube')
+@frontend.route('/yt')
 async def youtube_redirect():
     return redirect(glob.config.youtube)
 
@@ -1086,8 +1088,10 @@ async def twitter_redirect():
     return redirect(glob.config.twitter)
 
 @frontend.route('/instagram')
+@frontend.route('/ig')
 async def instagram_redirect():
     return redirect(glob.config.instagram)
+    return redirect(glob.config.twitter)
 
 @frontend.route('/twitch')
 async def youtube_redirect():
