@@ -1,19 +1,11 @@
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
   integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-></script>
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <nav id="navbar" class="navbar is-primary">
   <div class="container">
     <div class="navbar-brand">
-      <a
-        role="button"
-        class="navbar-burger"
-        id="navbar-burger"
-        onclick="togglenavbar()"
-      >
+      <a role="button" class="navbar-burger" id="navbar-burger" onclick="togglenavbar()">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -32,41 +24,25 @@
             <!-- <a class="navbar-item" href="/github" target="_blank"
               >&nbsp;GitHub&nbsp;</a
             > -->
-            <a class="navbar-item" href="/twitter" target="_blank"
-              >&nbsp;Twitter&nbsp;</a
-            >
-            <a class="navbar-item" href="/discord" target="_blank"
-              >&nbsp;Discord&nbsp;</a
-            >
-            <a class="navbar-item" href="/youtube" target="_blank"
-              >&nbsp;YouTube&nbsp;</a
-            >
+            <a class="navbar-item" href="/twitter" target="_blank">&nbsp;Twitter&nbsp;</a>
+            <a class="navbar-item" href="/discord" target="_blank">&nbsp;Discord&nbsp;</a>
+            <a class="navbar-item" href="/youtube" target="_blank">&nbsp;YouTube&nbsp;</a>
             <!-- <a class="navbar-item" href="/instagram" target="_blank"
               >&nbsp;Instagram&nbsp;</a
             > -->
-            <a
-              class="navbar-item"
-              href="https://osu-server-list.com/server/inlayo"
-              target="_blank"
-              >&nbsp;osu! Server List&nbsp;</a
-            >
+            <a class="navbar-item" href="https://osu-server-list.com/server/inlayo" target="_blank">&nbsp;osu! Server
+              List&nbsp;</a>
           </div>
         </div>
         {% if session.authenticated %}
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link"> Clans </a>
           <div class="navbar-dropdown">
-            <a class="navbar-item" href="/clans"
-              >&nbsp;Clan Leaderboard&nbsp;</a
-            >
+            <a class="navbar-item" href="/clans">&nbsp;Clan Leaderboard&nbsp;</a>
             {% if session.clan_data["id"] %}
-            <a class="navbar-item" href="/settings/clansettings"
-              >&nbsp;Clan Settings&nbsp;</a
-            >
+            <a class="navbar-item" href="/settings/clansettings">&nbsp;Clan Settings&nbsp;</a>
             {% else %}
-            <a class="navbar-item" href="/clans/create"
-              >&nbsp;Create Clan&nbsp;</a
-            >
+            <a class="navbar-item" href="/clans/create">&nbsp;Create Clan&nbsp;</a>
             {% endif %}
           </div>
         </div>
@@ -88,10 +64,9 @@
       {% if session.authenticated %}
       <div class="navbar-item has-dropdown is-hoverable" style="zoom: 1.1">
         <a class="navbar-link">
-          <div
-            class="navbar-avatar"
-            style="background: url(https://a.{{ domain() }}/{{ session.user_data['id'] }}); background-size: cover; background-position: 50%;"
-          ></div>
+          <div class="navbar-avatar"
+            style="background: url(https://a.{{ domain() }}/{{ session.user_data['id'] }}); background-size: cover; background-position: 50%;">
+          </div>
           {{ session.user_data['name'] }}
         </a>
         <div class="navbar-dropdown">

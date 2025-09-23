@@ -1,24 +1,15 @@
 <meta name="description" content="Register on Inlayo" />
 <meta itemprop="name" content="Register - Inlayo" />
 <meta itemprop="description" content="Log on Inlayo" />
-<meta
-  itemprop="image"
-  content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png"
-/>
+<meta itemprop="image" content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png" />
 <meta property="og:url" content="https://{{ domain() }}/register" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Register - Inlayo" />
 <meta property="og:description" content="Log on Inlayo" />
-<meta
-  property="og:image"
-  content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png"
-/>
+<meta property="og:image" content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png" />
 <meta name="twitter:title" content="Register - Inlayo" />
 <meta name="twitter:description" content="Log on Inlayo" />
-<meta
-  name="twitter:image"
-  content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png"
-/>
+<meta name="twitter:image" content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png" />
 
 {% extends "base.html" %} {% block title %} Register {% endblock %} {% block
 header %}
@@ -104,15 +95,8 @@ header %}
         <div class="field">
           <label for="user" class="label">Username</label>
           <div class="control has-icons-left">
-            <input
-              id="user"
-              type="text"
-              name="username"
-              placeholder="e.g. Inlayo"
-              class="input"
-              autocomplete="username"
-              required
-            />
+            <input id="user" type="text" name="username" placeholder="e.g. Inlayo" class="input" autocomplete="username"
+              required />
             <span class="icon is-small is-left">
               <i class="fa fa-envelope"></i>
             </span>
@@ -121,24 +105,12 @@ header %}
         <div class="field">
           <label for="email" class="label">Email</label>
           <div class="control has-icons-left is-expanded">
-            <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="e.g. {{ SenderEmail }}"
-              class="input"
-              autocomplete="email"
-              required
-            />
+            <input id="email" type="email" name="email" placeholder="e.g. {{ SenderEmail }}" class="input"
+              autocomplete="email" required />
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>
             </span>
-            <button
-              id="send-btn"
-              type="button"
-              class="button is-send"
-              onclick="sendVerificationEmail()"
-            >
+            <button id="send-btn" type="button" class="button is-send" onclick="sendVerificationEmail()">
               Send
             </button>
           </div>
@@ -146,14 +118,7 @@ header %}
         <div class="field">
           <label for="verification" class="label">Email Verification</label>
           <div class="control has-icons-left">
-            <input
-              id="verification"
-              type="text"
-              name="emailkey"
-              placeholder="*************"
-              class="input"
-              required
-            />
+            <input id="verification" type="text" name="emailkey" placeholder="*************" class="input" required />
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>
             </span>
@@ -162,15 +127,8 @@ header %}
         <div class="field">
           <label for="pass" class="label">Password</label>
           <div class="control has-icons-left">
-            <input
-              id="pass"
-              type="password"
-              name="password"
-              placeholder="*************"
-              class="input"
-              autocomplete="new-password"
-              required
-            />
+            <input id="pass" type="password" name="password" placeholder="*************" class="input"
+              autocomplete="new-password" required />
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>
             </span>
@@ -179,15 +137,8 @@ header %}
         <div class="field">
           <label for="pass" class="label">Confirm Password</label>
           <div class="control has-icons-left">
-            <input
-              id="pass"
-              type="password"
-              name="confirm_password"
-              placeholder="*************"
-              class="input"
-              autocomplete="new-password"
-              required
-            />
+            <input id="pass" type="password" name="confirm_password" placeholder="*************" class="input"
+              autocomplete="new-password" required />
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>
             </span>
@@ -199,21 +150,12 @@ header %}
         </div>
         {% if not captchaKey() == 'changeme' %}
         <div class="field">
-          <div
-            class="h-captcha"
-            data-sitekey="{{ captchaKey() }}"
-            data-theme="dark"
-            style="display: flex; justify-content: center"
-          ></div>
+          <div class="h-captcha" data-sitekey="{{ captchaKey() }}" data-theme="dark"
+            style="display: flex; justify-content: center"></div>
         </div>
         {% endif %}
         <div class="field">
-          <button
-            id="register-btn"
-            type="submit"
-            class="button is-primary"
-            disabled
-          >
+          <button id="register-btn" type="submit" class="button is-primary" disabled>
             Register
           </button>
         </div>

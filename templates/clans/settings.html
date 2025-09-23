@@ -12,12 +12,7 @@
   <div class="block-content right">
     <div id="general" class="single-right-block">
       <div class="right-block-header">Clan Settings</div>
-      <form
-        action="/settings/clansettings"
-        method="post"
-        enctype="multipart/form-data"
-        class="setting-block-content"
-      >
+      <form action="/settings/clansettings" method="post" enctype="multipart/form-data" class="setting-block-content">
         <div class="single-block-content">
           <div class="block-content--left">
             <div class="field-label is-normal">
@@ -28,15 +23,8 @@
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input
-                    minlength="1"
-                    maxlength="6"
-                    id="clantag"
-                    class="input"
-                    type="text"
-                    name="clantag"
-                    value="{{ clanInfo['tag'] }}"
-                  />
+                  <input minlength="1" maxlength="6" id="clantag" class="input" type="text" name="clantag"
+                    value="{{ clanInfo['tag'] }}" />
                 </p>
               </div>
             </div>
@@ -52,39 +40,25 @@
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input
-                    minlength="2"
-                    maxlength="16"
-                    id="clanname"
-                    class="input"
-                    type="text"
-                    name="clanname"
-                    value="{{ clanInfo['name'] }}"
-                  />
+                  <input minlength="2" maxlength="16" id="clanname" class="input" type="text" name="clanname"
+                    value="{{ clanInfo['name'] }}" />
                 </p>
               </div>
             </div>
           </div>
         </div>
         <button id="submit-btn" class="button is-primary" type="submit">
-          <span>Save</span
-          ><span class="icon is-small"><i class="fas fa-check"></i></span>
+          <span>Save</span><span class="icon is-small"><i class="fas fa-check"></i></span>
         </button>
       </form>
 
       <div style="text-align: center">
-        <input
-          id="inviteLink"
-          class="item"
-          type="text"
-          value="https://{{ domain() }}/clans/invite/{{ clanInfo['invite'] }}"
-          style="
+        <input id="inviteLink" class="item" type="text"
+          value="https://{{ domain() }}/clans/invite/{{ clanInfo['invite'] }}" style="
             text-align: center;
             background-color: rgba(0, 0, 0, 0.6);
             height: 22px;
-          "
-          disabled
-        />
+          " disabled />
         <form action="/settings/clansettings" method="POST">
           <button id="genInvite" type="submit" class="ui right green button">
             Generate a new invite!
@@ -110,38 +84,20 @@
       </td> -->
 
     <td class="column-player-name text-left">
-      <div
-        style="
+      <div style="
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 4px;
           padding: 4px 0;
-        "
-      >
-        <div
-          title=""
-          class="windowFlags player-flag"
-          cnt="{{ cm['country'] }}"
-          style="background-image: url('/static/images/flags/{{ cm['country'] }}.png');"
-        ></div>
-        <div
-          class="player-avatar"
-          style="background-image: url('https://a.{{ domain() }}/{{ cm['id'] }}');"
-        ></div>
-        <a
-          target="_blank"
-          href="https://{{ domain() }}/u/{{ cm['id'] }}"
-          style="font-weight: bold; text-decoration: none; color: white"
-          >{{ cm['name'] }} ({{ cm['id'] }})</a
-        >
+        ">
+        <div title="" class="windowFlags player-flag" cnt="{{ cm['country'] }}"
+          style="background-image: url('/static/images/flags/{{ cm['country'] }}.png');"></div>
+        <div class="player-avatar" style="background-image: url('https://a.{{ domain() }}/{{ cm['id'] }}');"></div>
+        <a target="_blank" href="https://{{ domain() }}/u/{{ cm['id'] }}"
+          style="font-weight: bold; text-decoration: none; color: white">{{ cm['name'] }} ({{ cm['id'] }})</a>
         <form action="/settings/clansettings/k" method="POST" style="margin: 0">
-          <button
-            name="member"
-            value="{{ cm['id'] }}"
-            class="ui right green button"
-            style="width: 70px"
-          >
+          <button name="member" value="{{ cm['id'] }}" class="ui right green button" style="width: 70px">
             Kick
           </button>
         </form>
@@ -155,10 +111,10 @@
   document.getElementById("inviteLink").style.width = document.getElementById("inviteLink").value.length * 7
   document.getElementById("genInvite").style.width = document.getElementById("genInvite").innerText.length * 9
   {% if not clanInfo %}
-    document.getElementById("clantag").disabled = true
-    document.getElementById("clanname").disabled = true
-    document.getElementById("submit-btn").disabled = true
-    document.getElementById("genInvite").disabled = true
+  document.getElementById("clantag").disabled = true
+  document.getElementById("clanname").disabled = true
+  document.getElementById("submit-btn").disabled = true
+  document.getElementById("genInvite").disabled = true
   {% endif %}
 
   document.querySelectorAll('.windowFlags').forEach(el => {

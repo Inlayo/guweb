@@ -78,24 +78,12 @@ block header %}
         <div class="field">
           <label for="email" class="label">Email</label>
           <div class="control has-icons-left is-expanded">
-            <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="e.g. {{ SenderEmail }}"
-              class="input"
-              autocomplete="email"
-              required
-            />
+            <input id="email" type="email" name="email" placeholder="e.g. {{ SenderEmail }}" class="input"
+              autocomplete="email" required />
             <span class="icon is-small is-left">
               <i class="fa fa-envelope"></i>
             </span>
-            <button
-              id="send-btn"
-              type="button"
-              class="button is-send"
-              onclick="sendVerificationEmail()"
-            >
+            <button id="send-btn" type="button" class="button is-send" onclick="sendVerificationEmail()">
               Send
             </button>
           </div>
@@ -103,14 +91,7 @@ block header %}
         <div class="field">
           <label for="verification" class="label">Email Verification</label>
           <div class="control has-icons-left">
-            <input
-              id="verification"
-              type="text"
-              name="emailkey"
-              placeholder="*************"
-              class="input"
-              required
-            />
+            <input id="verification" type="text" name="emailkey" placeholder="*************" class="input" required />
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>
             </span>
@@ -119,15 +100,8 @@ block header %}
         <div class="field">
           <label for="pass" class="label">New Password</label>
           <div class="control has-icons-left">
-            <input
-              id="pass"
-              type="password"
-              name="new_password"
-              placeholder="*************"
-              class="input"
-              autocomplete="new-password"
-              required
-            />
+            <input id="pass" type="password" name="new_password" placeholder="*************" class="input"
+              autocomplete="new-password" required />
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>
             </span>
@@ -136,15 +110,8 @@ block header %}
         <div class="field">
           <label for="pass" class="label">Confirm New Password</label>
           <div class="control has-icons-left">
-            <input
-              id="pass"
-              type="password"
-              name="repeat_password"
-              placeholder="*************"
-              class="input"
-              autocomplete="new-password"
-              required
-            />
+            <input id="pass" type="password" name="repeat_password" placeholder="*************" class="input"
+              autocomplete="new-password" required />
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>
             </span>
@@ -156,21 +123,12 @@ block header %}
         </div>
         {% if not captchaKey() == 'changeme' %}
         <div class="field">
-          <div
-            class="h-captcha"
-            data-sitekey="{{ captchaKey() }}"
-            data-theme="dark"
-            style="display: flex; justify-content: center"
-          ></div>
+          <div class="h-captcha" data-sitekey="{{ captchaKey() }}" data-theme="dark"
+            style="display: flex; justify-content: center"></div>
         </div>
         {% endif %}
         <div class="field">
-          <button
-            id="submit-btn"
-            type="submit"
-            class="button is-primary"
-            disabled
-          >
+          <button id="submit-btn" type="submit" class="button is-primary" disabled>
             Submit
           </button>
         </div>

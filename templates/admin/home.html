@@ -23,8 +23,12 @@ block header %}
       <div class="card">
         <div class="title">total online</div>
         <i class="fa fa-circle"></i>
-        <div class="value"><% online_users %></div>
-        <div class="stat"><span><% user_list %></span></div>
+        <div class="value">
+          <% online_users %>
+        </div>
+        <div class="stat"><span>
+            <% user_list %>
+          </span></div>
       </div>
     </div>
     <div class="column is-paddingless p-3">
@@ -57,22 +61,12 @@ block header %}
         </div>
         <div class="blockdata">
           {% for user in recentusers %}
-          <a
-            href="/u/{{ user.id }}"
-            class="user-block{% if user.priv == 1 %} unverified{% endif %}"
-          >
-            <img
-              src="https://a.{{ domain() }}/{{ user.id }}"
-              class="avatar-picture"
-            />
+          <a href="/u/{{ user.id }}" class="user-block{% if user.priv == 1 %} unverified{% endif %}">
+            <img src="https://a.{{ domain() }}/{{ user.id }}" class="avatar-picture" />
             <div class="user-stats">
               <span class="user-title">
-                <img
-                  src="/static/images/flags/{{ user.country|upper }}.png"
-                  class="profile-flag"
-                />
-                {{ user.name }} </span
-              ><span class="user-artist"> {{ user.email }} </span>
+                <img src="/static/images/flags/{{ user.country|upper }}.png" class="profile-flag" />
+                {{ user.name }} </span><span class="user-artist"> {{ user.email }} </span>
               <div class="user-footer">
                 <span class="user-mapper">
                   {{
@@ -111,11 +105,8 @@ block header %}
           <div class="map-single">
             <div class="map-content1">
               <div class="map-image">
-                <img
-                  src="https://assets.ppy.sh/beatmaps/{{ maps.set_id }}/covers/cover.jpg"
-                  onerror="this.style.display='none'"
-                  class="map-image-picture"
-                />
+                <img src="https://assets.ppy.sh/beatmaps/{{ maps.set_id }}/covers/cover.jpg"
+                  onerror="this.style.display='none'" class="map-image-picture" />
               </div>
               <div class="map-title-block">
                 <div class="map-title">

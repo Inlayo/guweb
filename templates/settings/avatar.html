@@ -16,21 +16,10 @@ content %}
                 We recommend an image of at least 512x512 (or 1:1 ratio). You
                 can upload a PNG, JPG under 5MB
               </div>
-              <form
-                id="upload-profile"
-                action="/settings/avatar"
-                method="post"
-                enctype="multipart/form-data"
-              >
+              <form id="upload-profile" action="/settings/avatar" method="post" enctype="multipart/form-data">
                 <div class="buttons margin-top" id="selection">
                   <label class="file-label">
-                    <input
-                      class="file-input"
-                      id="file"
-                      type="file"
-                      accept="image/jpeg, image/png"
-                      name="avatar"
-                    />
+                    <input class="file-input" id="file" type="file" accept="image/jpeg, image/png" name="avatar" />
                     <span class="file-cta">
                       <span class="file-label"> Choose file </span>
                       <span class="file-icon">
@@ -39,9 +28,7 @@ content %}
                     </span>
                   </label>
                   <button class="button is-primary" type="submit">
-                    <span class="icon is-small"
-                      ><i class="fas fa-check"></i></span
-                    ><span>Save</span>
+                    <span class="icon is-small"><i class="fas fa-check"></i></span><span>Save</span>
                   </button>
                 </div>
               </form>
@@ -53,12 +40,8 @@ content %}
               <div class="top-block"></div>
               <div class="bottom-block">
                 <div class="profile-avatar-area">
-                  <img
-                    id="avatar-img"
-                    src="https://a.{{ domain() }}/{{ session.user_data['id']}}"
-                    alt="avatar"
-                    class="rounded-avatar profile-avatar"
-                  />
+                  <img id="avatar-img" src="https://a.{{ domain() }}/{{ session.user_data['id']}}" alt="avatar"
+                    class="rounded-avatar profile-avatar" />
                 </div>
               </div>
             </div>
@@ -68,10 +51,7 @@ content %}
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.5/cropper.min.js"></script>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.5/cropper.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.5/cropper.css" />
   <script>
     $("#file").change(function (e) {
       var f = e.target.files;

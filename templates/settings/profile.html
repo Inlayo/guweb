@@ -81,11 +81,7 @@ content %}
   <div class="block-content right">
     <div id="general" class="single-right-block">
       <div class="right-block-header">User Infomation</div>
-      <form
-        action="/settings/profile"
-        method="post"
-        class="setting-block-content"
-      >
+      <form action="/settings/profile" method="post" class="setting-block-content">
         <div class="single-block-content">
           <div class="block-content--left">
             <div class="field-label is-normal">
@@ -96,13 +92,8 @@ content %}
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input
-                    id="username"
-                    class="input"
-                    type="text"
-                    name="username"
-                    value="{{ session.user_data['name'] }}"
-                  /><!-- {% if not session.user_data['is_donator'] %}readonly{% endif %} -->
+                  <input id="username" class="input" type="text" name="username"
+                    value="{{ session.user_data['name'] }}" /><!-- {% if not session.user_data['is_donator'] %}readonly{% endif %} -->
                 </p>
               </div>
             </div>
@@ -118,21 +109,9 @@ content %}
             <div class="field-body">
               <div class="field">
                 <div class="control is-expanded">
-                  <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value="{{ session.user_data['email'] }}"
-                    class="input"
-                    autocomplete="email"
-                    required
-                  />
-                  <button
-                    id="send-btn"
-                    type="button"
-                    class="button is-send"
-                    onclick="sendVerificationEmail()"
-                  >
+                  <input id="email" type="email" name="email" value="{{ session.user_data['email'] }}" class="input"
+                    autocomplete="email" required />
+                  <button id="send-btn" type="button" class="button is-send" onclick="sendVerificationEmail()">
                     Send
                   </button>
                 </div>
@@ -152,14 +131,8 @@ content %}
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input
-                    id="oldverification"
-                    type="text"
-                    name="oldemailkey"
-                    placeholder="*************"
-                    class="input"
-                    required
-                  />
+                  <input id="oldverification" type="text" name="oldemailkey" placeholder="*************" class="input"
+                    required />
                   <!-- <span class="icon is-small is-left">
                     <i class="fa fa-lock"></i>
                   </span> -->
@@ -178,13 +151,8 @@ content %}
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input
-                    id="newverification"
-                    type="text"
-                    name="newemailkey"
-                    placeholder="*************"
-                    class="input"
-                  />
+                  <input id="newverification" type="text" name="newemailkey" placeholder="*************"
+                    class="input" />
                   <!-- <span class="icon is-small is-left">
                     <i class="fa fa-lock"></i>
                   </span> -->
@@ -212,14 +180,8 @@ content %}
           </div>
         </div>
         -->
-        <button
-          id="submit-btn"
-          class="button is-primary"
-          type="submit"
-          disabled
-        >
-          <span>Save</span
-          ><span class="icon is-small"><i class="fas fa-check"></i></span>
+        <button id="submit-btn" class="button is-primary" type="submit" disabled>
+          <span>Save</span><span class="icon is-small"><i class="fas fa-check"></i></span>
         </button>
       </form>
     </div>

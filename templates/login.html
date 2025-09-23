@@ -1,43 +1,22 @@
 <!-- HTML Meta Tags -->
-<meta
-  name="description"
-  content="Log in to Inlayo and enjoy the osu! private server!"
-/>
+<meta name="description" content="Log in to Inlayo and enjoy the osu! private server!" />
 
 <!-- Google / Search Engine Tags -->
 <meta itemprop="name" content="Log in - Inlayo" />
-<meta
-  itemprop="description"
-  content="Log in to Inlayo and enjoy the osu! private server!"
-/>
-<meta
-  itemprop="image"
-  content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png"
-/>
+<meta itemprop="description" content="Log in to Inlayo and enjoy the osu! private server!" />
+<meta itemprop="image" content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png" />
 
 <!-- Facebook Meta Tags -->
 <meta property="og:url" content="https://{{ domain() }}/login" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Log in - Inlayo" />
-<meta
-  property="og:description"
-  content="Log in to Inlayo and enjoy the osu! private server!"
-/>
-<meta
-  property="og:image"
-  content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png"
-/>
+<meta property="og:description" content="Log in to Inlayo and enjoy the osu! private server!" />
+<meta property="og:image" content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png" />
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:title" content="Log in - Inlayo" />
-<meta
-  name="twitter:description"
-  content="Log in to Inlayo and enjoy the osu! private server!"
-/>
-<meta
-  name="twitter:image"
-  content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png"
-/>
+<meta name="twitter:description" content="Log in to Inlayo and enjoy the osu! private server!" />
+<meta name="twitter:image" content="https://{{ domain() }}/static/favicon/android-chrome-256x256.png" />
 
 {% extends "base.html" %} {% block title %} Login {% endblock %} {% block header
 %}
@@ -63,15 +42,8 @@
           <div class="field">
             <label for="user" class="label">Username</label>
             <div class="control has-icons-left">
-              <input
-                id="user"
-                type="text"
-                name="username"
-                placeholder="Username"
-                class="input"
-                autocomplete="username"
-                required
-              />
+              <input id="user" type="text" name="username" placeholder="Username" class="input" autocomplete="username"
+                required />
               <span class="icon is-small is-left">
                 <i class="fa fa-envelope"></i>
               </span>
@@ -80,15 +52,8 @@
           <div class="field">
             <label for="pass" class="label">Password</label>
             <div class="control has-icons-left">
-              <input
-                id="pass"
-                type="password"
-                name="password"
-                placeholder="Password"
-                class="input"
-                autocomplete="current-password"
-                required
-              />
+              <input id="pass" type="password" name="password" placeholder="Password" class="input"
+                autocomplete="current-password" required />
               <span class="icon is-small is-left">
                 <i class="fa fa-lock"></i>
               </span>
