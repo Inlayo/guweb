@@ -619,7 +619,7 @@ async def settings_password_post():
     session.clear()
     return await flash('success', 'Your password has been changed! Please log in again.', 'login')
 
-
+@frontend.route('/users/<id>')
 @frontend.route('/u/<id>')
 async def profile_select(id):
 
@@ -682,6 +682,10 @@ async def login():
 @frontend.route('/verify', methods=['GET'])
 async def verify():
     return await render_template('verify.html')
+
+@frontend.route('/how')
+async def how():
+    return await render_template('howtoconnect.html')
 
 @frontend.route('/login', methods=['POST'])
 async def login_post():
