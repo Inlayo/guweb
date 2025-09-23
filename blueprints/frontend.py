@@ -317,7 +317,7 @@ async def clans_lists():
 @login_required
 async def clan_make():
     userID = session['user_data']['id']
-    if session["clan_data"]["id"]: return redirect("/settings/clansettings")
+    if session["clan_data"]["id"]: return redirect("/clansettings")
 
     if request.method == "GET": return await render_template('clans/create.html')
     else:
@@ -337,7 +337,7 @@ async def clan_make():
         await rebuildSession(userID)
         return redirect(f"/c/{cid}")
 
-@frontend.route('/settings/clansettings', methods=["GET", "POST"])
+@frontend.route('/clansettings', methods=["GET", "POST"])
 @login_required
 async def settings_clan():
     userID = session['user_data']['id']
@@ -390,14 +390,14 @@ async def clan_join(inviteKey):
     await glob.db.execute('UPDATE users SET clan_id = %s, clan_priv = 1 WHERE id = %s', [clanInfo["id"], userID])
     return redirect(f"/c/{clanInfo['id']}")
 
-@frontend.route('/settings/clansettings/k', methods=["POST"])
+@frontend.route('/clansettings/k', methods=["POST"])
 @login_required
 async def clan_kick():
     if session["clan_data"]["priv"] >= 2:
         form = await request.form
         userID = form.get("member", type=int)
         await glob.db.execute('UPDATE users SET clan_id = 0, clan_priv = 0 WHERE id = %s', [userID])
-    return redirect("/settings/clansettings")
+    return redirect("/clansettings")
 
 @frontend.route('/topplays')
 async def topplays():
