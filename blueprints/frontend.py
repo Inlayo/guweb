@@ -1094,11 +1094,11 @@ async def instagram_redirect():
     return redirect(glob.config.twitter)
 
 @frontend.route('/twitch')
-async def youtube_redirect():
+async def twitch_redirect():
     return redirect(glob.config.twitch)
 
 @frontend.route('/osuserver')
-async def youtube_redirect():
+async def osuserver_redirect():
     return redirect(glob.config.osuserver)
 
 @frontend.route('/donate')
