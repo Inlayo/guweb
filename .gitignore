@@ -145,4 +145,4 @@ config.py
 !.data/banners/.gitkeep
 nohup.out
 .cache/
-static/images/alyasan.gif
+static/images/etc/
