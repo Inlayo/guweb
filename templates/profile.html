@@ -176,8 +176,8 @@ endblock %} {% macro playstats() %} <% addCommas(map[`n100`]) %>
             var mods = "{{ mods }}";
             var domain = "{{ domain() }}";
 
-            // Ensure the url is /u/id, not /u/name
-            history.replaceState(null, "", `/u/${userid}`);
+            // Ensure the url is /u/id, not /u/name, and preserve query params
+            history.replaceState(null, "", `/u/${userid}${window.location.search}`);
           </script>
           {% endblock %} {% block content %}
           <div id="app">

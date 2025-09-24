@@ -59,12 +59,73 @@ new Vue({
     },
     created() {
         // starting a page
+        this.applyQueryParams();
         this.modegulag = this.StrtoGulagInt();
         this.LoadProfileData();
         this.LoadAllofdata();
         this.LoadUserStatus();
     },
     methods: {
+        applyQueryParams() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const modeParam = params.get('mode');
+                const rxParam = params.get('rx');
+
+                // Map query to strings: mode 0-3 => std/taiko/catch/mania; rx 0-2 => vn/rx/ap
+                const modeMap = { '0': 'std', '1': 'taiko', '2': 'catch', '3': 'mania' };
+                const rxMap = { '0': 'vn', '1': 'rx', '2': 'ap' };
+
+                let nextMode = this.mode;
+                let nextMods = this.mods;
+
+                if (modeParam !== null && modeMap.hasOwnProperty(modeParam)) {
+                    nextMode = modeMap[modeParam];
+                }
+                if (rxParam !== null && rxMap.hasOwnProperty(rxParam)) {
+                    nextMods = rxMap[rxParam];
+                }
+
+                // Enforce validity based on constraints
+                // mode std(0): vn/rx/ap, taiko(1): vn/rx, catch(2): vn/rx, mania(3): vn only
+                if (nextMode === 'mania' && nextMods !== 'vn') {
+                    nextMods = 'vn';
+                } else if ((nextMode === 'taiko' || nextMode === 'catch') && nextMods === 'ap') {
+                    nextMods = 'vn';
+                }
+
+                this.mode = nextMode;
+                this.mods = nextMods;
+
+                // Sync URL query to canonical form
+                this.syncUrlQuery();
+            } catch (e) {
+                // If URLSearchParams not available or any error, ignore
+            }
+        },
+        syncUrlQuery() {
+            try {
+                const modeToInt = { 'std': 0, 'taiko': 1, 'catch': 2, 'mania': 3 };
+                const modsToInt = { 'vn': 0, 'rx': 1, 'ap': 2 };
+                const m = modeToInt[this.mode];
+                let r = modsToInt[this.mods];
+
+                // Clamp per constraints
+                if (this.mode === 'mania') {
+                    r = 0; // vn only
+                } else if (this.mode === 'taiko' || this.mode === 'catch') {
+                    if (r === 2) r = 0; // no AP, fallback to VN
+                }
+
+                const params = new URLSearchParams(window.location.search);
+                params.set('mode', String(m));
+                params.set('rx', String(r));
+                const newUrl = `/u/${this.userid}?${params.toString()}`;
+                history.replaceState(null, '', newUrl);
+            } catch (e) {
+                // noop
+            }
+        },
         LoadAllofdata() {
             this.LoadMostBeatmaps();
             this.LoadScores('best');
@@ -147,6 +208,7 @@ new Vue({
             this.data.scores.recent.more.limit = 5
             this.data.scores.best.more.limit = 5
             this.data.maps.most.more.limit = 5
+            this.syncUrlQuery();
             this.LoadAllofdata();
         },
         AddLimit(which) {

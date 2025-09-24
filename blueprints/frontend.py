@@ -622,9 +622,24 @@ async def settings_password_post():
 @frontend.route('/users/<id>')
 @frontend.route('/u/<id>')
 async def profile_select(id):
+    # Accept both legacy (mode/mods as strings) and new query (mode/rx as ints)
+    raw_mode = request.args.get('mode', 'std', type=str)
+    raw_rx = request.args.get('rx', None, type=str)
+    raw_mods = request.args.get('mods', 'vn', type=str)
 
-    mode = request.args.get('mode', 'std', type=str) # 1. key 2. default value
-    mods = request.args.get('mods', 'vn', type=str)
+    # Map numeric mode -> string
+    _mode_map = { '0': 'std', '1': 'taiko', '2': 'catch', '3': 'mania' }
+    if raw_mode in _mode_map:
+        mode = _mode_map[raw_mode]
+    else:
+        mode = raw_mode
+
+    # Prefer rx if provided; else use mods
+    _rx_map = { '0': 'vn', '1': 'rx', '2': 'ap' }
+    if raw_rx is not None and raw_rx in _rx_map:
+        mods = _rx_map[raw_rx]
+    else:
+        mods = raw_mods
     user_data = await glob.db.fetch(
         'SELECT name, safe_name, id, priv, country, creation_time, latest_activity '
         'FROM users '
@@ -644,6 +659,10 @@ async def profile_select(id):
         return (await render_template('404.html'), 404)
 
     if mods is not None and mods not in VALID_MODS:
+        return (await render_template('404.html'), 404)
+
+    # Enforce combinations: std: vn/rx/ap, taiko: vn/rx, catch: vn/rx, mania: vn only
+    if (mode == 'mania' and mods != 'vn') or (mods == 'ap' and mode != 'std'):
         return (await render_template('404.html'), 404)
 
     is_staff = 'authenticated' in session and session['user_data']['is_staff']
