@@ -12,7 +12,7 @@
   <div class="block-content right">
     <div id="general" class="single-right-block">
       <div class="right-block-header">Clan Settings</div>
-      <form action="/settings/clansettings" method="post" enctype="multipart/form-data" class="setting-block-content">
+      <form action="/clansettings" method="post" enctype="multipart/form-data" class="setting-block-content">
         <div class="single-block-content">
           <div class="block-content--left">
             <div class="field-label is-normal">
@@ -59,7 +59,7 @@
       </div>
 
       <div style="text-align: center; margin-top: 15px;">
-        <form action="/settings/clansettings" method="POST">
+        <form action="/clansettings" method="POST">
           <button id="genInvite" type="submit" class="ui right green button">
             Generate a new invite!
           </button>
@@ -77,7 +77,7 @@
           <div title="" class="windowFlags player-flag" cnt="{{ cm['country'] }}" style="background-image: url('/static/images/flags/{{ cm['country'] }}.png');"></div>
           <div class="player-avatar" style="background-image: url('https://a.{{ domain() }}/{{ cm['id'] }}');"></div>        
           <a target="_blank" href="https://{{ domain() }}/u/{{ cm['id'] }}">{{ cm['name'] }} ({{ cm['id'] }})</a>
-          <form action="/settings/clansettings/k" method="POST">
+          <form action="/clansettings/k" method="POST">
             <button name="member" value="{{ cm['id'] }}" class="ui right green button" style="width: 70px;">Kick</button>
           </form>
         </div>
@@ -96,7 +96,7 @@
         <div class="player-avatar" style="background-image: url('https://a.{{ domain() }}/{{ cm['id'] }}');"></div>
         <a target="_blank" href="https://{{ domain() }}/u/{{ cm['id'] }}"
           style="font-weight: bold; text-decoration: none; color: white">{{ cm['name'] }} ({{ cm['id'] }})</a>
-        <form action="/settings/clansettings/k" method="POST" style="margin: 0">
+        <form action="/clansettings/k" method="POST" style="margin: 0">
           <button name="member" value="{{ cm['id'] }}" class="ui right green button" style="width: 70px">
             Kick
           </button>
